@@ -10,9 +10,39 @@ version = "0.1.0-SNAPSHOT"
 
 kotlin {
     jvmToolchain(17)
+    // Android consumers use the JVM artifact; this library has no Android-specific APIs.
     jvm()
-    js { nodejs() }
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class) wasmJs { nodejs() }
+    js {
+        nodejs()
+        browser { testTask { useKarma { useChromeHeadless() } } }
+    }
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+        browser { testTask { useKarma { useChromeHeadless() } } }
+    }
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class) wasmWasi { nodejs() }
+
+    macosArm64()
+    macosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+    tvosArm64()
+    tvosSimulatorArm64()
+    tvosX64()
+    watchosArm32()
+    watchosArm64()
+    watchosDeviceArm64()
+    watchosSimulatorArm64()
+    watchosX64()
+    linuxArm64()
+    linuxX64()
+    mingwX64()
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
 
     sourceSets {
         commonTest.dependencies {
