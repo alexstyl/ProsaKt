@@ -4,21 +4,17 @@ groupId: com.alexstyl
 artifactId: prosakt
 version: 0.1.0
 url: https://github.com/alexstyl/ProsaKt
-
 licenses:
   - name: MIT License
     url: https://github.com/alexstyl/ProsaKt/blob/main/LICENSE
     distribution: repo
-
 developers:
   - id: alexstyl
     name: Alex Styl
     url: https://github.com/alexstyl
-
 issueManagement:
   system: GitHub Issues
   url: https://github.com/alexstyl/ProsaKt/issues
-
 scm:
   connection: scm:git:https://github.com/alexstyl/ProsaKt.git
   developerConnection: scm:git:ssh://git@github.com/alexstyl/ProsaKt.git
