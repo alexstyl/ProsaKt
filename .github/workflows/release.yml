@@ -33,6 +33,18 @@ jobs:
       version: ${{ steps.release.outputs.version }}
       tag: ${{ steps.release.outputs.tag }}
     steps:
+      - name: Check publishing credentials before starting release work
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          for name in MAVEN_CENTRAL_USERNAME MAVEN_CENTRAL_PASSWORD SIGNING_KEY; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing Actions secret: $name" >&2
+              exit 1
+            fi
+          done
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -103,18 +115,6 @@ jobs:
       sha: ${{ steps.release.outputs.sha }}
       tag: ${{ steps.release.outputs.tag }}
     steps:
-      - name: Check publishing credentials before creating a release commit
-        env:
-          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        run: |
-          for name in MAVEN_CENTRAL_USERNAME MAVEN_CENTRAL_PASSWORD SIGNING_KEY; do
-            if [[ -z "${!name}" ]]; then
-              echo "Missing Actions secret: $name" >&2
-              exit 1
-            fi
-          done
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
