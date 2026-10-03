@@ -1,12 +1,41 @@
+import org.yaml.snakeyaml.LoaderOptions
+import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.constructor.SafeConstructor
+
+buildscript {
+    repositories { mavenCentral() }
+    dependencies { classpath("org.yaml:snakeyaml:2.4") }
+}
+
 plugins {
     kotlin("multiplatform") version "2.1.20"
-    `maven-publish`
+    id("com.vanniktech.maven.publish") version "0.35.0"
     id("com.ncorti.ktfmt.gradle") version "0.23.0"
 }
 
-group = "com.alexstyl"
+val packageMetadata =
+    Yaml(SafeConstructor(LoaderOptions().apply { setAllowDuplicateKeys(false) }))
+        .load<Any>(providers.fileContents(layout.projectDirectory.file("package.yml")).asText.get())
+        as? Map<*, *> ?: error("package.yml must contain a mapping")
 
-version = "0.1.0-SNAPSHOT"
+fun Map<*, *>.requiredString(key: String): String =
+    (get(key) as? String)?.takeIf { it.isNotBlank() }
+        ?: error("package.yml requires a non-empty string for '$key'")
+
+fun Map<*, *>.requiredMapping(key: String): Map<*, *> =
+    get(key) as? Map<*, *> ?: error("package.yml requires a '$key' mapping")
+
+fun Map<*, *>.requiredMappings(key: String): List<Map<*, *>> {
+    val entries = get(key) as? List<*>
+    require(!entries.isNullOrEmpty()) { "package.yml requires a non-empty '$key' list" }
+    return entries.mapIndexed { index, entry ->
+        entry as? Map<*, *> ?: error("package.yml requires a mapping at '$key[$index]'")
+    }
+}
+
+group = packageMetadata.requiredString("groupId")
+
+version = packageMetadata.requiredString("version")
 
 kotlin {
     jvmToolchain(17)
@@ -55,18 +84,66 @@ kotlin {
     }
 }
 
-publishing {
-    publications.withType<MavenPublication>().configureEach {
-        pom {
-            licenses {
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+    if (providers.gradleProperty("signingInMemoryKey").orNull?.isNotBlank() == true) {
+        signAllPublications()
+    }
+    coordinates(
+        groupId = group.toString(),
+        artifactId = packageMetadata.requiredString("artifactId"),
+    )
+
+    pom {
+        name.set(packageMetadata.requiredString("name"))
+        description.set(packageMetadata.requiredString("description"))
+        url.set(packageMetadata.requiredString("url"))
+        licenses {
+            packageMetadata.requiredMappings("licenses").forEach { metadata ->
                 license {
-                    name.set("MIT License")
-                    url.set("https://opensource.org/license/mit")
-                    distribution.set("repo")
+                    name.set(metadata.requiredString("name"))
+                    url.set(metadata.requiredString("url"))
+                    distribution.set(metadata.requiredString("distribution"))
                 }
             }
+        }
+        developers {
+            packageMetadata.requiredMappings("developers").forEach { metadata ->
+                developer {
+                    id.set(metadata.requiredString("id"))
+                    name.set(metadata.requiredString("name"))
+                    url.set(metadata.requiredString("url"))
+                }
+            }
+        }
+        issueManagement {
+            val metadata = packageMetadata.requiredMapping("issueManagement")
+            system.set(metadata.requiredString("system"))
+            url.set(metadata.requiredString("url"))
+        }
+        scm {
+            val metadata = packageMetadata.requiredMapping("scm")
+            connection.set(metadata.requiredString("connection"))
+            developerConnection.set(metadata.requiredString("developerConnection"))
+            url.set(metadata.requiredString("url"))
         }
     }
 }
 
 ktfmt { kotlinLangStyle() }
+
+tasks.register("validateReleaseVersion") {
+    group = "verification"
+    description = "Checks that the release tag matches the version in package.yml."
+    val releaseTag = providers.gradleProperty("releaseTag")
+    val packageVersion = project.version.toString()
+    doLast {
+        val tag = releaseTag.orNull ?: error("Supply the release tag with -PreleaseTag=0.1.0")
+        require(tag.matches(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)"))) {
+            "Use a release tag such as 0.1.0, without a v prefix or SNAPSHOT suffix."
+        }
+        require(tag == packageVersion) {
+            "Tag $tag does not match package.yml version $packageVersion."
+        }
+    }
+}
