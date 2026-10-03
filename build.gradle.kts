@@ -81,7 +81,7 @@ kotlin {
 }
 
 mavenPublishing {
-    publishToMavenCentral(automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true, validateDeployment = false)
     if (providers.gradleProperty("signingInMemoryKey").orNull?.isNotBlank() == true) {
         signAllPublications()
     }
