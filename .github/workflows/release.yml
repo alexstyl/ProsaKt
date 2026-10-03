@@ -1,0 +1,194 @@
+name: Release
+run-name: Release ${{ inputs.version }}${{ inputs.retry && ' (retry)' || '' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version: 0.1.0, patch, minor, or major (retry requires an exact version)'
+        required: true
+        default: '0.1.0'
+        type: string
+      retry:
+        description: Publish an existing release tag without another version commit
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.release.outputs.sha }}
+      version: ${{ steps.release.outputs.version }}
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: release/go.sum
+      - name: Build release CLI
+        working-directory: release
+        run: go build -o "$RUNNER_TEMP/release" .
+      - name: Resolve release version and source commit
+        id: release
+        env:
+          RELEASE_CLI: ${{ runner.temp }}/release
+          VERSION_REQUEST: ${{ inputs.version }}
+          RETRY: ${{ inputs.retry }}
+        run: bash .github/scripts/release.sh resolve
+
+  tests:
+    needs: resolve
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            tasks: jvmTest jsNodeTest jsBrowserTest wasmJsNodeTest wasmJsBrowserTest wasmWasiNodeTest linuxX64Test
+          - os: macos-14
+            tasks: macosArm64Test
+          - os: windows-latest
+            tasks: mingwX64Test
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: release/go.sum
+      - name: Test release CLI
+        working-directory: release
+        run: go test ./...
+      - name: Test release workflow Git operations
+        if: runner.os == 'Linux'
+        run: python3 -B -m unittest discover -s .github/scripts -p 'test_*.py'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Locate Chrome for browser tests
+        if: runner.os == 'Linux'
+        run: echo "CHROME_BIN=$(command -v google-chrome)" >> "$GITHUB_ENV"
+      - name: Run library tests
+        env:
+          TEST_TASKS: ${{ matrix.tasks }}
+        run: |
+          read -r -a tasks <<< "$TEST_TASKS"
+          ./gradlew "${tasks[@]}" --no-configuration-cache
+
+  prepare:
+    needs: [resolve, tests]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.release.outputs.sha }}
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - name: Check publishing credentials before creating a release commit
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          for name in MAVEN_CENTRAL_USERNAME MAVEN_CENTRAL_PASSWORD SIGNING_KEY; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing Actions secret: $name" >&2
+              exit 1
+            fi
+          done
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Preserve workflow helper when retrying an older release
+        run: cp .github/scripts/release.sh "$RUNNER_TEMP/release-workflow.sh"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: release/go.sum
+      - name: Build release CLI
+        working-directory: release
+        run: go build -o "$RUNNER_TEMP/release" .
+      - name: Check out the tested source
+        env:
+          EXPECTED_SHA: ${{ needs.resolve.outputs.sha }}
+        run: git checkout --detach "$EXPECTED_SHA"
+      - name: Create and push release commit and tag, or reuse existing tag
+        id: release
+        env:
+          RELEASE_CLI: ${{ runner.temp }}/release
+          EXPECTED_SHA: ${{ needs.resolve.outputs.sha }}
+          RELEASE_VERSION: ${{ needs.resolve.outputs.version }}
+          RETRY: ${{ inputs.retry }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          bash "$RUNNER_TEMP/release-workflow.sh" prepare
+
+  publish:
+    needs: prepare
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: release/go.sum
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build release CLI
+        working-directory: release
+        run: go build -o "$RUNNER_TEMP/release" .
+      - name: Publish tagged artifacts to Maven Central
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+        run: '"$RUNNER_TEMP/release" publish'
+
+  draft-release:
+    needs: [prepare, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Create draft release after successful publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          # Listing first keeps reruns from duplicating or overwriting release notes.
+          existing=$(gh api --paginate "repos/$GH_REPO/releases" --jq '.[] | .tag_name')
+          if printf '%s\n' "$existing" | grep -Fxq "$RELEASE_TAG"; then
+            echo "A GitHub release for $RELEASE_TAG already exists."
+          else
+            gh release create "$RELEASE_TAG" --verify-tag --draft --generate-notes --title "$RELEASE_TAG"
+          fi
