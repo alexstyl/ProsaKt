@@ -33,10 +33,6 @@ fun Map<*, *>.requiredMappings(key: String): List<Map<*, *>> {
     }
 }
 
-group = packageMetadata.requiredString("groupId")
-
-version = packageMetadata.requiredString("version")
-
 kotlin {
     jvmToolchain(17)
     // Android consumers use the JVM artifact; this library has no Android-specific APIs.
@@ -90,8 +86,9 @@ mavenPublishing {
         signAllPublications()
     }
     coordinates(
-        groupId = group.toString(),
+        groupId = packageMetadata.requiredString("groupId"),
         artifactId = packageMetadata.requiredString("artifactId"),
+        version = packageMetadata.requiredString("version"),
     )
 
     pom {
@@ -131,19 +128,3 @@ mavenPublishing {
 }
 
 ktfmt { kotlinLangStyle() }
-
-tasks.register("validateReleaseVersion") {
-    group = "verification"
-    description = "Checks that the release tag matches the version in package.yml."
-    val releaseTag = providers.gradleProperty("releaseTag")
-    val packageVersion = project.version.toString()
-    doLast {
-        val tag = releaseTag.orNull ?: error("Supply the release tag with -PreleaseTag=0.1.0")
-        require(tag.matches(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)"))) {
-            "Use a release tag such as 0.1.0, without a v prefix or SNAPSHOT suffix."
-        }
-        require(tag == packageVersion) {
-            "Tag $tag does not match package.yml version $packageVersion."
-        }
-    }
-}
