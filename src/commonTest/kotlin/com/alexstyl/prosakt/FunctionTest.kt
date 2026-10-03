@@ -2,8 +2,8 @@ package com.alexstyl.prosakt
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlin.test.Test
 import com.alexstyl.prosakt.Visibility.Public
+import kotlin.test.Test
 
 class FunctionTest {
     @Test
@@ -12,32 +12,22 @@ class FunctionTest {
             ktFunction("greet") {
                 visibility = Public
                 parameter("prefix") {
-                    type {
-                        reference("String")
-                    }
-                    default {
-                        literal("Hello ")
-                    }
+                    type { reference("String") }
+                    default { literal("Hello ") }
                 }
-                body {
-                    reference("prefix") {
-                        plus {
-                            literal("Alex")
-                        }
-                    }
-                }
-                returns {
-                    type {
-                        reference("String")
-                    }
-                }
+                body { reference("prefix") { plus { literal("Alex") } } }
+                returns { type { reference("String") } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             public fun greet(prefix: String = "Hello "): String {
                 return prefix + "Alex"
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

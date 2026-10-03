@@ -7,56 +7,46 @@ import kotlin.test.Test
 class ParameterTest {
     @Test
     fun defaultBlocksUseExpressionsWithoutInferringLambdas() {
-        assertThat(ktFile {
-            ktFunction("greet") {
-                parameter("name") {
-                    type {
-                        reference("String")
+        assertThat(
+                ktFile {
+                    ktFunction("greet") {
+                        parameter("name") {
+                            type { reference("String") }
+                            default { literal("Alex") }
+                        }
                     }
-                    default {
-                        literal("Alex")
+                    ktFunction("load") {
+                        parameter("value") {
+                            default { call("fallback") }
+                            type { reference("String") }
+                        }
                     }
-                }
-            }
-            ktFunction("load") {
-                parameter("value") {
-                    default {
-                        call("fallback")
+                    ktFunction("transform") {
+                        parameter("customize") {
+                            default { reference("it") }
+                            type { function {} }
+                        }
                     }
-                    type {
-                        reference("String")
-                    }
-                }
-            }
-            ktFunction("transform") {
-                parameter("customize") {
-                    default {
-                        reference("it")
-                    }
-                    type {
-                        function {
+                    ktFunction("optional") {
+                        parameter("callback") {
+                            type {
+                                nullable = true
+                                function {}
+                            }
+                            default { nullValue() }
                         }
                     }
                 }
-            }
-            ktFunction("optional") {
-                parameter("callback") {
-                    type {
-                        nullable = true
-                        function {
-                        }
-                    }
-                    default {
-                        nullValue()
-                    }
-                }
-            }
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             fun greet(name: String = "Alex")
             fun load(value: String = fallback())
             fun transform(customize: () -> Unit = it)
             fun optional(callback: (() -> Unit)? = null)
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

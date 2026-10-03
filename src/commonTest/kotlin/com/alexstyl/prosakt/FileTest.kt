@@ -7,27 +7,19 @@ import kotlin.test.Test
 class FileTest {
     @Test
     fun declarationsAndBlankLinesPreserveOrder() {
-        assertThat(ktFile {
-            ktValue("name") {
-                initializer {
-                    literal("Alex")
+        assertThat(
+                ktFile {
+                    ktValue("name") { initializer { literal("Alex") } }
+                    line()
+                    ktVariable("count") { initializer { literal(0) } }
+                    lines(-1)
+                    lines(0)
+                    lines(2)
+                    ktValue("enabled") { initializer { literal(true) } }
                 }
-            }
-            line()
-            ktVariable("count") {
-                initializer {
-                    literal(0)
-                }
-            }
-            lines(-1)
-            lines(0)
-            lines(2)
-            ktValue("enabled") {
-                initializer {
-                    literal(true)
-                }
-            }
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             val name = "Alex"
 
             var count = 0
@@ -35,29 +27,29 @@ class FileTest {
 
             val enabled = true
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun keywordsAreEscapedInDeclarationsAndAccess() {
-        assertThat(ktFile {
-            packageName("example.when")
-            ktValue("class") {
-                initializer {
-                    literal("yes")
+        assertThat(
+                ktFile {
+                    packageName("example.when")
+                    ktValue("class") { initializer { literal("yes") } }
+                    ktValue("copy") { initializer { reference("class") } }
                 }
-            }
-            ktValue("copy") {
-                initializer {
-                    reference("class")
-                }
-            }
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             package example.`when`
 
             val `class` = "yes"
             val copy = `class`
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

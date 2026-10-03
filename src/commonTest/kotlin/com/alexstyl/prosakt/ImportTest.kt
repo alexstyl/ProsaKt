@@ -7,48 +7,42 @@ import kotlin.test.Test
 class ImportTest {
     @Test
     fun packageCanComeAfterUsageAndFiltersSamePackageImports() {
-        assertThat(ktFile {
-            ktValue("user") {
-                initializer {
-                    call("example.User")
+        assertThat(
+                ktFile {
+                    ktValue("user") { initializer { call("example.User") } }
+                    packageName("example")
                 }
-            }
-            packageName("example")
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             package example
 
             val user = User()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun importsResolveCollisionsAndDeclarationsWithoutChangingOrder() {
         val output = ktFile {
-            ktValue("a") {
-                initializer {
-                    call("first.User")
-                }
-            }
-            ktValue("b") {
-                initializer {
-                    call("second.User")
-                }
-            }
+            ktValue("a") { initializer { call("first.User") } }
+            ktValue("b") { initializer { call("second.User") } }
             ktClass("Color")
-            ktValue("c") {
-                initializer {
-                    call("external.Color")
-                }
-            }
+            ktValue("c") { initializer { call("external.Color") } }
         }
-        assertThat(output).isEqualTo("""
+        assertThat(output)
+            .isEqualTo(
+                """
             val a = first.User()
             val b = second.User()
             class Color
             val c = external.Color()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -59,11 +53,8 @@ class ImportTest {
                 annotations = listOf("example.Immutable")
                 constructor {
                     parameter("name") {
-                        type {
-                            reference("String")
-                        }
-                        property {
-                        }
+                        type { reference("String") }
+                        property {}
                     }
                 }
             }
@@ -71,15 +62,9 @@ class ImportTest {
                 type {
                     reference("kotlin.collections.List")
                     nullable = true
-                    argument {
-                        type {
-                            reference("example.Item")
-                        }
-                    }
+                    argument { type { reference("example.Item") } }
                 }
-                initializer {
-                    nullValue()
-                }
+                initializer { nullValue() }
             }
             ktValue("user") {
                 initializer {
@@ -92,7 +77,9 @@ class ImportTest {
                 }
             }
         }
-        assertThat(output).isEqualTo("""
+        assertThat(output)
+            .isEqualTo(
+                """
             import example.Immutable
             import example.Item
 
@@ -101,6 +88,8 @@ class ImportTest {
             val items: List<Item>? = null
             val user = User(name = "Alex")
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

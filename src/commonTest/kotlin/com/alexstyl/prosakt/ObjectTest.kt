@@ -2,9 +2,9 @@ package com.alexstyl.prosakt
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlin.test.Test
-import com.alexstyl.prosakt.Visibility.Private
 import com.alexstyl.prosakt.Visibility.Internal
+import com.alexstyl.prosakt.Visibility.Private
+import kotlin.test.Test
 
 class ObjectTest {
     @Test
@@ -14,22 +14,18 @@ class ObjectTest {
                 visibility = Private
                 ktValue("name") {
                     visibility = Internal
-                    type {
-                        reference("String")
-                    }
-                    initializer {
-                        literal("Alex")
-                    }
+                    type { reference("String") }
+                    initializer { literal("Alex") }
                     getter {
                         annotations = listOf("example.Read")
-                        body {
-                            reference("field")
-                        }
+                        body { reference("field") }
                     }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.Read
 
             private object Names {
@@ -40,7 +36,9 @@ class ObjectTest {
                     }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -48,18 +46,18 @@ class ObjectTest {
         val source = ktFile {
             ktObject("Defaults") {
                 visibility = Private
-                ktValue("name") {
-                    initializer {
-                        literal("Guest")
-                    }
-                }
+                ktValue("name") { initializer { literal("Guest") } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             private object Defaults {
                 val name = "Guest"
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

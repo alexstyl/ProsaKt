@@ -13,36 +13,14 @@ class TypeCompilationTest {
                     type {
                         function {
                             annotations = listOf("Marker")
-                            parameter {
-                                type {
-                                    reference("String")
-                                }
-                            }
-                            returns {
-                                type {
-                                    reference("String")
-                                }
-                            }
+                            parameter { type { reference("String") } }
+                            returns { type { reference("String") } }
                         }
                     }
-                    default {
-                        lambdaExpression {
-                            reference("it")
-                        }
-                    }
+                    default { lambdaExpression { reference("it") } }
                 }
-                returns {
-                    type {
-                        reference("String")
-                    }
-                }
-                body {
-                    call("transform") {
-                        argument {
-                            literal("Alex")
-                        }
-                    }
-                }
+                returns { type { reference("String") } }
+                body { call("transform") { argument { literal("Alex") } } }
             }
             ktValue("optional") {
                 type {
@@ -55,26 +33,17 @@ class TypeCompilationTest {
                                 nullable = true
                             }
                         }
-                        returns {
-                            type {
-                                function {
-                                }
-                            }
-                        }
+                        returns { type { function {} } }
                     }
                 }
-                initializer {
-                    nullValue()
-                }
+                initializer { nullValue() }
             }
-            ktValue("result") {
-                initializer {
-                    call("apply")
-                }
-            }
+            ktValue("result") { initializer { call("apply") } }
         }
-        withCompiledKotlin("@Target(AnnotationTarget.TYPE) annotation class Marker\n" + source) { loader ->
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo("Alex")
+        withCompiledKotlin("@Target(AnnotationTarget.TYPE) annotation class Marker\n" + source) {
+            loader ->
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo("Alex")
         }
     }
 
@@ -111,9 +80,7 @@ class TypeCompilationTest {
                                 }
                             }
                         }
-                        argument {
-                            nullValue()
-                        }
+                        argument { nullValue() }
                         argument {
                             call("kotlin.collections.listOf") {
                                 argument {
@@ -122,12 +89,8 @@ class TypeCompilationTest {
                                         nullable = true
                                     }
                                 }
-                                argument {
-                                    literal("Alex")
-                                }
-                                argument {
-                                    nullValue()
-                                }
+                                argument { literal("Alex") }
+                                argument { nullValue() }
                             }
                         }
                     }
@@ -136,7 +99,7 @@ class TypeCompilationTest {
         }
         withCompiledKotlin(source) { loader ->
             assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
-            .isEqualTo(listOf(null, listOf("Alex", null)))
+                .isEqualTo(listOf(null, listOf("Alex", null)))
         }
     }
 }

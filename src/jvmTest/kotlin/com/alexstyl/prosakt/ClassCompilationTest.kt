@@ -11,12 +11,8 @@ class ClassCompilationTest {
             ktClass("Counter") {
                 constructor {
                     parameter("count") {
-                        type {
-                            reference("Int")
-                        }
-                        default {
-                            literal(0)
-                        }
+                        type { reference("Int") }
+                        default { literal(0) }
                         property {
                             visibility = Visibility.Private
                             mutable = true
@@ -24,21 +20,9 @@ class ClassCompilationTest {
                     }
                 }
                 ktFunction("increment") {
-                    returns {
-                        type {
-                            reference("Int")
-                        }
-                    }
+                    returns { type { reference("Int") } }
                     body {
-                        reference("count") {
-                            assign {
-                                reference("count") {
-                                    plus {
-                                        literal(1)
-                                    }
-                                }
-                            }
-                        }
+                        reference("count") { assign { reference("count") { plus { literal(1) } } } }
                         reference("count")
                     }
                 }
@@ -53,7 +37,8 @@ class ClassCompilationTest {
             }
         }
         withCompiledKotlin(source) { loader ->
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo(1)
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo(1)
         }
     }
 
@@ -63,23 +48,13 @@ class ClassCompilationTest {
             ktClass("Profile") {
                 constructor {
                     parameter("name") {
-                        type {
-                            reference("String")
-                        }
-                        default {
-                            literal("Alex")
-                        }
+                        type { reference("String") }
+                        default { literal("Alex") }
                     }
                     parameter("visits") {
-                        type {
-                            reference("Int")
-                        }
-                        property {
-                            mutable = true
-                        }
-                        default {
-                            literal(0)
-                        }
+                        type { reference("Int") }
+                        property { mutable = true }
+                        default { literal(0) }
                     }
                     parameter("tags") {
                         type {
@@ -91,43 +66,20 @@ class ClassCompilationTest {
                                 }
                             }
                         }
-                        property {
-                        }
-                        default {
-                            call("kotlin.collections.emptyList")
-                        }
+                        property {}
+                        default { call("kotlin.collections.emptyList") }
                     }
                 }
-                ktValue("displayName") {
-                    initializer {
-                        reference("name")
-                    }
-                }
+                ktValue("displayName") { initializer { reference("name") } }
             }
-            ktClass("Empty") {
-                constructor {
-                }
-            }
-            ktValue("profile") {
-                initializer {
-                    call("Profile")
-                }
-            }
-            ktValue("result") {
-                initializer {
-                    reference("profile") {
-                        property("displayName")
-                    }
-                }
-            }
-            ktValue("empty") {
-                initializer {
-                    call("Empty")
-                }
-            }
+            ktClass("Empty") { constructor {} }
+            ktValue("profile") { initializer { call("Profile") } }
+            ktValue("result") { initializer { reference("profile") { property("displayName") } } }
+            ktValue("empty") { initializer { call("Empty") } }
         }
         withCompiledKotlin(source) { loader ->
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo("Alex")
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo("Alex")
         }
     }
 
@@ -137,65 +89,28 @@ class ClassCompilationTest {
             ktClass("Greeter") {
                 constructor {
                     parameter("name") {
-                        type {
-                            reference("String")
-                        }
-                        property {
-                        }
+                        type { reference("String") }
+                        property {}
                     }
                 }
                 ktValue("greeting") {
-                    type {
-                        reference("String")
-                    }
-                    getter {
-                        body {
-                            literal("Hello ") {
-                                plus {
-                                    reference("name")
-                                }
-                            }
-                        }
-                    }
+                    type { reference("String") }
+                    getter { body { literal("Hello ") { plus { reference("name") } } } }
                 }
                 ktFunction("greet") {
-                    returns {
-                        type {
-                            reference("String")
-                        }
-                    }
+                    returns { type { reference("String") } }
                     body {
                         ifStatement {
-                            condition {
-                                reference("name") {
-                                    equalTo {
-                                        literal("")
-                                    }
-                                }
-                            }
-                            body {
-                                returnStatement {
-                                    literal("Guest")
-                                }
-                            }
+                            condition { reference("name") { equalTo { literal("") } } }
+                            body { returnStatement { literal("Guest") } }
                         }
                         reference("greeting")
                     }
                 }
                 companionObject {
                     ktFunction("guest") {
-                        returns {
-                            type {
-                                reference("Greeter")
-                            }
-                        }
-                        body {
-                            call("Greeter") {
-                                argument {
-                                    literal("")
-                                }
-                            }
-                        }
+                        returns { type { reference("Greeter") } }
+                        body { call("Greeter") { argument { literal("") } } }
                     }
                 }
             }
@@ -209,19 +124,13 @@ class ClassCompilationTest {
                 }
             }
             ktValue("escaped") {
-                initializer {
-                    literal("Quote: \" Dollar: ${'$'}name Slash: \\ Newline: \n")
-                }
+                initializer { literal("Quote: \" Dollar: ${'$'}name Slash: \\ Newline: \n") }
             }
             ktValue("math") {
                 initializer {
                     literal(1) {
-                        plus {
-                            literal(2)
-                        }
-                        times {
-                            literal(3)
-                        }
+                        plus { literal(2) }
+                        times { literal(3) }
                     }
                 }
             }
@@ -230,7 +139,8 @@ class ClassCompilationTest {
             val generated = loader.loadClass("GeneratedKt")
             assertThat(generated.getMethod("getResult").invoke(null)).isEqualTo("Guest")
             assertThat(generated.getMethod("getMath").invoke(null)).isEqualTo(9)
-            assertThat(generated.getMethod("getEscaped").invoke(null)).isEqualTo("Quote: \" Dollar: ${'$'}name Slash: \\ Newline: \n")
+            assertThat(generated.getMethod("getEscaped").invoke(null))
+                .isEqualTo("Quote: \" Dollar: ${'$'}name Slash: \\ Newline: \n")
         }
     }
 }

@@ -7,22 +7,13 @@ import kotlin.test.Test
 class LiteralCompilationTest {
     @Test
     fun generatedLiteralsCompileAndRoundTripWithoutChangingTheirValue() {
-        val original = "Quote: \" Backslash: \\ Newline: \n Tab: \t Return: \r Dollar: ${'$'}name Control: \u0000"
+        val original =
+            "Quote: \" Backslash: \\ Newline: \n Tab: \t Return: \r Dollar: ${'$'}name Control: \u0000"
         val source = ktFile {
             packageName("example")
-            ktValue("message") {
-                initializer {
-                    literal(original)
-                }
-            }
+            ktValue("message") { initializer { literal(original) } }
             ktFunction("printMessage") {
-                body {
-                    call("kotlin.io.println") {
-                        argument {
-                            reference("message")
-                        }
-                    }
-                }
+                body { call("kotlin.io.println") { argument { reference("message") } } }
             }
         }
         withCompiledKotlin(source) { loader ->

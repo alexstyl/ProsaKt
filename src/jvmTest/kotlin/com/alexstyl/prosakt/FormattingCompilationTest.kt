@@ -13,14 +13,16 @@ class FormattingCompilationTest {
                     chain {
                         call("listOf") {
                             argument {
-                                literal("The first sufficiently long string to wrap across the available width") {
-                                    plus {
-                                        literal(" followed by its suffix")
-                                    }
+                                literal(
+                                    "The first sufficiently long string to wrap across the available width"
+                                ) {
+                                    plus { literal(" followed by its suffix") }
                                 }
                             }
                             argument {
-                                literal("The second sufficiently long string to wrap across the available width")
+                                literal(
+                                    "The second sufficiently long string to wrap across the available width"
+                                )
                             }
                         }
                         call("joinToString") {
@@ -34,7 +36,9 @@ class FormattingCompilationTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val result = listOf(
                 "The first sufficiently long string to wrap across the available width" +
                     " followed by its suffix",
@@ -43,11 +47,16 @@ class FormattingCompilationTest {
                 .joinToString(separator = "|")
                 .length
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
         withCompiledKotlin(source) { loader ->
-            val expected = ("The first sufficiently long string to wrap across the available width" +
-                " followed by its suffix|The second sufficiently long string to wrap across the available width").length
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo(expected)
+            val expected =
+                ("The first sufficiently long string to wrap across the available width" +
+                        " followed by its suffix|The second sufficiently long string to wrap across the available width")
+                    .length
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo(expected)
         }
     }
 
@@ -61,11 +70,7 @@ class FormattingCompilationTest {
                     parameter("configuration") {
                         type {
                             reference("Map")
-                            argument {
-                                type {
-                                    reference("SearchConfigurationIdentifier")
-                                }
-                            }
+                            argument { type { reference("SearchConfigurationIdentifier") } }
                             argument {
                                 type {
                                     reference("List")
@@ -85,20 +90,12 @@ class FormattingCompilationTest {
                         type {
                             function {
                                 parameter("originalSearchConfiguration") {
-                                    type {
-                                        reference("ArchivedSearchConfiguration")
-                                    }
+                                    type { reference("ArchivedSearchConfiguration") }
                                 }
                                 parameter("replacementSearchConfiguration") {
-                                    type {
-                                        reference("ArchivedSearchConfiguration")
-                                    }
+                                    type { reference("ArchivedSearchConfiguration") }
                                 }
-                                returns {
-                                    type {
-                                        reference("ArchivedSearchConfiguration")
-                                    }
-                                }
+                                returns { type { reference("ArchivedSearchConfiguration") } }
                             }
                         }
                         default {

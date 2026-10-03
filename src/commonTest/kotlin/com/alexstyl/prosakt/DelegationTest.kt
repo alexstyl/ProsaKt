@@ -10,36 +10,18 @@ class DelegationTest {
     @Test
     fun valuesAndVariablesCanUseDelegatesInFilesMembersAndBodies() {
         val source = ktFile {
-            ktValue("cached") {
-                delegate {
-                    call("lazy") {
-                        trailingLambda {
-                            literal("Hello")
-                        }
-                    }
-                }
-            }
+            ktValue("cached") { delegate { call("lazy") { trailingLambda { literal("Hello") } } } }
             ktClass("Example") {
                 ktVariable("name") {
-                    type {
-                        reference("String")
-                    }
-                    delegate {
-                        call("delegate")
-                    }
+                    type { reference("String") }
+                    delegate { call("delegate") }
                 }
-                ktFunction("run") {
-                    body {
-                        ktValue("local") {
-                            delegate {
-                                call("delegate")
-                            }
-                        }
-                    }
-                }
+                ktFunction("run") { body { ktValue("local") { delegate { call("delegate") } } } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val cached by lazy { "Hello" }
             class Example {
                 var name: String by delegate()
@@ -48,74 +30,57 @@ class DelegationTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun delegateAndInitializerCannotBothBeConfigured() {
         listOf<PropertyScope.() -> Unit>(
-            {
-                initializer {
-                    literal(1)
-                }
-                delegate {
-                    call("delegate")
-                }
-            },
-            {
-                delegate {
-                    call("delegate")
-                }
-                initializer {
-                    literal(1)
-                }
-            },
-        ).forEach { configure ->
-            assertFailure {
-                ktFile {
-                    ktValue("value", configure)
-                }
-            }.hasMessage("A property cannot have both an initializer and a delegate")
-        }
+                {
+                    initializer { literal(1) }
+                    delegate { call("delegate") }
+                },
+                {
+                    delegate { call("delegate") }
+                    initializer { literal(1) }
+                },
+            )
+            .forEach { configure ->
+                assertFailure { ktFile { ktValue("value", configure) } }
+                    .hasMessage("A property cannot have both an initializer and a delegate")
+            }
     }
 
     @Test
     fun duplicateDelegatesAreRejected() {
         assertFailure {
-            ktFile {
-                ktValue("value") {
-                    delegate {
-                        call("first")
-                    }
-                    delegate {
-                        call("second")
+                ktFile {
+                    ktValue("value") {
+                        delegate { call("first") }
+                        delegate { call("second") }
                     }
                 }
             }
-        }.hasMessage("Property delegate has already been defined")
+            .hasMessage("Property delegate has already been defined")
     }
 
     @Test
     fun delegatesAndCustomGettersCannotBeCombined() {
         listOf<PropertyScope.() -> Unit>(
-            {
-                delegate {
-                    call("delegate")
-                }
-                getter {}
-            },
-            {
-                getter {}
-                delegate {
-                    call("delegate")
-                }
-            },
-        ).forEach { configure ->
-            assertFailure {
-                ktFile {
-                    ktValue("value", configure)
-                }
-            }.hasMessage("A delegated property cannot have a custom getter")
-        }
+                {
+                    delegate { call("delegate") }
+                    getter {}
+                },
+                {
+                    getter {}
+                    delegate { call("delegate") }
+                },
+            )
+            .forEach { configure ->
+                assertFailure { ktFile { ktValue("value", configure) } }
+                    .hasMessage("A delegated property cannot have a custom getter")
+            }
     }
 }

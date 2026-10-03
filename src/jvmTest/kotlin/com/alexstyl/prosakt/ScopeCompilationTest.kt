@@ -15,51 +15,56 @@ class ScopeCompilationTest {
     @Test
     fun expressionFactoriesCannotBeUsedOutsideThePublicDsl() {
         listOf(
-            "reference(\"user\")",
-            "literal(1)",
-            "nullValue()",
-            "hexLiteral(255)",
-            "type { reference(\"String\") }",
-            "parameter(\"name\")",
-        ).forEach { expression ->
-            withCompiledKotlin(
-                "import com.alexstyl.prosakt.*\nval value = $expression",
-                includeWriter = true,
-                expectedError = "internal",
+                "reference(\"user\")",
+                "literal(1)",
+                "nullValue()",
+                "hexLiteral(255)",
+                "type { reference(\"String\") }",
+                "parameter(\"name\")",
             )
-        }
+            .forEach { expression ->
+                withCompiledKotlin(
+                    "import com.alexstyl.prosakt.*\nval value = $expression",
+                    includeWriter = true,
+                    expectedError = "internal",
+                )
+            }
     }
 
     @Test
     fun scopesRejectStatementsAndDeclarationsInTheWrongContexts() {
         listOf(
-            """
+                """
                 ktFile {
                     returnStatement()
                 }
-            """.trimIndent() to "unresolved reference 'returnStatement'",
             """
+                    .trimIndent() to "unresolved reference 'returnStatement'",
+                """
                 ktFile {
                     ktClass("User") {
                         returnStatement()
                     }
                 }
-            """.trimIndent() to "unresolved reference 'returnStatement'",
             """
+                    .trimIndent() to "unresolved reference 'returnStatement'",
+                """
                 ktFile {
                     companionObject {
                     }
                 }
-            """.trimIndent() to "unresolved reference 'companionObject'",
             """
+                    .trimIndent() to "unresolved reference 'companionObject'",
+                """
                 ktFile {
                     ktObject("Singleton") {
                         companionObject {
                         }
                     }
                 }
-            """.trimIndent() to "unresolved reference 'companionObject'",
             """
+                    .trimIndent() to "unresolved reference 'companionObject'",
+                """
                 ktFile {
                     ktFunction("run") {
                         body {
@@ -68,8 +73,9 @@ class ScopeCompilationTest {
                         }
                     }
                 }
-            """.trimIndent() to "cannot be called in this context",
             """
+                    .trimIndent() to "cannot be called in this context",
+                """
                 ktFile {
                     ktValue("name") {
                         initializer {
@@ -79,16 +85,23 @@ class ScopeCompilationTest {
                         }
                     }
                 }
-            """.trimIndent() to "cannot be called in this context",
-        ).forEach { (declaration, error) ->
-            withCompiledKotlin("import com.alexstyl.prosakt.*\nval generated = $declaration", includeWriter = true, expectedError = error)
-        }
+            """
+                    .trimIndent() to "cannot be called in this context",
+            )
+            .forEach { (declaration, error) ->
+                withCompiledKotlin(
+                    "import com.alexstyl.prosakt.*\nval generated = $declaration",
+                    includeWriter = true,
+                    expectedError = error,
+                )
+            }
     }
 
     @Test
     fun constructorPropertiesAreUnavailableInOtherParameterScopes() {
-        val declarations = listOf(
-            """
+        val declarations =
+            listOf(
+                """
                 ktFile {
                     ktFunction("greet") {
                         parameter("name") {
@@ -97,8 +110,9 @@ class ScopeCompilationTest {
                         }
                     }
                 }
-            """.trimIndent(),
             """
+                    .trimIndent(),
+                """
                 ktFile {
                     ktValue("callback") {
                         initializer {
@@ -112,8 +126,9 @@ class ScopeCompilationTest {
                         }
                     }
                 }
-            """.trimIndent(),
             """
+                    .trimIndent(),
+                """
                 ktFile {
                     ktValue("callback") {
                         type {
@@ -129,8 +144,9 @@ class ScopeCompilationTest {
                         }
                     }
                 }
-            """.trimIndent(),
-        )
+            """
+                    .trimIndent(),
+            )
         declarations.forEach { declaration ->
             withCompiledKotlin(
                 "import com.alexstyl.prosakt.*\nval generated = $declaration",

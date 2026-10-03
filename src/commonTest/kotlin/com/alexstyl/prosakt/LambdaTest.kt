@@ -11,24 +11,22 @@ class LambdaTest {
             ktValue("user") {
                 initializer {
                     call("factory") {
-                        argument {
-                            type {
-                                reference("example.User")
-                            }
-                        }
-                        trailingLambda {
-                            call("example.User")
-                        }
+                        argument { type { reference("example.User") } }
+                        trailingLambda { call("example.User") }
                     }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.User
 
             val user = factory<User>() { User() }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -48,7 +46,9 @@ class LambdaTest {
                 }
             }
         }
-        assertThat(output).isEqualTo("""
+        assertThat(output)
+            .isEqualTo(
+                """
             fun run() {
                 items()
                     .forEach { item ->
@@ -56,6 +56,8 @@ class LambdaTest {
                     }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

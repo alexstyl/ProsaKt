@@ -8,12 +8,13 @@ class UnitDslCompilationTest {
     @Test
     fun callConfigurationCannotEmitCallsOrContinueItsReceiver() {
         listOf(
-            """
+                """
                 call("load") {
                     call("what")
                 }
-            """.trimIndent(),
             """
+                    .trimIndent(),
+                """
                 reference("service") {
                     call("load") {
                         argument {
@@ -22,17 +23,20 @@ class UnitDslCompilationTest {
                         call("what")
                     }
                 }
-            """.trimIndent(),
             """
+                    .trimIndent(),
+                """
                 reference("service") {
                     safeCall("load") {
                         property("name")
                     }
                 }
-            """.trimIndent(),
-        ).forEach { snippet ->
-            withCompiledKotlin(
-                """
+            """
+                    .trimIndent(),
+            )
+            .forEach { snippet ->
+                withCompiledKotlin(
+                    """
                     import com.alexstyl.prosakt.*
                     fun generate() = ktFile {
                         ktFunction("run") {
@@ -41,16 +45,18 @@ class UnitDslCompilationTest {
                             }
                         }
                     }
-                """.trimIndent(),
-                includeWriter = true,
-                expectedError = "cannot be called in this context",
-            )
-        }
+                """
+                        .trimIndent(),
+                    includeWriter = true,
+                    expectedError = "cannot be called in this context",
+                )
+            }
     }
 
     @Test
     fun externalHelpersUseOnlyPublicScopesAndReturnUnit() {
-        val consumer = """
+        val consumer =
+            """
             import com.alexstyl.prosakt.*
 
             fun ExpressionScope.greeting(): Unit {
@@ -84,17 +90,22 @@ class UnitDslCompilationTest {
                     }
                 }
             }
-        """.trimIndent()
+        """
+                .trimIndent()
         withCompiledKotlin(consumer, includeWriter = true) { loader ->
             val generated = loader.loadClass("GeneratedKt").getMethod("generate").invoke(null)
-            assertThat(generated).isEqualTo("""
+            assertThat(generated)
+                .isEqualTo(
+                    """
                 fun greet() {
                     println("Hello")
                     name.uppercase()
                 }
                 val message = "Hello"
 
-            """.trimIndent())
+            """
+                        .trimIndent()
+                )
         }
     }
 
@@ -105,7 +116,8 @@ class UnitDslCompilationTest {
                 """
                     import com.alexstyl.prosakt.$name
                     private val inaccessible: $name? = null
-                """.trimIndent(),
+                """
+                    .trimIndent(),
                 includeWriter = true,
                 expectedError = "internal",
             )
@@ -116,26 +128,19 @@ class UnitDslCompilationTest {
     fun chainedCallsEvaluateReceiverAndArgumentsOnceInOrder() {
         val generated = ktFile {
             ktFunction("run") {
-                returns {
-                    type {
-                        reference("String")
-                    }
-                }
+                returns { type { reference("String") } }
                 body {
                     chain {
                         call("createService")
-                        call("load") {
-                            argument {
-                                call("input")
-                            }
-                        }
+                        call("load") { argument { call("input") } }
                         call("close")
                     }
                     reference("events")
                 }
             }
         }
-        val support = """
+        val support =
+            """
             var events = ""
             fun createService(): Service {
                 events += "create;"
@@ -155,7 +160,8 @@ class UnitDslCompilationTest {
                 }
             }
 
-        """.trimIndent()
+        """
+                .trimIndent()
         withCompiledKotlin(support + generated) { loader ->
             assertThat(loader.loadClass("GeneratedKt").getMethod("run").invoke(null))
                 .isEqualTo("create;input;load:users;close;")
@@ -168,21 +174,19 @@ class UnitDslCompilationTest {
             ktValue("result") {
                 initializer {
                     reference("service") {
-                        safeCall("get") {
-                            argument {
-                                call("index")
-                            }
-                        }
+                        safeCall("get") { argument { call("index") } }
                         safeProperty("length")
                     }
                 }
             }
         }
-        val support = """
+        val support =
+            """
             val service: List<String>? = null
             fun index(): Int = error("Must not evaluate")
 
-        """.trimIndent()
+        """
+                .trimIndent()
         withCompiledKotlin(support + generated) { loader ->
             assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
                 .isEqualTo(null)

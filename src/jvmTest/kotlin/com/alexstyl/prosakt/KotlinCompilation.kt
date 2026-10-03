@@ -22,20 +22,44 @@ internal fun withCompiledKotlin(
         val output = directory.resolve("classes")
         val messages = ByteArrayOutputStream()
         val stdlib = java.io.File(Unit::class.java.protectionDomain.codeSource.location.toURI())
-        val classpath = buildList {
-            add(stdlib.absolutePath)
-            if (includeWriter) add(java.io.File(ParameterScope::class.java.protectionDomain.codeSource.location.toURI()).absolutePath)
-        }.joinToString(java.io.File.pathSeparator)
-        val result = PrintStream(messages).use { stream ->
-            K2JVMCompiler().exec(
-                stream,
-                "-no-stdlib", "-no-reflect", "-classpath", classpath,
-                "-jvm-target", "17", "-d", output.absolutePath, input.absolutePath,
-            )
-        }
+        val classpath =
+            buildList {
+                    add(stdlib.absolutePath)
+                    if (includeWriter)
+                        add(
+                            java.io
+                                .File(
+                                    ParameterScope::class
+                                        .java
+                                        .protectionDomain
+                                        .codeSource
+                                        .location
+                                        .toURI()
+                                )
+                                .absolutePath
+                        )
+                }
+                .joinToString(java.io.File.pathSeparator)
+        val result =
+            PrintStream(messages).use { stream ->
+                K2JVMCompiler()
+                    .exec(
+                        stream,
+                        "-no-stdlib",
+                        "-no-reflect",
+                        "-classpath",
+                        classpath,
+                        "-jvm-target",
+                        "17",
+                        "-d",
+                        output.absolutePath,
+                        input.absolutePath,
+                    )
+            }
         if (expectedError == null) {
             assertThat(result, messages.toString()).isEqualTo(ExitCode.OK)
-            URLClassLoader(arrayOf(output.toURI().toURL()), ParameterScope::class.java.classLoader).use(assertion)
+            URLClassLoader(arrayOf(output.toURI().toURL()), ParameterScope::class.java.classLoader)
+                .use(assertion)
         } else {
             assertThat(result, messages.toString()).isEqualTo(ExitCode.COMPILATION_ERROR)
             assertThat(messages.toString()).contains(expectedError)

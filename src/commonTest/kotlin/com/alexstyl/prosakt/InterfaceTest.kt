@@ -2,8 +2,8 @@ package com.alexstyl.prosakt
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlin.test.Test
 import com.alexstyl.prosakt.Visibility.Internal
+import kotlin.test.Test
 
 class InterfaceTest {
     @Test
@@ -11,21 +11,19 @@ class InterfaceTest {
         val source = ktFile {
             ktInterface("Named") {
                 visibility = Internal
-                ktFunction("name") {
-                    returns {
-                        type {
-                            reference("String")
-                        }
-                    }
-                }
+                ktFunction("name") { returns { type { reference("String") } } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             internal interface Named {
                 fun name(): String
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -33,18 +31,18 @@ class InterfaceTest {
         val source = ktFile {
             ktInterface("Named") {
                 visibility = Internal
-                ktValue("name") {
-                    type {
-                        reference("String")
-                    }
-                }
+                ktValue("name") { type { reference("String") } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             internal interface Named {
                 val name: String
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

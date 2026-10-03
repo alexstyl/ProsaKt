@@ -8,26 +8,16 @@ class FileAnnotationTest {
     @Test
     fun fileAnnotationsPrecedeThePackageAndCollectArgumentImports() {
         val source = ktFile {
-            ktValue("enabled") {
-                initializer {
-                    literal(true)
-                }
-            }
+            ktValue("enabled") { initializer { literal(true) } }
             packageName("example")
             ktFileAnnotation("kotlin.OptIn") {
-                argument {
-                    reference("library.ExperimentalApi") {
-                        classLiteral()
-                    }
-                }
+                argument { reference("library.ExperimentalApi") { classLiteral() } }
             }
-            ktFileAnnotation("kotlin.Suppress") {
-                argument {
-                    literal("UNCHECKED_CAST")
-                }
-            }
+            ktFileAnnotation("kotlin.Suppress") { argument { literal("UNCHECKED_CAST") } }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             @file:OptIn(ExperimentalApi::class)
             @file:Suppress("UNCHECKED_CAST")
 
@@ -37,7 +27,9 @@ class FileAnnotationTest {
 
             val enabled = true
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -47,13 +39,11 @@ class FileAnnotationTest {
             ktImport("example.getValue")
             ktImport("example.Value")
             ktFileAnnotation("example.Marker")
-            ktValue("value") {
-                initializer {
-                    call("example.Value")
-                }
-            }
+            ktValue("value") { initializer { call("example.Value") } }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             @file:Marker
 
             import example.Marker
@@ -62,24 +52,26 @@ class FileAnnotationTest {
 
             val value = Value()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun explicitImportsRemainAvailableWhenAutomaticReferencesCollide() {
         val source = ktFile {
             ktImport("first.User")
-            ktValue("other") {
-                initializer {
-                    call("second.User")
-                }
-            }
+            ktValue("other") { initializer { call("second.User") } }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import first.User
 
             val other = second.User()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

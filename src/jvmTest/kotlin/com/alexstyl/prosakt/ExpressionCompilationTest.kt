@@ -15,32 +15,18 @@ class ExpressionCompilationTest {
                             ktValue("numbers") {
                                 initializer {
                                     call("kotlin.collections.listOf") {
-                                        argument {
-                                            literal(1)
-                                        }
-                                        argument {
-                                            literal(2)
-                                        }
+                                        argument { literal(1) }
+                                        argument { literal(2) }
                                     }
                                 }
                             }
                             reference("numbers") {
                                 call("fold") {
-                                    argument {
-                                        literal(0)
-                                    }
+                                    argument { literal(0) }
                                     trailingLambda {
                                         parameter("total")
-                                        parameter("item") {
-                                            type {
-                                                reference("Int")
-                                            }
-                                        }
-                                        reference("total") {
-                                            plus {
-                                                reference("item")
-                                            }
-                                        }
+                                        parameter("item") { type { reference("Int") } }
+                                        reference("total") { plus { reference("item") } }
                                     }
                                 }
                             }
@@ -50,7 +36,8 @@ class ExpressionCompilationTest {
             }
         }
         withCompiledKotlin(source) { loader ->
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo(3)
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo(3)
         }
     }
 
@@ -61,17 +48,9 @@ class ExpressionCompilationTest {
                 initializer {
                     chain {
                         call("kotlin.collections.listOf") {
-                            argument {
-                                type {
-                                    reference("String")
-                                }
-                            }
-                            argument {
-                                literal("Alex")
-                            }
-                            argument {
-                                literal("Sam")
-                            }
+                            argument { type { reference("String") } }
+                            argument { literal("Alex") }
+                            argument { literal("Sam") }
                         }
                         call("joinToString") {
                             argument {
@@ -93,7 +72,7 @@ class ExpressionCompilationTest {
         }
         withCompiledKotlin(source) { loader ->
             assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
-            .isEqualTo("[Alex|Sam]")
+                .isEqualTo("[Alex|Sam]")
         }
     }
 
@@ -105,16 +84,8 @@ class ExpressionCompilationTest {
                 initializer {
                     call("kotlin.text.buildString") {
                         trailingLambda {
-                            call("append") {
-                                argument {
-                                    literal("Hello")
-                                }
-                            }
-                            call("append") {
-                                argument {
-                                    literal(" world")
-                                }
-                            }
+                            call("append") { argument { literal("Hello") } }
+                            call("append") { argument { literal(" world") } }
                         }
                     }
                 }
@@ -122,7 +93,7 @@ class ExpressionCompilationTest {
         }
         withCompiledKotlin(source) { loader ->
             assertThat(loader.loadClass("example.GeneratedKt").getMethod("getMessage").invoke(null))
-            .isEqualTo("Hello world")
+                .isEqualTo("Hello world")
         }
     }
 
@@ -130,31 +101,13 @@ class ExpressionCompilationTest {
     fun callsPreserveOrderAndSingleEvaluation() {
         val source = ktFile {
             packageName("example")
-            ktVariable("events") {
-                initializer {
-                    literal("")
-                }
-            }
+            ktVariable("events") { initializer { literal("") } }
             ktFunction("mark") {
-                parameter("name") {
-                    type {
-                        reference("String")
-                    }
-                }
-                returns {
-                    type {
-                        reference("String")
-                    }
-                }
+                parameter("name") { type { reference("String") } }
+                returns { type { reference("String") } }
                 body {
                     reference("events") {
-                        assign {
-                            reference("events") {
-                                plus {
-                                    reference("name")
-                                }
-                            }
-                        }
+                        assign { reference("events") { plus { reference("name") } } }
                     }
                     reference("name")
                 }
@@ -162,38 +115,16 @@ class ExpressionCompilationTest {
             ktValue("load") {
                 initializer {
                     lambdaExpression {
-                        call("mark") {
-                            argument {
-                                literal("A")
-                            }
-                        }
+                        call("mark") { argument { literal("A") } }
                         ktValue("cached") {
-                            initializer {
-                                call("mark") {
-                                    argument {
-                                        literal("B")
-                                    }
-                                }
-                            }
+                            initializer { call("mark") { argument { literal("B") } } }
                         }
-                        call("mark") {
-                            argument {
-                                call("mark") {
-                                    argument {
-                                        literal("C")
-                                    }
-                                }
-                            }
-                        }
+                        call("mark") { argument { call("mark") { argument { literal("C") } } } }
                     }
                 }
             }
             ktFunction("run") {
-                returns {
-                    type {
-                        reference("String")
-                    }
-                }
+                returns { type { reference("String") } }
                 body {
                     call("load")
                     reference("events")
@@ -201,7 +132,8 @@ class ExpressionCompilationTest {
             }
         }
         withCompiledKotlin(source) { loader ->
-            assertThat(loader.loadClass("example.GeneratedKt").getMethod("run").invoke(null)).isEqualTo("ABCC")
+            assertThat(loader.loadClass("example.GeneratedKt").getMethod("run").invoke(null))
+                .isEqualTo("ABCC")
         }
     }
 
@@ -211,37 +143,24 @@ class ExpressionCompilationTest {
             ktValue("result") {
                 initializer {
                     ifExpression {
-                        condition {
-                            literal(true)
-                        }
+                        condition { literal(true) }
                         then {
                             tryExpression {
-                                body {
-                                    call("error") {
-                                        argument {
-                                            literal("failed")
-                                        }
-                                    }
-                                }
+                                body { call("error") { argument { literal("failed") } } }
                                 catching("e") {
-                                    type {
-                                        reference("IllegalStateException")
-                                    }
-                                    body {
-                                        literal("fallback")
-                                    }
+                                    type { reference("IllegalStateException") }
+                                    body { literal("fallback") }
                                 }
                             }
                         }
-                        elseCase {
-                            literal("other")
-                        }
+                        elseCase { literal("other") }
                     }
                 }
             }
         }
         withCompiledKotlin(source) { loader ->
-            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo("fallback")
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null))
+                .isEqualTo("fallback")
         }
     }
 }

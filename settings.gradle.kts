@@ -1,12 +1,10 @@
 pluginManagement {
-  repositories {
-    gradlePluginPortal()
-    mavenCentral()
-  }
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
 }
 
-dependencyResolutionManagement {
-  repositories { mavenCentral() }
-}
+dependencyResolutionManagement { repositories { mavenCentral() } }
 
 rootProject.name = "prosakt"

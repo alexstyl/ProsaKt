@@ -21,15 +21,15 @@ class FormattingTest {
                         }
                         argument {
                             name = "modifier"
-                            reference("Modifier") {
-                                call("fillMaxWidth")
-                            }
+                            reference("Modifier") { call("fillMaxWidth") }
                         }
                     }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             fun screen() {
                 TextField(
                     value = currentSearchQuery,
@@ -38,19 +38,15 @@ class FormattingTest {
                 )
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun simpleLambdasFitInlineAndMultipleStatementsRemainSeparate() {
         val source = ktFile {
-            ktValue("identity") {
-                initializer {
-                    lambdaExpression {
-                        reference("it")
-                    }
-                }
-            }
+            ktValue("identity") { initializer { lambdaExpression { reference("it") } } }
             line()
             ktValue("load") {
                 initializer {
@@ -61,7 +57,9 @@ class FormattingTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val identity = { it }
 
             val load = {
@@ -69,7 +67,9 @@ class FormattingTest {
                 readCache()
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -78,44 +78,28 @@ class FormattingTest {
             ktClass("SearchConfiguration") {
                 constructor {
                     parameter("initialSearchQuery") {
-                        type {
-                            reference("String")
-                        }
+                        type { reference("String") }
                         property {}
                     }
                     parameter("maximumNumberOfResults") {
-                        type {
-                            reference("Int")
-                        }
+                        type { reference("Int") }
                         property {}
                     }
                     parameter("includeArchivedResults") {
-                        type {
-                            reference("Boolean")
-                        }
+                        type { reference("Boolean") }
                         property {}
                     }
                 }
                 ktFunction("findMatchingResults") {
-                    parameter("initialSearchQuery") {
-                        type {
-                            reference("String")
-                        }
-                    }
-                    parameter("maximumNumberOfResults") {
-                        type {
-                            reference("Int")
-                        }
-                    }
-                    parameter("includeArchivedResults") {
-                        type {
-                            reference("Boolean")
-                        }
-                    }
+                    parameter("initialSearchQuery") { type { reference("String") } }
+                    parameter("maximumNumberOfResults") { type { reference("Int") } }
+                    parameter("includeArchivedResults") { type { reference("Boolean") } }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             class SearchConfiguration(
                 val initialSearchQuery: String,
                 val maximumNumberOfResults: Int,
@@ -128,7 +112,9 @@ class FormattingTest {
                 )
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -144,13 +130,17 @@ class FormattingTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val result = searchConfiguration
                 .includeAllArchivedResults()
                 .sortByMostRecentlyUpdated()
                 .takeFirstMatchingResult()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -167,20 +157,12 @@ class FormattingTest {
                 }
             }
             line()
-            ktValue("pending") {
-                initializer {
-                    lambdaExpression {
-                        comment("TODO")
-                    }
-                }
-            }
-            ktValue("empty") {
-                initializer {
-                    lambdaExpression {}
-                }
-            }
+            ktValue("pending") { initializer { lambdaExpression { comment("TODO") } } }
+            ktValue("empty") { initializer { lambdaExpression {} } }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val load = {
                 // Read from cache first
                 readCache()
@@ -194,7 +176,9 @@ class FormattingTest {
             }
             val empty = {}
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -203,11 +187,7 @@ class FormattingTest {
             ktValue("configuration") {
                 type {
                     reference("kotlin.collections.Map")
-                    argument {
-                        type {
-                            reference("example.SearchConfigurationIdentifier")
-                        }
-                    }
+                    argument { type { reference("example.SearchConfigurationIdentifier") } }
                     argument {
                         type {
                             reference("kotlin.collections.List")
@@ -221,12 +201,12 @@ class FormattingTest {
                         }
                     }
                 }
-                initializer {
-                    call("emptyMap")
-                }
+                initializer { call("emptyMap") }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.ArchivedSearchConfiguration
             import example.SearchConfigurationIdentifier
 
@@ -235,7 +215,9 @@ class FormattingTest {
                 List<ArchivedSearchConfiguration?>?
             > = emptyMap()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -243,9 +225,7 @@ class FormattingTest {
         val source = ktFile {
             ktFileAnnotation("OptIn") {
                 argument {
-                    reference("example.ExperimentalSearchConfigurationApi") {
-                        classLiteral()
-                    }
+                    reference("example.ExperimentalSearchConfigurationApi") { classLiteral() }
                 }
                 argument {
                     reference("example.ExperimentalArchivedSearchConfigurationApi") {
@@ -256,7 +236,9 @@ class FormattingTest {
             packageName("example.generated")
             ktClass("Configuration")
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             @file:OptIn(
                 ExperimentalSearchConfigurationApi::class,
                 ExperimentalArchivedSearchConfigurationApi::class
@@ -269,7 +251,9 @@ class FormattingTest {
 
             class Configuration
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -279,28 +263,28 @@ class FormattingTest {
                 initializer {
                     lambdaExpression {
                         parameter("originalSearchConfiguration") {
-                            type {
-                                reference("ArchivedSearchConfiguration")
-                            }
+                            type { reference("ArchivedSearchConfiguration") }
                         }
                         parameter("replacementSearchConfiguration") {
-                            type {
-                                reference("ArchivedSearchConfiguration")
-                            }
+                            type { reference("ArchivedSearchConfiguration") }
                         }
                         reference("originalSearchConfiguration")
                     }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             val choose = {
                 originalSearchConfiguration: ArchivedSearchConfiguration,
                 replacementSearchConfiguration: ArchivedSearchConfiguration ->
                 originalSearchConfiguration
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -315,16 +299,12 @@ class FormattingTest {
                         }
                         trailingLambda {
                             call("composable") {
-                                argument {
-                                    literal("home")
-                                }
+                                argument { literal("home") }
                                 trailingLambda {
                                     call("HomeScreen") {
                                         argument {
                                             name = "transform"
-                                            lambdaExpression {
-                                                reference("it")
-                                            }
+                                            lambdaExpression { reference("it") }
                                         }
                                     }
                                 }
@@ -334,7 +314,9 @@ class FormattingTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             fun App() {
                 NavHost(startDestination = "home") {
                     composable("home") {
@@ -343,7 +325,9 @@ class FormattingTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -354,19 +338,17 @@ class FormattingTest {
                     call("NavHost") {
                         trailingLambda {
                             call("composable") {
-                                argument {
-                                    literal("home")
-                                }
-                                trailingLambda {
-                                    call("HomeScreen")
-                                }
+                                argument { literal("home") }
+                                trailingLambda { call("HomeScreen") }
                             }
                         }
                     }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             fun App() {
                 NavHost {
                     composable("home") {
@@ -375,31 +357,29 @@ class FormattingTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun emptyNestedLambdasKeepTheOuterHierarchy() {
         val source = ktFile {
             ktFunction("App") {
-                body {
-                    call("Column") {
-                        trailingLambda {
-                            call("Box") {
-                                trailingLambda {}
-                            }
-                        }
-                    }
-                }
+                body { call("Column") { trailingLambda { call("Box") { trailingLambda {} } } } }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             fun App() {
                 Column {
                     Box {}
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

@@ -1,40 +1,89 @@
 package com.alexstyl.prosakt
 
 enum class Visibility(internal val keyword: String) {
-    Public("public"), Internal("internal"), Protected("protected"), Private("private"),
+    Public("public"),
+    Internal("internal"),
+    Protected("protected"),
+    Private("private"),
 }
 
 private fun declarationModifiers(visibility: Visibility?, modifiers: List<String>): String =
     (listOfNotNull(visibility?.keyword) + modifiers).joinToString("") { "$it " }
 
-private val keywords = setOf("as", "break", "class", "continue", "do", "else", "false", "for", "fun", "if", "in", "interface", "is", "null", "object", "package", "return", "super", "this", "throw", "true", "try", "typealias", "typeof", "val", "var", "when", "while")
-internal fun identifier(name: String): String = when {
-    name.startsWith('`') && name.endsWith('`') -> name
-    name in keywords || name.matches(Regex("[A-Za-z_][A-Za-z0-9_]*")).not() -> "`$name`"
-    else -> name
-}
-internal class RenderContext(val packageName: String?, private val explicitImports: Set<String> = emptySet()) {
+private val keywords =
+    setOf(
+        "as",
+        "break",
+        "class",
+        "continue",
+        "do",
+        "else",
+        "false",
+        "for",
+        "fun",
+        "if",
+        "in",
+        "interface",
+        "is",
+        "null",
+        "object",
+        "package",
+        "return",
+        "super",
+        "this",
+        "throw",
+        "true",
+        "try",
+        "typealias",
+        "typeof",
+        "val",
+        "var",
+        "when",
+        "while",
+    )
+
+internal fun identifier(name: String): String =
+    when {
+        name.startsWith('`') && name.endsWith('`') -> name
+        name in keywords || name.matches(Regex("[A-Za-z_][A-Za-z0-9_]*")).not() -> "`$name`"
+        else -> name
+    }
+
+internal class RenderContext(
+    val packageName: String?,
+    private val explicitImports: Set<String> = emptySet(),
+) {
     val symbols = linkedSetOf<String>().apply { addAll(explicitImports) }
     val declarations = mutableSetOf<String>()
     var collecting = true
+
     private fun short(name: String) = name.substringAfterLast('.')
-    private fun qualified(name: String) = name.split('.').joinToString(".", transform = ::identifier)
-    private fun collision(name: String) = short(name) in declarations || symbols.any { it != name && short(it) == short(name) }
+
+    private fun qualified(name: String) =
+        name.split('.').joinToString(".", transform = ::identifier)
+
+    private fun collision(name: String) =
+        short(name) in declarations || symbols.any { it != name && short(it) == short(name) }
+
     fun symbol(name: String): String {
         if ('.' !in name) return identifier(name)
         symbols += name
         if (collecting.not() && collision(name)) return qualified(name)
         return identifier(short(name))
     }
-    fun imports(): List<String> = (symbols.filter {
-        it.substringBeforeLast('.') != packageName && collision(it).not() &&
-            it.substringBeforeLast('.') !in setOf("kotlin", "kotlin.collections")
-    } + explicitImports).distinct().sorted().map(::qualified)
+
+    fun imports(): List<String> =
+        (symbols.filter {
+                it.substringBeforeLast('.') != packageName &&
+                    collision(it).not() &&
+                    it.substringBeforeLast('.') !in setOf("kotlin", "kotlin.collections")
+            } + explicitImports)
+            .distinct()
+            .sorted()
+            .map(::qualified)
 }
 
-internal class TypeReference(
-    private val code: (RenderContext) -> Document,
-) {
+internal class TypeReference(private val code: (RenderContext) -> Document) {
     internal fun render(c: RenderContext) = code(c)
 }
 
@@ -58,23 +107,32 @@ class TypeScope internal constructor() {
 
     fun argument(body: ArgumentScope.() -> Unit) {
         val argument = ArgumentScope().apply(body).also { it.validate() }
-        arguments += requireNotNull(argument.configuredType) { "A nested type argument must configure a type" }
+        arguments +=
+            requireNotNull(argument.configuredType) {
+                "A nested type argument must configure a type"
+            }
     }
 
     internal fun build(): TypeReference {
         val name = name
         val function = function
         check(name != null || function != null) { "Type must define a reference or function" }
-        check(function == null || arguments.isEmpty()) { "Function types cannot have generic arguments" }
+        check(function == null || arguments.isEmpty()) {
+            "Function types cannot have generic arguments"
+        }
         val arguments = arguments.toList()
         val nullable = nullable
         val annotations = annotations.toList()
         val signature = function?.build()
         return TypeReference { c ->
-            val core = signature?.render(c) ?: (text(c.symbol(requireNotNull(name))) +
-                if (arguments.isEmpty()) text("") else delimited("<", arguments.map { it.render(c) }, ">"))
+            val core =
+                signature?.render(c)
+                    ?: (text(c.symbol(requireNotNull(name))) +
+                        if (arguments.isEmpty()) text("")
+                        else delimited("<", arguments.map { it.render(c) }, ">"))
             text(annotations.joinToString("") { "@${c.symbol(it)} " }) +
-                (if (nullable && signature != null) text("(") + core + ")?" else core + if (nullable) "?" else "")
+                (if (nullable && signature != null) text("(") + core + ")?"
+                else core + if (nullable) "?" else "")
         }
     }
 }
@@ -113,14 +171,21 @@ class FunctionTypeScope internal constructor() {
         val result = result ?: type { reference("Unit") }
         return TypeReference { c ->
             text(annotations.joinToString("") { "@${c.symbol(it)} " }) +
-                delimited("(", parameters.map { (name, type) ->
-                    text(name?.let { "${identifier(it)}: " } ?: "") + type.render(c)
-                }, ")") + " -> " + result.render(c)
+                delimited(
+                    "(",
+                    parameters.map { (name, type) ->
+                        text(name?.let { "${identifier(it)}: " } ?: "") + type.render(c)
+                    },
+                    ")",
+                ) +
+                " -> " +
+                result.render(c)
         }
     }
 }
 
 internal fun type(body: TypeScope.() -> Unit): TypeReference = TypeScope().apply(body).build()
+
 internal class Parameter(
     val name: String,
     internal val type: TypeReference?,
@@ -144,9 +209,17 @@ open class ParameterScope internal constructor() {
         check(declaredType == null) { "Parameter type has already been defined" }
         declaredType = com.alexstyl.prosakt.type(body)
     }
-    fun default(body: ExpressionScope.() -> Unit) { initializer = expression(body) }
-    fun modifier(value: String) { modifiers += value }
-    internal fun build(name: String, property: String? = null) = Parameter(name, declaredType, initializer, property, modifiers.toList())
+
+    fun default(body: ExpressionScope.() -> Unit) {
+        initializer = expression(body)
+    }
+
+    fun modifier(value: String) {
+        modifiers += value
+    }
+
+    internal fun build(name: String, property: String? = null) =
+        Parameter(name, declaredType, initializer, property, modifiers.toList())
 }
 
 internal fun parameter(name: String, body: ParameterScope.() -> Unit = {}): Parameter =
@@ -155,17 +228,26 @@ internal fun parameter(name: String, body: ParameterScope.() -> Unit = {}): Para
 @ProsaKtDsl
 open class CodeScope internal constructor() {
     internal val code = CodeBuilder()
+
     fun line() = code.line()
+
     fun lines(count: Int) = code.lines(count)
+
     fun comment(text: String) = code.comment(text)
 }
 
 @ProsaKtDsl
 open class DeclarationContainerScope internal constructor() : CodeScope() {
     fun ktValue(name: String, configure: PropertyScope.() -> Unit) = code.value(name, configure)
-    fun ktVariable(name: String, configure: PropertyScope.() -> Unit) = code.variable(name, configure)
-    fun ktFunction(name: String, configure: FunctionScope.() -> Unit = {}) = code.function(name, configure)
-    fun ktClass(name: String, configure: ClassScope.() -> Unit = {}) = code.defineClass(name, configure)
+
+    fun ktVariable(name: String, configure: PropertyScope.() -> Unit) =
+        code.variable(name, configure)
+
+    fun ktFunction(name: String, configure: FunctionScope.() -> Unit = {}) =
+        code.function(name, configure)
+
+    fun ktClass(name: String, configure: ClassScope.() -> Unit = {}) =
+        code.defineClass(name, configure)
 }
 
 @ProsaKtDsl
@@ -173,6 +255,7 @@ open class BlockScope internal constructor() : DeclarationContainerScope(), Expr
     fun returnStatement(label: String? = null, body: (ExpressionScope.() -> Unit)? = null) {
         code.returnStatement(body?.let { expression(it) }, label)
     }
+
     fun ifStatement(configure: IfStatementScope.() -> Unit) {
         val scope = IfStatementScope().apply(configure)
         val condition = requireNotNull(scope.condition) { "An if statement needs a condition" }
@@ -185,10 +268,12 @@ open class BlockScope internal constructor() : DeclarationContainerScope(), Expr
 class IfStatementScope internal constructor() {
     internal var condition: Expression? = null
     internal var statements: CodeBuilder? = null
+
     fun condition(body: ExpressionScope.() -> Unit) {
         check(condition == null) { "Condition has already been defined" }
         condition = expression(body)
     }
+
     fun body(body: BlockScope.() -> Unit) {
         check(statements == null) { "Body has already been defined" }
         statements = BlockScope().apply(body).code
@@ -196,9 +281,12 @@ class IfStatementScope internal constructor() {
 }
 
 class FunctionBodyScope internal constructor() : BlockScope()
+
 class GetterBodyScope internal constructor() : BlockScope()
+
 class LambdaBodyScope internal constructor() : BlockScope() {
     internal val parameters = mutableListOf<Parameter>()
+
     fun parameter(name: String, configure: ParameterScope.() -> Unit = {}) {
         parameters += com.alexstyl.prosakt.parameter(name, configure)
     }
@@ -224,18 +312,24 @@ class FunctionScope internal constructor() : DeclarationScope() {
     fun parameter(name: String, configure: ParameterScope.() -> Unit = {}) {
         parameters += com.alexstyl.prosakt.parameter(name, configure)
     }
+
     fun returns(configure: TypeSlotScope.() -> Unit) {
         check(resultType == null) { "Return type has already been defined" }
         resultType = TypeSlotScope().apply(configure).build()
     }
+
     fun body(block: FunctionBodyScope.() -> Unit) {
         check(statements == null) { "Function body has already been defined" }
         statements = FunctionBodyScope().apply(block).code
     }
+
     internal fun render(name: String, c: RenderContext): Document {
         val result = resultType?.render(c)
-        val signature = prefix(c) + "fun ${identifier(name)}" + delimited("(", parameters.map { it.render(c) }, ")") +
-            (result?.let { text(": ") + it } ?: text(""))
+        val signature =
+            prefix(c) +
+                "fun ${identifier(name)}" +
+                delimited("(", parameters.map { it.render(c) }, ")") +
+                (result?.let { text(": ") + it } ?: text(""))
         return statements?.let {
             block(signature, it.render(c, result != null && result.print() != "Unit"))
         } ?: signature
@@ -250,8 +344,10 @@ class GetterScope internal constructor() : DeclarationScope() {
         check(statements == null) { "Getter body has already been defined" }
         statements = GetterBodyScope().apply(block).code
     }
-    internal fun render(c: RenderContext): Document = prefix(c) +
-        (statements?.let { block(text("get()"), it.render(c, returns = true)) } ?: text("get"))
+
+    internal fun render(c: RenderContext): Document =
+        prefix(c) +
+            (statements?.let { block(text("get()"), it.render(c, returns = true)) } ?: text("get"))
 }
 
 @ProsaKtDsl
@@ -272,7 +368,8 @@ class ConstructorParameterScope internal constructor() : ParameterScope() {
         property = ConstructorPropertyScope().apply(configure)
     }
 
-    internal fun buildConstructorParameter(name: String): Parameter = build(name, property?.render())
+    internal fun buildConstructorParameter(name: String): Parameter =
+        build(name, property?.render())
 }
 
 @ProsaKtDsl
@@ -290,21 +387,28 @@ open class MemberScope internal constructor() : DeclarationContainerScope() {
     var modifiers: List<String> = emptyList()
     var annotations: List<String> = emptyList()
 
-    fun ktInterface(name: String, configure: InterfaceScope.() -> Unit = {}) = code.defineInterface(name, configure)
-    fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) = code.defineObject(name, configure)
+    fun ktInterface(name: String, configure: InterfaceScope.() -> Unit = {}) =
+        code.defineInterface(name, configure)
+
+    fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) =
+        code.defineObject(name, configure)
 
     internal open fun constructorHeader(c: RenderContext): Document = text("")
+
     internal fun render(kind: String, name: String?, c: RenderContext): Document {
-        val prefix = annotations.map { text("@${c.symbol(it)}") + hardLine }.joined(text("")) +
-            declarationModifiers(visibility, modifiers)
-        val header = prefix + kind + (name?.let { " ${identifier(it)}" } ?: "") + constructorHeader(c)
+        val prefix =
+            annotations.map { text("@${c.symbol(it)}") + hardLine }.joined(text("")) +
+                declarationModifiers(visibility, modifiers)
+        val header =
+            prefix + kind + (name?.let { " ${identifier(it)}" } ?: "") + constructorHeader(c)
         val contents = code.render(c)
         return if (code.isEmpty) header else block(header, contents)
     }
 }
 
 class ClassScope internal constructor() : MemberScope() {
-    fun companionObject(name: String? = null, configure: ObjectScope.() -> Unit = {}) = code.companionObject(name, configure)
+    fun companionObject(name: String? = null, configure: ObjectScope.() -> Unit = {}) =
+        code.companionObject(name, configure)
 
     internal var constructor: ConstructorScope? = null
         private set
@@ -314,13 +418,16 @@ class ClassScope internal constructor() : MemberScope() {
         check(constructor == null) { "Primary constructor has already been defined" }
         constructor = ConstructorScope().apply(configure)
     }
+
     internal override fun constructorHeader(c: RenderContext): Document =
         constructor?.let { delimited("(", it.parameters.map { it.render(c) }, ")") } ?: text("")
 }
 
 class InterfaceScope internal constructor() : MemberScope() {
-    fun companionObject(name: String? = null, configure: ObjectScope.() -> Unit = {}) = code.companionObject(name, configure)
+    fun companionObject(name: String? = null, configure: ObjectScope.() -> Unit = {}) =
+        code.companionObject(name, configure)
 }
+
 class ObjectScope internal constructor() : MemberScope()
 
 @ProsaKtDsl
@@ -335,6 +442,7 @@ class PropertyScope internal constructor() : DeclarationScope() {
 
     internal var initializer: Expression? = null
         private set
+
     private var getter: GetterScope? = null
     private var delegate: Expression? = null
 
@@ -356,8 +464,10 @@ class PropertyScope internal constructor() : DeclarationScope() {
         check(getter == null) { "Getter has already been defined" }
         getter = GetterScope().apply(configure)
     }
+
     internal fun render(keyword: String, name: String, c: RenderContext): Document =
-        prefix(c) + "$keyword ${identifier(name)}" +
+        prefix(c) +
+            "$keyword ${identifier(name)}" +
             (declaredType?.let { text(": ") + it.render(c) } ?: text("")) +
             (initializer?.let { text(" = ") + it.render(c) } ?: text("")) +
             (delegate?.let { text(" by ") + it.render(c) } ?: text("")) +
@@ -365,8 +475,11 @@ class PropertyScope internal constructor() : DeclarationScope() {
 }
 
 class FileScope internal constructor() : DeclarationContainerScope() {
-    fun ktInterface(name: String, configure: InterfaceScope.() -> Unit = {}) = code.defineInterface(name, configure)
-    fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) = code.defineObject(name, configure)
+    fun ktInterface(name: String, configure: InterfaceScope.() -> Unit = {}) =
+        code.defineInterface(name, configure)
+
+    fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) =
+        code.defineObject(name, configure)
 
     internal val explicitImports = linkedSetOf<String>()
     internal val fileAnnotations = mutableListOf<Pair<String, AnnotationScope>>()
@@ -382,12 +495,14 @@ class FileScope internal constructor() : DeclarationContainerScope() {
     }
 
     internal var packageValue: String? = null
+
     fun packageName(name: String) {
         require(name.isNotBlank()) { "Package name cannot be blank" }
         check(packageValue == null) { "Package name has already been declared" }
         packageValue = name
     }
 }
+
 fun ktFile(body: FileScope.() -> Unit): String {
     val scope = FileScope().apply(body)
     val context = RenderContext(scope.packageValue, scope.explicitImports)
@@ -397,11 +512,14 @@ fun ktFile(body: FileScope.() -> Unit): String {
     val code = scope.code.render(context)
     val sections = mutableListOf<Document>()
     if (scope.fileAnnotations.isNotEmpty()) {
-        sections += scope.fileAnnotations.map { (name, annotation) ->
-            text("@file:") + annotation.render(name, context)
-        }.joined(hardLine)
+        sections +=
+            scope.fileAnnotations
+                .map { (name, annotation) -> text("@file:") + annotation.render(name, context) }
+                .joined(hardLine)
     }
-    scope.packageValue?.let { sections += text("package ${it.split('.').joinToString(".", transform = ::identifier)}") }
+    scope.packageValue?.let {
+        sections += text("package ${it.split('.').joinToString(".", transform = ::identifier)}")
+    }
     val imports = context.imports()
     if (imports.isNotEmpty()) sections += imports.map { text("import $it") }.joined(hardLine)
     sections += code

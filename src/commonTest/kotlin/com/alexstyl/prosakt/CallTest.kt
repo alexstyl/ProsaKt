@@ -8,20 +8,18 @@ class CallTest {
     @Test
     fun memberReferencesImportTheirOwner() {
         val source = ktFile {
-            ktValue("status") {
-                initializer {
-                    reference("example.Status") {
-                        property("Ready")
-                    }
-                }
-            }
+            ktValue("status") { initializer { reference("example.Status") { property("Ready") } } }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.Status
 
             val status = Status.Ready
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -34,9 +32,7 @@ class CallTest {
                             call("example.options") {
                                 argument {
                                     name = "timeout"
-                                    literal(12) {
-                                        property("example.units.seconds")
-                                    }
+                                    literal(12) { property("example.units.seconds") }
                                 }
                             }
                         }
@@ -44,7 +40,9 @@ class CallTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.Defaults
             import example.merge
             import example.options
@@ -52,7 +50,9 @@ class CallTest {
 
             val settings = Defaults merge options(timeout = 12.seconds)
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -67,11 +67,15 @@ class CallTest {
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.units.seconds
 
             val duration = 12.seconds.toString()
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

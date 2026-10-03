@@ -9,27 +9,15 @@ class ScopeTest {
     fun classesFunctionsAndLambdaScopesShareDeclarations() {
         val output = ktFile {
             ktObject("Example") {
-                ktValue("a") {
-                    initializer {
-                        literal(1)
-                    }
-                }
+                ktValue("a") { initializer { literal(1) } }
                 ktFunction("run") {
                     body {
-                        ktValue("b") {
-                            initializer {
-                                literal(2)
-                            }
-                        }
+                        ktValue("b") { initializer { literal(2) } }
                         ktValue("nested") {
                             initializer {
                                 lambdaExpression {
                                     parameter("name")
-                                    ktValue("c") {
-                                        initializer {
-                                            literal(3)
-                                        }
-                                    }
+                                    ktValue("c") { initializer { literal(3) } }
                                     reference("name")
                                 }
                             }
@@ -38,7 +26,9 @@ class ScopeTest {
                 }
             }
         }
-        assertThat(output).isEqualTo("""
+        assertThat(output)
+            .isEqualTo(
+                """
             object Example {
                 val a = 1
                 fun run() {
@@ -50,6 +40,8 @@ class ScopeTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }

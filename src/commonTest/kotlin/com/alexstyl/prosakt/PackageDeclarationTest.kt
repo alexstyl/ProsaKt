@@ -10,17 +10,15 @@ import kotlin.test.Test
 class PackageDeclarationTest {
     @Test
     fun packageIsOptional() {
-        val source = ktFile {
-            ktValue("message") {
-                initializer {
-                    literal("Hello")
-                }
-            }
-        }
-        assertThat(source).isEqualTo("""
+        val source = ktFile { ktValue("message") { initializer { literal("Hello") } } }
+        assertThat(source)
+            .isEqualTo(
+                """
             val message = "Hello"
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -43,8 +41,9 @@ class PackageDeclarationTest {
             packageName("example")
         }
         assertThat(packageLast).isEqualTo(packageFirst)
-        assertThat(packageLast).isEqualTo(
-            """
+        assertThat(packageLast)
+            .isEqualTo(
+                """
             package example
 
             import other.world
@@ -54,45 +53,46 @@ class PackageDeclarationTest {
                 hello()
                 world()
             }
-            """.trimIndent() + "\n"
-        )
+            """
+                    .trimIndent() + "\n"
+            )
     }
 
     @Test
     fun importsAreKeptWithoutAPackageDeclaration() {
-        val source = ktFile {
-            ktValue("result") {
-                initializer {
-                    reference("example.answer")
-                }
-            }
-        }
-        assertThat(source).isEqualTo("""
+        val source = ktFile { ktValue("result") { initializer { reference("example.answer") } } }
+        assertThat(source)
+            .isEqualTo(
+                """
             import example.answer
 
             val result = answer
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun duplicatePackageDeclarationsAreRejected() {
-        assertThat(runCatching {
-            ktFile {
-                packageName("example")
-                packageName("example")
-            }
-        }).isFailure().isInstanceOf<IllegalStateException>()
+        assertThat(
+                runCatching {
+                    ktFile {
+                        packageName("example")
+                        packageName("example")
+                    }
+                }
+            )
+            .isFailure()
+            .isInstanceOf<IllegalStateException>()
             .messageContains("Package name has already been declared")
     }
 
     @Test
     fun blankPackageDeclarationsAreRejected() {
-        assertThat(runCatching {
-            ktFile {
-                packageName(" ")
-            }
-        }).isFailure().isInstanceOf<IllegalArgumentException>()
+        assertThat(runCatching { ktFile { packageName(" ") } })
+            .isFailure()
+            .isInstanceOf<IllegalArgumentException>()
             .messageContains("Package name cannot be blank")
     }
 }

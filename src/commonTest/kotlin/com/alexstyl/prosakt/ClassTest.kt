@@ -12,112 +12,92 @@ import kotlin.test.Test
 class ClassTest {
     @Test
     fun constructorParametersExplicitlyDeclareProperties() {
-        assertThat(ktFile {
-            ktClass("Colors") {
-                constructor {
-                    parameter("seed") {
-                        type {
-                            reference("Int")
-                        }
-                    }
-                    parameter("background") {
-                        property {
-                            visibility = Private
-                            mutable = true
-                        }
-                        type {
-                            reference("example.Color")
-                        }
-                        default {
-                            reference("defaultColor")
-                        }
-                    }
-                    parameter("foreground") {
-                        type {
-                            reference("example.Color")
-                        }
-                        property {
+        assertThat(
+                ktFile {
+                    ktClass("Colors") {
+                        constructor {
+                            parameter("seed") { type { reference("Int") } }
+                            parameter("background") {
+                                property {
+                                    visibility = Private
+                                    mutable = true
+                                }
+                                type { reference("example.Color") }
+                                default { reference("defaultColor") }
+                            }
+                            parameter("foreground") {
+                                type { reference("example.Color") }
+                                property {}
+                            }
                         }
                     }
                 }
-            }
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             import example.Color
 
             class Colors(seed: Int, private var background: Color = defaultColor, val foreground: Color)
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun constructorPropertyCannotBeConfiguredTwice() {
         assertFailure {
-            ktFile {
-                ktClass("User") {
-                    constructor {
-                        parameter("name") {
-                            property {
-                            }
-                            property {
-                                mutable = true
+                ktFile {
+                    ktClass("User") {
+                        constructor {
+                            parameter("name") {
+                                property {}
+                                property { mutable = true }
                             }
                         }
                     }
                 }
             }
-        }.hasMessage("Constructor property has already been defined")
+            .hasMessage("Constructor property has already been defined")
     }
 
     @Test
     fun classConfigurationAndConstructorDeclarationsPreserveMemberOrder() {
-        assertThat(ktFile {
-            ktClass("User") {
-                visibility = Internal
-                annotations = listOf("example.Immutable")
-                modifiers = listOf("data")
-                ktValue("label") {
-                    initializer {
-                        reference("name")
-                    }
-                }
-                constructor {
-                    parameter("name") {
-                        type {
-                            reference("String")
-                        }
-                        property {
-                        }
-                        default {
-                            literal("Alex")
-                        }
-                    }
-                    parameter("tags") {
-                        type {
-                            reference("List")
-                            argument {
+        assertThat(
+                ktFile {
+                    ktClass("User") {
+                        visibility = Internal
+                        annotations = listOf("example.Immutable")
+                        modifiers = listOf("data")
+                        ktValue("label") { initializer { reference("name") } }
+                        constructor {
+                            parameter("name") {
+                                type { reference("String") }
+                                property {}
+                                default { literal("Alex") }
+                            }
+                            parameter("tags") {
                                 type {
-                                    reference("example.Tag")
-                                    nullable = true
+                                    reference("List")
+                                    argument {
+                                        type {
+                                            reference("example.Tag")
+                                            nullable = true
+                                        }
+                                    }
                                 }
+                                property { mutable = true }
                             }
                         }
-                        property {
-                            mutable = true
-                        }
+                        line()
+                        ktClass("Nested") { visibility = Private }
                     }
+                    ktClass("Empty") { constructor {} }
+                    ktClass("Implicit") {}
                 }
-                line()
-                ktClass("Nested") {
-                    visibility = Private
-                }
-            }
-            ktClass("Empty") {
-                constructor {
-                }
-            }
-            ktClass("Implicit") {
-            }
-        }).isEqualTo("""
+            )
+            .isEqualTo(
+                """
             import example.Immutable
             import example.Tag
 
@@ -130,21 +110,22 @@ class ClassTest {
             class Empty()
             class Implicit
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
     fun duplicatePrimaryConstructorsAreNotSilentlyReplaced() {
         assertFailure {
-            ktFile {
-                ktClass("User") {
-                    constructor {
-                    }
-                    constructor {
+                ktFile {
+                    ktClass("User") {
+                        constructor {}
+                        constructor {}
                     }
                 }
             }
-        }.hasMessage("Primary constructor has already been defined")
+            .hasMessage("Primary constructor has already been defined")
     }
 
     @Test
@@ -154,35 +135,23 @@ class ClassTest {
                 visibility = Internal
                 ktVariable("count") {
                     visibility = Private
-                    type {
-                        reference("Int")
-                    }
-                    initializer {
-                        literal(0)
-                    }
+                    type { reference("Int") }
+                    initializer { literal(0) }
                 }
                 ktFunction("read") {
-                    returns {
-                        type {
-                            reference("Int")
-                        }
-                    }
+                    returns { type { reference("Int") } }
                     visibility = Public
-                    body {
-                        reference("count")
-                    }
+                    body { reference("count") }
                 }
                 companionObject {
                     visibility = Private
-                    ktValue("initial") {
-                        initializer {
-                            literal(0)
-                        }
-                    }
+                    ktValue("initial") { initializer { literal(0) } }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             internal class Counter {
                 private var count: Int = 0
                 public fun read(): Int {
@@ -193,7 +162,9 @@ class ClassTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 
     @Test
@@ -202,14 +173,13 @@ class ClassTest {
             ktClass("User") {
                 companionObject("Factory") {
                     visibility = Internal
-                    ktFunction("create") {
-                        body {
-                        }
-                    }
+                    ktFunction("create") { body {} }
                 }
             }
         }
-        assertThat(source).isEqualTo("""
+        assertThat(source)
+            .isEqualTo(
+                """
             class User {
                 internal companion object Factory {
                     fun create() {
@@ -218,6 +188,8 @@ class ClassTest {
                 }
             }
 
-        """.trimIndent())
+        """
+                    .trimIndent()
+            )
     }
 }
