@@ -47,7 +47,7 @@ class UnitDslCompilationTest {
                     }
                 """
                         .trimIndent(),
-                    includeWriter = true,
+                    includeProsaKt = true,
                     expectedError = "cannot be called in this context",
                 )
             }
@@ -92,7 +92,7 @@ class UnitDslCompilationTest {
             }
         """
                 .trimIndent()
-        withCompiledKotlin(consumer, includeWriter = true) { loader ->
+        withCompiledKotlin(consumer, includeProsaKt = true) { loader ->
             val generated = loader.loadClass("GeneratedKt").getMethod("generate").invoke(null)
             assertThat(generated)
                 .isEqualTo(
@@ -118,7 +118,7 @@ class UnitDslCompilationTest {
                     private val inaccessible: $name? = null
                 """
                     .trimIndent(),
-                includeWriter = true,
+                includeProsaKt = true,
                 expectedError = "internal",
             )
         }

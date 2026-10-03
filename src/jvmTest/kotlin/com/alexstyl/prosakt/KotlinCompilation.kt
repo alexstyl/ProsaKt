@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 
 internal fun withCompiledKotlin(
     source: String,
-    includeWriter: Boolean = false,
+    includeProsaKt: Boolean = false,
     expectedError: String? = null,
     assertion: (ClassLoader) -> Unit = {},
 ) {
@@ -25,7 +25,7 @@ internal fun withCompiledKotlin(
         val classpath =
             buildList {
                     add(stdlib.absolutePath)
-                    if (includeWriter)
+                    if (includeProsaKt)
                         add(
                             java.io
                                 .File(

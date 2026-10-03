@@ -7,7 +7,7 @@ class ScopeCompilationTest {
     fun expressionScopesCannotBeConstructedByConsumers() {
         withCompiledKotlin(
             "import com.alexstyl.prosakt.*\nval scope = object : ExpressionScope {}",
-            includeWriter = true,
+            includeProsaKt = true,
             expectedError = "sealed",
         )
     }
@@ -25,7 +25,7 @@ class ScopeCompilationTest {
             .forEach { expression ->
                 withCompiledKotlin(
                     "import com.alexstyl.prosakt.*\nval value = $expression",
-                    includeWriter = true,
+                    includeProsaKt = true,
                     expectedError = "internal",
                 )
             }
@@ -91,7 +91,7 @@ class ScopeCompilationTest {
             .forEach { (declaration, error) ->
                 withCompiledKotlin(
                     "import com.alexstyl.prosakt.*\nval generated = $declaration",
-                    includeWriter = true,
+                    includeProsaKt = true,
                     expectedError = error,
                 )
             }
@@ -150,7 +150,7 @@ class ScopeCompilationTest {
         declarations.forEach { declaration ->
             withCompiledKotlin(
                 "import com.alexstyl.prosakt.*\nval generated = $declaration",
-                includeWriter = true,
+                includeProsaKt = true,
                 expectedError = "unresolved reference 'property'",
             )
         }
