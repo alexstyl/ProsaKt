@@ -43,11 +43,22 @@ export default defineConfig({
       },
     },
     sidebar: [
-      { label: 'Start here', items: [
+      { label: 'Getting started', items: [
         { label: 'Installation', slug: 'docs/installation' },
         { label: 'Your first Kotlin file', slug: 'docs/first-file' },
+        { label: 'llms.txt', link: '/llms.txt' },
       ] },
-      { label: 'llms.txt', link: '/llms.txt' },
+      { label: 'API guides', items: [
+        { label: 'Classes', slug: 'docs/classes' },
+        { label: 'Interfaces', slug: 'docs/interfaces' },
+        { label: 'Objects', slug: 'docs/objects' },
+        { label: 'Functions', slug: 'docs/functions' },
+        { label: 'Values and Variables', slug: 'docs/properties' },
+        { label: 'Types', slug: 'docs/types' },
+        { label: 'Annotations', slug: 'docs/annotations' },
+        { label: 'Visibility & modifiers', slug: 'docs/visibility' },
+        { label: 'Imports', slug: 'docs/imports' },
+      ] },
     ],
   })],
 });
