@@ -19,8 +19,9 @@ import { examples } from '../playground/examples';
   <div class="comparison">
     <div class="code-panel">
       <h3 id="source-title">Prosa.kt</h3>
-      <div id="code-editor"></div>
-      <textarea id="demo-source" aria-label="Prosa.kt code" aria-describedby="demo-help" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off">{examples[0].source}</textarea>
+      <div id="code-editor">
+        <textarea id="demo-source" aria-label="Prosa.kt code" aria-describedby="demo-help" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off">{examples[0].source}</textarea>
+      </div>
     </div>
     <div class="code-panel">
       <h3 id="output-title">Generated Kotlin</h3>
@@ -142,7 +143,7 @@ import { examples } from '../playground/examples';
     color: var(--page-text);
     font: 14px/1.7 ui-monospace, monospace;
     tab-size: 4;
-    resize: vertical;
+    resize: none;
   }
   textarea[hidden] { display: none; }
 </style>
