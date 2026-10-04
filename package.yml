@@ -2,7 +2,7 @@ name: ProsaKt
 description: Declarative Kotlin code generation API written in pure Kotlin.
 groupId: com.alexstyl
 artifactId: prosakt
-version: 0.1.0
+version: 0.1.1
 url: https://github.com/alexstyl/ProsaKt
 licenses:
   - name: MIT License
