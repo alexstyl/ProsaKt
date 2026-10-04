@@ -40,10 +40,18 @@ class ParameterTest {
             )
             .isEqualTo(
                 """
-            fun greet(name: String = "Alex")
-            fun load(value: String = fallback())
-            fun transform(customize: () -> Unit = it)
-            fun optional(callback: (() -> Unit)? = null)
+            fun greet(name: String = "Alex") {
+
+            }
+            fun load(value: String = fallback()) {
+
+            }
+            fun transform(customize: () -> Unit = it) {
+
+            }
+            fun optional(callback: (() -> Unit)? = null) {
+
+            }
 
         """
                     .trimIndent()

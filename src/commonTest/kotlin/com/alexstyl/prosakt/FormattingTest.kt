@@ -109,7 +109,9 @@ class FormattingTest {
                     initialSearchQuery: String,
                     maximumNumberOfResults: Int,
                     includeArchivedResults: Boolean
-                )
+                ) {
+
+                }
             }
 
         """

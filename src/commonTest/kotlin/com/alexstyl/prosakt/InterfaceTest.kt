@@ -7,18 +7,20 @@ import kotlin.test.Test
 
 class InterfaceTest {
     @Test
-    fun declaresFunctionSignatureWithoutABody() {
+    fun declaresFunctionWithDefaultEmptyBody() {
         val source = ktFile {
             ktInterface("Named") {
                 visibility = Internal
-                ktFunction("name") { returns { type { reference("String") } } }
+                ktFunction("greet") {}
             }
         }
         assertThat(source)
             .isEqualTo(
                 """
             internal interface Named {
-                fun name(): String
+                fun greet() {
+
+                }
             }
 
         """

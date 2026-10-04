@@ -48,7 +48,9 @@ class TypeTest {
             import example.Composable
             import example.Values
 
-            fun invoke(customize: @Composable (Values) -> Values)
+            fun invoke(customize: @Composable (Values) -> Values) {
+
+            }
             val callbacks: List<((name: String) -> String?)?>
 
         """

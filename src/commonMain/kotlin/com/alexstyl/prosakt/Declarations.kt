@@ -330,9 +330,14 @@ class FunctionScope internal constructor() : DeclarationScope() {
                 "fun ${identifier(name)}" +
                 delimited("(", parameters.map { it.render(c) }, ")") +
                 (result?.let { text(": ") + it } ?: text(""))
-        return statements?.let {
-            block(signature, it.render(c, result != null && result.print() != "Unit"))
-        } ?: signature
+        if ("abstract" in modifiers) {
+            check(statements == null) { "An abstract function cannot have a body" }
+            return signature
+        }
+        return block(
+            signature,
+            statements?.render(c, result != null && result.print() != "Unit") ?: text(""),
+        )
     }
 }
 
