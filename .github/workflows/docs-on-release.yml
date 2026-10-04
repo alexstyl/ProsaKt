@@ -1,0 +1,21 @@
+name: Update documentation on release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      # Dispatch on main because the Pages environment only permits that branch.
+      # The website build regenerates the HTML and Markdown API reference.
+      - name: Rebuild and deploy documentation
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run website.yml --ref main
