@@ -1,0 +1,62 @@
+---
+import { Code } from 'astro-expressive-code/components';
+const builder = `ktFile {
+    ktValue("message") {
+        initializer { literal("Hello, Kotlin!") }
+    }
+}`;
+const generated = 'val message = "Hello, Kotlin!"';
+const dependency = 'implementation("com.alexstyl:prosakt:0.1.0")';
+---
+<section aria-labelledby="hero-title" class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Prosa.kt · Kotlin source generation</p>
+    <h1 id="hero-title">Declarative code generation for Kotlin.</h1>
+    <p class="intro">Define classes, functions, and expressions in pure Kotlin.
+      Prosa.kt handles the imports, escaping, and formatting.</p>
+    <div class="actions">
+      <a class="button primary" href="/docs/installation/">Get started <span aria-hidden="true">→</span></a>
+      <a class="button secondary" href="#playground"><span class="secondary-label">Try it in your browser <span aria-hidden="true">↓</span></span></a>
+    </div>
+    <div class="hero-install">
+      <div class="hero-install-row">
+        <code id="hero-dependency">{dependency}</code>
+        <button type="button" id="copy-dependency" aria-label="Copy Gradle dependency">Copy</button>
+      </div>
+      <span id="dependency-copy-status" class="copy-status" role="status"></span>
+    </div>
+    <ul class="product-facts" aria-label="Library details">
+      <li>Pure Kotlin</li>
+      <li>Multiplatform</li>
+      <li>MIT licensed</li>
+    </ul>
+  </div>
+  <div class="hero-preview" aria-label="A Prosa.kt builder and its generated Kotlin">
+    <div class="preview-source">
+      <p class="preview-label">Prosa.kt DSL</p>
+      <Code code={builder} lang="kotlin" />
+    </div>
+    <div class="preview-connector" aria-hidden="true">↓</div>
+    <div class="preview-result">
+      <p class="preview-label">Generated Kotlin</p>
+      <Code code={generated} lang="kotlin" />
+    </div>
+  </div>
+</section>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#copy-dependency')!;
+  const status = document.querySelector<HTMLElement>('#dependency-copy-status')!;
+  button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(document.querySelector('#hero-dependency')!.textContent!);
+      button.textContent = 'Copied!';
+      button.setAttribute('aria-label', 'Copied!');
+      status.textContent = '';
+    } catch {
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy Gradle dependency');
+      status.textContent = 'Select the dependency above to copy it.';
+    }
+  });
+</script>

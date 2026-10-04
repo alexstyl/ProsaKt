@@ -1,0 +1,125 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import Hero from '../components/hero.astro';
+import ThemeToggle from '../components/theme-toggle.astro';
+import Demo from '../components/demo.astro';
+import Layout from '../layouts/Landing.astro';
+const dependency = 'implementation("com.alexstyl:prosakt:0.1.0")';
+const usage = `import com.alexstyl.prosakt.ktFile
+
+val source = ktFile {
+    ktValue("message") {
+        initializer { literal("Hello from Prosa.kt") }
+    }
+}`;
+---
+<Layout>
+  <Hero />
+  <Demo />
+
+  <section class="section benefits" aria-labelledby="benefits-title">
+    <div class="section-heading">
+      <p class="eyebrow">Built into the DSL</p>
+      <h2 id="benefits-title">Focus on what to generate.</h2>
+      <p>Use Kotlin builders to define declarations and expressions. Prosa.kt turns them into source text
+        with imports, escaped literals, and consistent formatting.</p>
+    </div>
+    <div class="benefit-grid">
+      <article>
+        <span class="section-number" aria-hidden="true">01</span>
+        <h3>Automatic imports</h3>
+        <p>Reference a qualified type or function. Prosa.kt collects, sorts, and deduplicates its imports,
+          and uses qualified names when symbols collide.</p>
+        <a class="text-link" href="/docs/types/">See how imports work <span aria-hidden="true">→</span></a>
+      </article>
+      <article>
+        <span class="section-number" aria-hidden="true">02</span>
+        <h3>Escaped literals</h3>
+        <p>Pass strings and numbers to <code>literal()</code>. Quotes, backslashes, and dollar signs
+          are escaped for the generated Kotlin.</p>
+        <a class="text-link" href="/docs/expressions/">Explore expressions <span aria-hidden="true">→</span></a>
+      </article>
+      <article>
+        <span class="section-number" aria-hidden="true">03</span>
+        <h3>Consistent formatting</h3>
+        <p>Get consistent indentation and automatic line wrapping for structured expressions.
+          Keep generated source readable when reviewing or debugging it.</p>
+        <a class="text-link" href="/docs/files/">See the output rules <span aria-hidden="true">→</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section installation" id="installation" aria-labelledby="installation-title">
+    <div class="section-heading">
+      <p class="eyebrow">Getting started</p>
+      <h2 id="installation-title">Generate your first<br />Kotlin file.</h2>
+      <p>Add Prosa.kt to your JVM project or Kotlin Multiplatform source set, then call <code>ktFile</code> to generate source.</p>
+      <a class="text-link" href="/docs/installation/">Full installation guide <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="install-steps">
+      <div>
+        <h3><span class="section-number">01</span> Add the dependency</h3>
+        <p>With <code>mavenCentral()</code> configured, add this to your dependencies.</p>
+        <Code code={dependency} lang="kotlin" title="build.gradle.kts" />
+      </div>
+      <div>
+        <h3><span class="section-number">02</span> Define a file with the DSL</h3>
+        <Code code={usage} lang="kotlin" title="Your generator" />
+      </div>
+      <div>
+        <h3><span class="section-number">03</span> Save the generated source</h3>
+        <p><code>ktFile</code> returns a string. Save it to a <code>.kt</code> file or pass it to your existing generation pipeline.</p>
+        <a class="text-link" href="/docs/first-file/">Walk through your first file <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section questions" aria-labelledby="questions-title">
+    <div class="section-heading">
+      <p class="eyebrow">Using Prosa.kt</p>
+      <h2 id="questions-title">Common questions.</h2>
+    </div>
+    <div class="question-list">
+      <details>
+        <summary>Which platforms are supported?</summary>
+        <p>All of them. Prosa.kt is written in pure Kotlin and targets JVM, JavaScript, WebAssembly, and Kotlin/Native.
+          Add it to the source set that runs your generator. <a href="/docs/installation/">See the setup for your project.</a></p>
+      </details>
+      <details>
+        <summary>Does it compile the generated code?</summary>
+        <p>Prosa.kt returns Kotlin source text. Your project handles writing files, registering generated sources,
+          and compilation. The DSL checks structural mistakes, but it does not type-check the generated program.</p>
+      </details>
+      <details>
+        <summary>Can I use my own loops and conditions?</summary>
+        <p>Yes. In your Kotlin project, the builder is ordinary Kotlin: use loops, conditions, and your own functions
+          to drive generation. This browser playground supports a smaller set of builder calls and literal values.</p>
+      </details>
+      <details>
+        <summary>What license does Prosa.kt use?</summary>
+        <p>Prosa.kt is open source under the MIT license. You can use it in personal and commercial projects.
+          <a href="https://github.com/alexstyl/ProsaKt">Browse the source on GitHub.</a></p>
+      </details>
+    </div>
+  </section>
+
+  <section class="final-cta" aria-labelledby="final-title">
+    <div>
+      <p class="eyebrow">Add Prosa.kt to your project</p>
+      <h2 id="final-title">Start generating Kotlin.</h2>
+      <p>Follow the setup guide and generate your first Kotlin file.</p>
+    </div>
+    <a class="button primary" href="/docs/installation/">Get started <span aria-hidden="true">→</span></a>
+  </section>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="#main">Prosa.kt</a>
+    <p>Built by <a href="https://alexstyl.com">Alex Styl</a>. Open source, MIT licensed.</p>
+    <nav aria-label="Footer navigation">
+      <a href="/docs/installation/">Docs</a>
+      <a href="https://github.com/alexstyl/ProsaKt">GitHub</a>
+      <a href="/llms.txt">llms.txt</a>
+    </nav>
+    <ThemeToggle />
+  </footer>
+</Layout>

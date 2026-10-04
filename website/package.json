@@ -1,0 +1,29 @@
+{
+  "name": "prosakt-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test tests",
+    "lib:export": "../gradlew -p .. exportBrowserLibrary",
+    "dev": "astro dev --port 3000",
+    "build": "astro build && cp dist/sitemap-index.xml dist/sitemap.xml",
+    "preview": "astro preview --port 3000",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.5",
+    "@codemirror/autocomplete": "^6.20.3",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/legacy-modes": "^6.5.4",
+    "@codemirror/state": "^6.7.6",
+    "@lezer/highlight": "^1.2.5",
+    "astro": "^7.3.5",
+    "astro-expressive-code": "^0.44.2",
+    "codemirror": "^6.0.2",
+    "starlight-llms-txt": "^0.12.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
+  }
+}

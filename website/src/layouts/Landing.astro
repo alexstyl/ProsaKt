@@ -1,0 +1,36 @@
+---
+import Navbar from '../components/navbar.astro';
+import '../styles/landing.css';
+const title = 'Prosa.kt — Declarative code generation for Kotlin';
+const description = 'Generate Kotlin classes, functions, and expressions with a declarative Kotlin DSL. Try Prosa.kt in your browser, then add it to your project.';
+const canonical = new URL('/', Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      let theme = 'auto';
+      try { theme = localStorage.getItem('starlight-theme') || 'auto'; } catch {}
+      document.documentElement.dataset.theme = theme === 'light' || theme === 'dark'
+        ? theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <Navbar />
+      <main id="main"><slot /></main>
+    </div>
+    {import.meta.env.PROD && <script is:inline async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>}
+  </body>
+</html>

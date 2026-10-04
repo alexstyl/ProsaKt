@@ -1,0 +1,50 @@
+---
+import monitor from '../assets/icons/monitor.svg?raw';
+import sun from '../assets/icons/sun.svg?raw';
+import moon from '../assets/icons/moon.svg?raw';
+const themes = [
+  { value: 'auto', label: 'System theme', icon: monitor },
+  { value: 'light', label: 'Light theme', icon: sun },
+  { value: 'dark', label: 'Dark theme', icon: moon },
+];
+---
+<fieldset class="theme-toggle">
+  <legend>Color theme</legend>
+  {themes.map(theme => (
+    <label title={theme.label}>
+      <input type="radio" name="color-theme" value={theme.value} aria-label={theme.label} checked={theme.value === 'auto'} />
+      <span aria-hidden="true" set:html={theme.icon} />
+    </label>
+  ))}
+</fieldset>
+
+<script>
+  const radios = document.querySelectorAll<HTMLInputElement>('input[name="color-theme"]');
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  let preference = 'auto';
+  try { preference = localStorage.getItem('starlight-theme') || 'auto'; } catch {}
+  if (!['auto', 'light', 'dark'].includes(preference)) preference = 'auto';
+  const apply = () => {
+    document.documentElement.dataset.theme = preference === 'auto' ? (media.matches ? 'dark' : 'light') : preference;
+    radios.forEach(radio => { radio.checked = radio.value === preference; });
+  };
+  radios.forEach(radio => radio.addEventListener('change', () => {
+    if (!radio.checked) return;
+    preference = radio.value;
+    try { localStorage.setItem('starlight-theme', preference); } catch {}
+    apply();
+  }));
+  media.addEventListener('change', apply);
+  apply();
+</script>
+
+<style>
+  .theme-toggle { display: flex; flex-shrink: 0; margin: 0 0 0 auto; padding: 3px; border: 1px solid var(--page-line); border-radius: 999px; }
+  legend, input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  label { position: relative; cursor: pointer; }
+  span { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: var(--page-muted); }
+  span :global(svg) { width: 18px; height: 18px; }
+  label:hover span { color: var(--page-text); }
+  input:checked + span { background: var(--page-hover); color: var(--page-text); }
+  input:focus-visible + span { outline: 2px solid var(--page-focus); outline-offset: 2px; }
+</style>

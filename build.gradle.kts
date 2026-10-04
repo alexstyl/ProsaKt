@@ -40,6 +40,9 @@ kotlin {
     js {
         nodejs()
         browser { testTask { useKarma { useChromeHeadless() } } }
+        useEsModules()
+        binaries.library()
+        generateTypeScriptDefinitions()
     }
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
@@ -128,3 +131,11 @@ mavenPublishing {
 }
 
 ktfmt { kotlinLangStyle() }
+
+tasks.register<Sync>("exportBrowserLibrary") {
+    dependsOn("jsBrowserProductionLibraryDistribution")
+    from(layout.buildDirectory.dir("dist/js/productionLibrary")) {
+        include("*.mjs", "*.mjs.map", "*.d.ts")
+    }
+    into(layout.projectDirectory.dir("website/src/vendor/prosakt"))
+}

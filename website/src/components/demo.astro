@@ -1,0 +1,148 @@
+---
+import { examples } from '../playground/examples';
+---
+<section class="demo section" id="playground" aria-labelledby="demo-title">
+  <div class="section-heading">
+    <p class="eyebrow">Interactive playground</p>
+    <h2 id="demo-title">Try the Prosa.kt DSL.</h2>
+    <p id="demo-help">Choose an example and edit the DSL. The generated Kotlin updates as you type.</p>
+  </div>
+  <aside class="playground-tip" aria-label="Autocomplete tip">
+    <strong>Pro tip</strong>
+    <span>Press <kbd>Ctrl</kbd> <span aria-hidden="true">+</span> <kbd>Space</kbd> for autocomplete.</span>
+  </aside>
+  <div class="examples" role="group" aria-label="Examples">
+    {examples.map((example, index) => (
+      <button type="button" data-example={index} aria-pressed={index === 0}>{example.name}</button>
+    ))}
+  </div>
+  <div class="comparison">
+    <div class="code-panel">
+      <h3 id="source-title">Prosa.kt</h3>
+      <div id="code-editor"></div>
+      <textarea id="demo-source" aria-label="Prosa.kt code" aria-describedby="demo-help" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off">{examples[0].source}</textarea>
+    </div>
+    <div class="code-panel">
+      <h3 id="output-title">Generated Kotlin</h3>
+      <div id="demo-output"></div>
+    </div>
+  </div>
+  <p id="demo-status" role="status">Loading playground…</p>
+  <noscript>Enable JavaScript to use the playground.</noscript>
+</section>
+
+<script>
+  import { basicSetup, EditorView } from 'codemirror';
+  import { EditorState } from '@codemirror/state';
+  import { autocompletion } from '@codemirror/autocomplete';
+  import { StreamLanguage, indentUnit, HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+  import { tags } from '@lezer/highlight';
+  import { kotlin } from '@codemirror/legacy-modes/mode/clike';
+  import { examples } from '../playground/examples';
+  import { parseProgram } from '../playground/parser';
+  import { prosaKtCompletions } from '../playground/completions';
+
+  const fallback = document.querySelector<HTMLTextAreaElement>('#demo-source')!;
+  const output = document.querySelector<HTMLElement>('#demo-output')!;
+  const status = document.querySelector<HTMLElement>('#demo-status')!;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-example]');
+  let selected = 0;
+  let generate: ((program: string) => string) | undefined;
+
+  const editorAppearance = [
+    basicSetup,
+    StreamLanguage.define(kotlin),
+    syntaxHighlighting(HighlightStyle.define([
+      { tag: tags.keyword, color: 'var(--code-keyword)' },
+      { tag: tags.string, color: 'var(--code-string)' },
+      { tag: [tags.number, tags.bool, tags.null], color: 'var(--code-number)' },
+      { tag: [tags.typeName, tags.className], color: 'var(--code-type)' },
+      { tag: tags.comment, color: 'var(--code-comment)' },
+    ])),
+    indentUnit.of('    '),
+    EditorView.theme({
+      '&': { height: '100%', width: '100%', border: '1px solid var(--page-line)', backgroundColor: 'var(--page-surface)', color: 'var(--page-text)' },
+      '.cm-scroller': { overflow: 'scroll', scrollbarGutter: 'stable', minHeight: '0', fontFamily: 'ui-monospace, monospace', fontSize: '14px', lineHeight: '1.7' },
+      '.cm-gutters': { backgroundColor: 'var(--page-surface)', color: 'var(--page-muted)', borderColor: 'var(--page-line)' },
+      '.cm-lineNumbers .cm-gutterElement': { minWidth: '4ch' },
+      '.cm-cursor': { borderLeftColor: 'var(--page-text)' },
+      '.cm-activeLine, .cm-activeLineGutter': { backgroundColor: 'var(--page-hover)' },
+      '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': { backgroundColor: 'var(--page-line)' },
+      '&.cm-focused': { outline: 'none' },
+    }),
+  ];
+  const extensions = [
+    ...editorAppearance,
+    autocompletion({ override: [prosaKtCompletions] }),
+    EditorView.contentAttributes.of({
+      'aria-label': 'Prosa.kt code',
+      'aria-describedby': 'demo-help',
+      'spellcheck': 'false',
+    }),
+    EditorView.updateListener.of(update => { if (update.docChanged) render(); }),
+  ];
+  const states = examples.map(example => EditorState.create({ doc: example.source, extensions }));
+  const editor = new EditorView({ state: states[0], parent: document.querySelector('#code-editor')! });
+  const outputEditor = new EditorView({
+    parent: output,
+    extensions: [
+      ...editorAppearance,
+      EditorState.readOnly.of(true),
+      EditorView.editable.of(false),
+      EditorView.contentAttributes.of({ 'aria-label': 'Generated Kotlin', tabindex: '0' }),
+    ],
+  });
+  fallback.hidden = true;
+
+  function showOutput(code: string) {
+    outputEditor.dispatch({ changes: { from: 0, to: outputEditor.state.doc.length, insert: code } });
+  }
+
+  function render() {
+    if (!generate) return;
+    try {
+      showOutput(generate(JSON.stringify(parseProgram(editor.state.doc.toString()))));
+      editor.contentDOM.removeAttribute('aria-invalid');
+      status.textContent = '';
+    } catch (error) {
+      showOutput('');
+      editor.contentDOM.setAttribute('aria-invalid', 'true');
+      status.textContent = error instanceof Error ? error.message : String(error);
+    }
+  }
+
+  buttons.forEach(button => button.addEventListener('click', () => {
+    states[selected] = editor.state;
+    selected = Number(button.dataset.example);
+    editor.setState(states[selected]);
+    buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    render();
+  }));
+
+  async function initialize() {
+    try {
+      const library = await import('../vendor/prosakt/prosakt.mjs');
+      generate = library.generateKotlin;
+      render();
+    } catch {
+      status.textContent = 'The playground could not load. Reload the page to try again.';
+    }
+  }
+  initialize();
+</script>
+
+<style>
+  textarea {
+    display: block;
+    width: 100%;
+    height: 480px;
+    padding: 16px;
+    border: 1px solid var(--page-line);
+    background: var(--page-bg);
+    color: var(--page-text);
+    font: 14px/1.7 ui-monospace, monospace;
+    tab-size: 4;
+    resize: vertical;
+  }
+  textarea[hidden] { display: none; }
+</style>
