@@ -15,6 +15,8 @@ on:
       - 'package.yml'
       - '.github/workflows/website.yml'
   workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -28,7 +30,7 @@ env:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +53,7 @@ jobs:
       - name: Test website
         working-directory: website
         run: bun run test
-      - name: Build website
+      - name: Generate API reference and build website
         working-directory: website
         run: bun --bun run build
       - uses: actions/upload-pages-artifact@v3
