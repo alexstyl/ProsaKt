@@ -45,7 +45,7 @@ button, select { font: inherit; }
 :where(section, main)[id] { scroll-margin-top: 32px; }
 .page-shell { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
 .site-header { position: relative; isolation: isolate; color: var(--brand-ink); display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 96px; }
-.wordmark { font: bold 28px/1 var(--heading-font); letter-spacing: -1px; }
+.wordmark { display: inline-flex; align-items: center; gap: 8px; font: bold 28px/1 var(--heading-font); letter-spacing: -1px; }
 .site-header nav { display: flex; align-items: center; gap: 24px; font-size: 14px; }
 .site-header nav > a:not(.button) { color: var(--brand-ink); font-weight: 600; }
 .site-header::before, .hero::before {

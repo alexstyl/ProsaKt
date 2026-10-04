@@ -2,9 +2,10 @@
 import { Code } from 'astro-expressive-code/components';
 import Hero from '../components/hero.astro';
 import ThemeToggle from '../components/theme-toggle.astro';
+import BrandIcon from '../components/brand-icon.astro';
 import Demo from '../components/demo.astro';
 import Layout from '../layouts/Landing.astro';
-const dependency = 'implementation("com.alexstyl:prosakt:0.1.0")';
+import { dependency } from '../lib/package';
 const usage = `import com.alexstyl.prosakt.ktFile
 
 val source = ktFile {
@@ -30,21 +31,18 @@ val source = ktFile {
         <h3>Automatic imports</h3>
         <p>Reference a qualified type or function. Prosa.kt collects, sorts, and deduplicates its imports,
           and uses qualified names when symbols collide.</p>
-        <a class="text-link" href="/docs/types/">See how imports work <span aria-hidden="true">→</span></a>
       </article>
       <article>
         <span class="section-number" aria-hidden="true">02</span>
         <h3>Escaped literals</h3>
         <p>Pass strings and numbers to <code>literal()</code>. Quotes, backslashes, and dollar signs
           are escaped for the generated Kotlin.</p>
-        <a class="text-link" href="/docs/expressions/">Explore expressions <span aria-hidden="true">→</span></a>
       </article>
       <article>
         <span class="section-number" aria-hidden="true">03</span>
         <h3>Consistent formatting</h3>
         <p>Get consistent indentation and automatic line wrapping for structured expressions.
           Keep generated source readable when reviewing or debugging it.</p>
-        <a class="text-link" href="/docs/files/">See the output rules <span aria-hidden="true">→</span></a>
       </article>
     </div>
   </section>
@@ -69,7 +67,7 @@ val source = ktFile {
       <div>
         <h3><span class="section-number">03</span> Save the generated source</h3>
         <p><code>ktFile</code> returns a string. Save it to a <code>.kt</code> file or pass it to your existing generation pipeline.</p>
-        <a class="text-link" href="/docs/first-file/">Walk through your first file <span aria-hidden="true">→</span></a>
+        <a class="text-link" href="/docs/first-file/">Walk through your first Kotlin file <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -98,7 +96,7 @@ val source = ktFile {
       <details>
         <summary>What license does Prosa.kt use?</summary>
         <p>Prosa.kt is open source under the MIT license. You can use it in personal and commercial projects.
-          <a href="https://github.com/alexstyl/ProsaKt">Browse the source on GitHub.</a></p>
+          <a href="https://github.com/alexstyl/ProsaKt" target="_blank" rel="noopener noreferrer">Browse the source on GitHub.</a></p>
       </details>
     </div>
   </section>
@@ -113,11 +111,11 @@ val source = ktFile {
   </section>
 
   <footer class="site-footer">
-    <a class="wordmark" href="#main">Prosa.kt</a>
-    <p>Built by <a href="https://alexstyl.com">Alex Styl</a>. Open source, MIT licensed.</p>
+    <a class="wordmark" href="#main"><BrandIcon />Prosa.kt</a>
+    <p>Built by <a href="https://alexstyl.com" target="_blank" rel="noopener noreferrer">Alex Styl</a>. Open source, MIT licensed.</p>
     <nav aria-label="Footer navigation">
       <a href="/docs/installation/">Docs</a>
-      <a href="https://github.com/alexstyl/ProsaKt">GitHub</a>
+      <a href="https://github.com/alexstyl/ProsaKt" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="/llms.txt">llms.txt</a>
     </nav>
     <ThemeToggle />

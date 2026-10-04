@@ -1,0 +1,97 @@
+/* Documentation styling, isolated from the landing page. */
+:root {
+  --sl-font: 'Helvetica Neue', Arial, sans-serif;
+  --sl-color-bg: #202329;
+  --sl-color-bg-nav: #ffde00;
+  --sl-color-bg-sidebar: #272727;
+  --sl-color-text: #e5e3df;
+  --sl-color-text-accent: #85cfff;
+  --sl-color-accent: #007bc8;
+  --sl-color-accent-low: #193849;
+  --sl-color-accent-high: #85cfff;
+  --sl-color-hairline-light: #444952;
+  --sl-color-hairline: #444952;
+  --sl-sidebar-width: 17.5rem;
+  --sl-content-width: 48rem;
+  --sl-nav-height: 4.875rem;
+  --sl-text-h1: 2.25rem;
+  --sl-text-h2: 1.625rem;
+  --sl-text-h3: 1.25rem;
+  --sl-line-height: 1.7;
+}
+
+:root[data-theme='light'] {
+  --sl-color-bg: #fff;
+  --sl-color-bg-nav: #ffde00;
+  --sl-color-bg-sidebar: #272727;
+  --sl-color-text: #454545;
+  --sl-color-white: #272727;
+  --sl-color-text-accent: #007bc8;
+  --sl-color-accent: #007bc8;
+  --sl-color-accent-low: #eaf5fb;
+  --sl-color-accent-high: #005f9b;
+  --sl-color-hairline-light: #e7e5df;
+  --sl-color-hairline: #dedcd5;
+  --sl-color-bg-inline-code: #f5f4f0;
+}
+
+.page > .header {
+  color: #24272d;
+  border-bottom: 0;
+}
+
+.header .site-title, .header .social-icons a, .header starlight-theme-select { color: #24272d; }
+.header .social-icons::after { border-color: #cbb300; }
+.header button[data-open-modal] { color: #24272d; background: #fff7bf; border-color: #cbb300; }
+.header button[data-open-modal]:hover { color: #24272d; border-color: #24272d; }
+.header button[data-open-modal] kbd { background: #ffef85; color: #24272d; }
+.header select option { color: #24272d; background: #fff; }
+
+.site-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sidebar-pane {
+  border-inline-end: 0;
+  --sl-color-white: #fff;
+  --sl-color-text: #c5c5c5;
+  --sl-color-gray-2: #b8b8b8;
+  --sl-color-gray-5: #484848;
+  --sl-color-text-accent: #ffde00;
+}
+
+.sidebar-content { padding-top: 1.5rem; }
+.sidebar-content .top-level > li + li { margin-top: 1.75rem; }
+.sidebar-content summary .large {
+  font: 700 1.2rem/1.4 Georgia, 'Times New Roman', serif;
+}
+.sidebar-content summary { color: #b8b8b8; }
+.sidebar-content ul ul li { border-inline-start: 0; margin-inline-start: 0; padding-inline-start: 0; }
+.sidebar-content a { padding-block: 0.35rem; }
+.sidebar-content a[aria-current='page'] {
+  color: #ffde00;
+  background: transparent;
+}
+.sidebar-content a:hover { color: #fff; background: #333; }
+
+h1, .sl-markdown-content :is(h2, h3, h4) {
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.025em;
+}
+.content-panel + .content-panel { border-top: 0; padding-top: 0; }
+.sl-markdown-content a { text-underline-offset: 3px; }
+.sl-markdown-content :not(pre) > code { border-radius: 4px; padding: 0.15em 0.35em; }
+.expressive-code { --ec-brdRad: 8px; --ec-brdCol: var(--sl-color-hairline); }
+.expressive-code .frame { box-shadow: none; }
+.right-sidebar { border-inline-start-color: var(--sl-color-hairline); }
+.right-sidebar h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.pagination-links a { box-shadow: none; border-radius: 8px; }
+.pagination-links a:hover { border-color: var(--sl-color-text-accent); }
+
+@media (max-width: 49.99rem) {
+  :root { --sl-nav-height: 4rem; --sl-text-h1: 2rem; }
+  .site-title { font-size: 1.5rem; }
+}

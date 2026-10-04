@@ -1,77 +1,142 @@
 ---
-title: Your first file
-description: Generate a complete Kotlin file with ktFile, parameters, and a return value.
+title: Your first Kotlin file
+description: Build a Kotlin source file step by step, from a package declaration to a function.
+sidebar:
+  order: 2
 ---
 
-Call `ktFile` with a block describing your declarations. It returns a formatted `String`.
+## 1. Start with ktFile
+
+`ktFile {}` is the entry point to Prosa.kt. Use its block to describe the Kotlin source you want to generate. It returns that source as a `String`.
+
+Use `packageName()` inside the block to specify the generated file’s package:
 
 ```kotlin
 import com.alexstyl.prosakt.ktFile
 
 val source = ktFile {
-    packageName("hello")
-    ktFunction("greet") {
-        parameter("name") {
-            type { reference("String") }
+    packageName("com.example.greetings")
+}
+```
+
+Generated Kotlin:
+
+```kotlin
+package com.example.greetings
+```
+
+This block generates only a package declaration. The resulting string is stored in `source`; `ktFile` does not write a file to disk.
+
+## 2. Add a function that returns a string
+
+Use `ktFunction()` to declare a function, passing its name as the argument.
+
+Use `returns {}` to configure the return type. Inside it, use `type {}` with `reference("String")` to specify `String`.
+
+Use `body {}` to define the function’s body and `literal()` to generate a literal value. Here, `literal("Hello")` supplies the string the function returns:
+
+```kotlin
+val source = ktFile {
+    packageName("com.example.greetings")
+    ktFunction("greeting") {
+        returns {
+            type {
+                reference("String")
+            }
         }
-        returns { type { reference("String") } }
+        body {
+            literal("Hello")
+        }
+    }
+}
+```
+
+Generated Kotlin:
+
+```kotlin
+package com.example.greetings
+
+fun greeting(): String {
+    return "Hello"
+}
+```
+
+With an explicit non-`Unit` return type, Prosa.kt automatically returns the body’s last expression. This function returns `"Hello"`.
+
+## 3. Add a parameter
+
+Use `parameter()` inside `ktFunction {}` to add a parameter to your function, passing its name as the argument. To specify its type, use `type {}` inside the parameter block, then `reference()` to name the type:
+
+```kotlin
+val source = ktFile {
+    packageName("com.example.greetings")
+    ktFunction("greeting") {
+        parameter("name") {
+            type {
+                reference("String")
+            }
+        }
+        returns {
+            type {
+                reference("String")
+            }
+        }
+        body {
+            literal("Hello")
+        }
+    }
+}
+```
+
+Generated Kotlin:
+
+```kotlin
+package com.example.greetings
+
+fun greeting(name: String): String {
+    return "Hello"
+}
+```
+
+The function now accepts a name, but still returns `"Hello"`.
+
+## 4. Use the parameter
+
+Use `plus {}` inside the `literal()` block to append an expression to the string. Inside `plus {}`, use `reference("name")` to refer to the function’s parameter:
+
+```kotlin
+val source = ktFile {
+    packageName("com.example.greetings")
+    ktFunction("greeting") {
+        parameter("name") {
+            type {
+                reference("String")
+            }
+        }
+        returns {
+            type {
+                reference("String")
+            }
+        }
         body {
             literal("Hello, ") {
-                plus { reference("name") }
+                plus {
+                    reference("name")
+                }
             }
         }
     }
 }
 ```
 
-The result:
+Generated Kotlin:
 
 ```kotlin
-package hello
+package com.example.greetings
 
-fun greet(name: String): String {
+fun greeting(name: String): String {
     return "Hello, " + name
 }
 ```
 
-## How the blocks work
-
-- **Declarations** use `ktFunction`, `ktClass`, `ktValue`, and related functions.
-- **Types** are described in `type { }` blocks with `reference` or `function`.
-- **Expressions** use `literal`, `reference`, `call`, and other expression builders.
-- **Bodies** record declarations and expressions in the order you add them.
-
-Builder calls describe generated code; they do not run it. For example, `call("println")` generates a call to `println`.
-
-When a function has an explicit non-`Unit` return type, Prosa.kt adds `return` to its last expression. With no return type, the body emits statements instead. You can also use `returnStatement { ... }` explicitly.
-
-## Use Kotlin to generate Kotlin
-
-The builder is ordinary Kotlin. Loops and conditions in the builder run as part of your generator:
-
-```kotlin
-val source = ktFile {
-    for (name in listOf("first", "second")) {
-        ktValue(name) {
-            initializer { literal(name) }
-        }
-    }
-}
-```
-
-This generates:
-
-```kotlin
-val first = "first"
-val second = "second"
-```
-
-## Save the result
-
-On the JVM you can use your usual file APIs:
-
-```kotlin
-java.io.File("Greeting.kt").writeText(source)
-```
-
-In common code, pass the string to your own platform-specific storage layer. `ktFile` does not require a filename or filesystem.
+`literal("Hello, ")` supplies the greeting text, and `reference("name")` supplies the parameter reference. `plus {}` joins them with `+` in the generated code.

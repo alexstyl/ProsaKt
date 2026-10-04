@@ -1,0 +1,9 @@
+---
+import Head from '@astrojs/starlight/components/Head.astro';
+---
+
+<Head />
+<link rel="alternate" type="text/markdown" href={new URL(`${Astro.url.pathname.replace(/\/$/, '')}.md`, Astro.site)} title="Markdown" />
+<script>
+  import '../lib/external-links';
+</script>
