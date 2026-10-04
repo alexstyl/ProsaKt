@@ -46,7 +46,8 @@ export default defineConfig({
       { label: 'Getting started', items: [
         { label: 'Installation', slug: 'docs/installation' },
         { label: 'Your first Kotlin file', slug: 'docs/first-file' },
-        { label: 'llms.txt', link: '/llms.txt' },
+        { label: 'API Reference', link: new URL('/api/index.html', site).href, attrs: { target: '_blank', rel: 'noopener noreferrer' } },
+        { label: 'llms.txt', link: '/llms.txt', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
       ] },
       { label: 'API guides', items: [
         { label: 'Classes', slug: 'docs/classes' },

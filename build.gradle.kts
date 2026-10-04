@@ -11,6 +11,7 @@ plugins {
     kotlin("multiplatform") version "2.1.20"
     id("com.vanniktech.maven.publish") version "0.35.0"
     id("com.ncorti.ktfmt.gradle") version "0.23.0"
+    id("org.jetbrains.dokka") version "2.2.0"
 }
 
 val packageMetadata =
@@ -131,6 +132,15 @@ mavenPublishing {
 }
 
 ktfmt { kotlinLangStyle() }
+
+dokka {
+    moduleName.set("Prosa.kt")
+    moduleVersion.set(packageMetadata.requiredString("version"))
+    dokkaSourceSets.configureEach {
+        // The browser adapter and platform compilations are not separate library APIs.
+        suppress.set(name != "commonMain")
+    }
+}
 
 tasks.register<Sync>("exportBrowserLibrary") {
     dependsOn("jsBrowserProductionLibraryDistribution")

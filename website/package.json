@@ -5,8 +5,9 @@
   "scripts": {
     "test": "bun test tests",
     "lib:export": "../gradlew -p .. exportBrowserLibrary",
-    "dev": "astro dev --port 3000",
-    "build": "astro build && cp dist/sitemap-index.xml dist/sitemap.xml",
+    "api:generate": "../gradlew -p .. dokkaGeneratePublicationHtml && bun scripts/generate-api.ts",
+    "dev": "bun run api:generate && astro dev --port 3000",
+    "build": "bun run api:generate && astro build && cp dist/sitemap-index.xml dist/sitemap.xml",
     "preview": "astro preview --port 3000",
     "check": "astro check"
   },
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/turndown": "^5.0.6",
+    "linkedom": "^0.18.13",
     "typescript": "^5.9.3"
   }
 }
