@@ -139,3 +139,33 @@ fun printGreeting() {
 ```
 
 For a function without an implementation, set `modifiers = listOf("abstract")` in a valid abstract context, such as an interface.
+
+## Supply named arguments
+
+Use `argument("name") {}` inside `call {}` to name a value argument. The block supplies its value using `literal()`, `reference()`, or another expression. This overload is available in the development version, after `0.1.1`.
+
+```kotlin
+import com.alexstyl.prosakt.ktFile
+
+val source = ktFile {
+    ktValue("message") {
+        initializer {
+            call("greeting") {
+                argument("name") { literal("Alex") }
+            }
+        }
+    }
+}
+```
+
+Generated Kotlin:
+
+```kotlin
+val message = greeting(name = "Alex")
+```
+
+`argument { name = "name"; literal("Alex") }` remains supported and produces the same output. Use `argument { literal("Alex") }` for a positional argument. Arguments retain their declared order, and Kotlin keywords used as names are escaped automatically.
+
+Named arguments must contain a value, not a `type {}` block. If the block also assigns `name`, it must match the name passed to `argument()`.
+
+The same overload is available inside [file annotation blocks](/docs/annotations/#annotate-the-file).

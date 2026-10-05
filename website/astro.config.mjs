@@ -50,6 +50,7 @@ export default defineConfig({
         { label: 'llms.txt', link: '/llms.txt', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
       ] },
       { label: 'API guides', items: [
+        { label: 'Files', slug: 'docs/files' },
         { label: 'Classes', slug: 'docs/classes' },
         { label: 'Interfaces', slug: 'docs/interfaces' },
         { label: 'Objects', slug: 'docs/objects' },
