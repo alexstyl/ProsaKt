@@ -103,6 +103,38 @@ interface Named
 interface Names : List<String>, Named
 ```
 
+## Call a superclass constructor
+
+Use `superclass("Base")` inside `ktClass {}` or `ktObject {}` to inherit from a class and call its constructor. Without a block, the call has no arguments. Inside the optional block, use `argument()` to supply constructor values or generic type arguments, as with ordinary function calls.
+
+```kotlin
+import com.alexstyl.prosakt.ktFile
+
+val source = ktFile {
+    ktClass("Child") {
+        supertype { reference("example.Marker") }
+        superclass("example.Base") {
+            argument("name") { literal("Alex") }
+        }
+    }
+    ktObject("Default") {
+        superclass("example.Base")
+    }
+}
+```
+
+Generated Kotlin:
+
+```kotlin
+import example.Base
+import example.Marker
+
+class Child : Base(name = "Alex"), Marker
+object Default : Base()
+```
+
+The superclass appears before implemented interfaces. Only one superclass can be configured per declaration. `Base` must be inheritable and expose a matching constructor. Available since `0.2.0`.
+
 ## Current limits
 
-`supertype {}` emits a type reference after the declaration's colon. Superclass constructor calls, such as `Base(value)` or `Base()`, and supertype delegation, such as `Service by delegate`, are not supported yet. Kotlin's inheritance rules still apply to the generated code.
+Use `supertype {}` for type references and `superclass()` for superclass constructor calls. Supertype delegation, such as `Service by delegate`, is not supported yet. Kotlin's inheritance rules still apply to the generated code.
