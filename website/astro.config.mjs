@@ -53,6 +53,7 @@ export default defineConfig({
         { label: 'Classes', slug: 'docs/classes' },
         { label: 'Interfaces', slug: 'docs/interfaces' },
         { label: 'Objects', slug: 'docs/objects' },
+        { label: 'Inheritance', slug: 'docs/inheritance' },
         { label: 'Functions', slug: 'docs/functions' },
         { label: 'Values and Variables', slug: 'docs/properties' },
         { label: 'Types', slug: 'docs/types' },
