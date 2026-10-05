@@ -398,6 +398,12 @@ open class MemberScope internal constructor() : DeclarationContainerScope() {
     fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) =
         code.defineObject(name, configure)
 
+    private val supertypes = mutableListOf<TypeReference>()
+
+    fun supertype(body: TypeScope.() -> Unit) {
+        supertypes += type(body)
+    }
+
     internal open fun constructorHeader(c: RenderContext): Document = text("")
 
     internal fun render(kind: String, name: String?, c: RenderContext): Document {
@@ -405,7 +411,9 @@ open class MemberScope internal constructor() : DeclarationContainerScope() {
             annotations.map { text("@${c.symbol(it)}") + hardLine }.joined(text("")) +
                 declarationModifiers(visibility, modifiers)
         val header =
-            prefix + kind + (name?.let { " ${identifier(it)}" } ?: "") + constructorHeader(c)
+            prefix + kind + (name?.let { " ${identifier(it)}" } ?: "") + constructorHeader(c) +
+                if (supertypes.isEmpty()) text("")
+                else text(" : ") + supertypes.map { it.render(c) }.joined(text(", "))
         val contents = code.render(c)
         return if (code.isEmpty) header else block(header, contents)
     }
