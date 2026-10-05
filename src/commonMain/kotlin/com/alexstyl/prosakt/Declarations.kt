@@ -494,17 +494,38 @@ class FileScope internal constructor() : DeclarationContainerScope() {
     fun ktObject(name: String, configure: ObjectScope.() -> Unit = {}) =
         code.defineObject(name, configure)
 
+    internal var leadingComments: Document? = null
+    internal var packageComments: Document? = null
+    internal val annotationComments = mutableListOf<Document?>()
+    internal val importComments = mutableMapOf<String, Document>()
+    private var hasFileDirective = false
+
+    private fun takeComments(): Document? {
+        val comments = code.takeFileComments()
+        if (hasFileDirective.not()) {
+            hasFileDirective = true
+            leadingComments = comments
+            return null
+        }
+        return comments
+    }
+
     internal val explicitImports = linkedSetOf<String>()
     internal val fileAnnotations = mutableListOf<Pair<String, AnnotationScope>>()
 
     fun ktImport(name: String) {
         require(name.isNotBlank()) { "Import name cannot be blank" }
+        takeComments()?.let { comments ->
+            importComments[name] = importComments[name]?.let { it + hardLine + comments } ?: comments
+        }
         explicitImports += name
     }
 
     fun ktFileAnnotation(name: String, configure: AnnotationScope.() -> Unit = {}) {
         require(name.isNotBlank()) { "Annotation name cannot be blank" }
-        fileAnnotations += name to AnnotationScope().apply(configure)
+        val annotation = AnnotationScope().apply(configure)
+        annotationComments += takeComments()
+        fileAnnotations += name to annotation
     }
 
     internal var packageValue: String? = null
@@ -512,6 +533,7 @@ class FileScope internal constructor() : DeclarationContainerScope() {
     fun packageName(name: String) {
         require(name.isNotBlank()) { "Package name cannot be blank" }
         check(packageValue == null) { "Package name has already been declared" }
+        packageComments = takeComments()
         packageValue = name
     }
 }
@@ -524,17 +546,26 @@ fun ktFile(body: FileScope.() -> Unit): String {
     context.collecting = false
     val code = scope.code.render(context)
     val sections = mutableListOf<Document>()
+    scope.leadingComments?.let { sections += it }
     if (scope.fileAnnotations.isNotEmpty()) {
         sections +=
             scope.fileAnnotations
-                .map { (name, annotation) -> text("@file:") + annotation.render(name, context) }
+                .mapIndexed { index, (name, annotation) ->
+                    (scope.annotationComments[index]?.let { it + hardLine } ?: text("")) +
+                        text("@file:") + annotation.render(name, context)
+                }
                 .joined(hardLine)
     }
     scope.packageValue?.let {
+        scope.packageComments?.let { sections += it }
         sections += text("package ${it.split('.').joinToString(".", transform = ::identifier)}")
     }
     val imports = context.imports()
-    if (imports.isNotEmpty()) sections += imports.map { text("import $it") }.joined(hardLine)
+    if (imports.isNotEmpty()) {
+        sections += imports.map {
+            (scope.importComments[it]?.let { it + hardLine } ?: text("")) + text("import $it")
+        }.joined(hardLine)
+    }
     sections += code
     return (sections.joined(hardLine + hardLine) + hardLine).print()
 }

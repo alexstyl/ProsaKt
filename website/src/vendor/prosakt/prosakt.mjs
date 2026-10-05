@@ -12,6 +12,8 @@ import {
   addAll1k27qatfgp3k5 as addAll,
   checkIndexOverflow3frtmheghr0th as checkIndexOverflow,
   coerceAtLeast2bkz8m9ik7hep as coerceAtLeast,
+  Collection1k04j3hzsbod0 as Collection,
+  isInterface3d6p8outrmvmk as isInterface,
   THROW_IAE23kobfj9wdoxr as THROW_IAE,
   Enum3alwj03lh1n41 as Enum,
   listOfNotNull1v4ggfackvuny as listOfNotNull,
@@ -24,8 +26,6 @@ import {
   substringAfterLast3r0t0my8cpqhk as substringAfterLast,
   charArrayOf27f4r3dozbrk1 as charArrayOf,
   split3d3yeauc4rm2n as split,
-  Collection1k04j3hzsbod0 as Collection,
-  isInterface3d6p8outrmvmk as isInterface,
   emptySetcxexqki71qfa as emptySet,
   contains2el4s70rdq4ld as contains,
   substringBeforeLastqh7oeuvefdek as substringBeforeLast,
@@ -37,6 +37,7 @@ import {
   emptyList1g2z5xcrvp2zy as emptyList,
   IllegalStateException_init_$Create$3ib9qa3pip8n4 as IllegalStateException_init_$Create$,
   toList3jhuyej2anx2q as toList,
+  LinkedHashMap_init_$Create$1p3p95clvi93w as LinkedHashMap_init_$Create$,
   isBlank1dvkhjjvox3p0 as isBlank,
   to2cs3ny02qtbcb as to,
   initMetadataForInterface1egvbzx539z91 as initMetadataForInterface,
@@ -115,7 +116,7 @@ function nullValue$default(chain, $super) {
   chain = tmp;
   var tmp_0;
   if ($super === VOID) {
-    this.ob(chain);
+    this.nc(chain);
     tmp_0 = Unit_instance;
   } else {
     nullValue(chain);
@@ -130,7 +131,7 @@ function chain(body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ChainScope(null, this instanceof BlockScope);
   body(this_0);
-  accept(this, this_0.af());
+  accept(this, this_0.gg());
 }
 function lambdaExpression(body) {
   accept(this, buildLambda(body));
@@ -139,7 +140,7 @@ function ifExpression(configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new IfExpressionScope();
   configure(this_0);
-  accept(this, this_0.ga());
+  accept(this, this_0.fb());
 }
 initMetadataForInterface(ExpressionScope, 'ExpressionScope');
 initMetadataForClass(BlockScope, 'BlockScope', VOID, DeclarationContainerScope, [DeclarationContainerScope, ExpressionScope]);
@@ -180,12 +181,14 @@ initMetadataForClass(AnnotationScope, 'AnnotationScope');
 initMetadataForClass(CallScope, 'CallScope');
 initMetadataForClass(IfExpressionScope, 'IfExpressionScope');
 //endregion
-function Entry(expression, blank, code) {
+function Entry(expression, blank, comment, code) {
   expression = expression === VOID ? null : expression;
   blank = blank === VOID ? false : blank;
-  this.p7_1 = expression;
-  this.q7_1 = blank;
-  this.r7_1 = code;
+  comment = comment === VOID ? false : comment;
+  this.l8_1 = expression;
+  this.m8_1 = blank;
+  this.n8_1 = comment;
+  this.o8_1 = code;
 }
 function property($this, keyword, name, configure) {
   // Inline function 'kotlin.apply' call
@@ -193,8 +196,8 @@ function property($this, keyword, name, configure) {
   configure(this_0);
   var property = this_0;
   // Inline function 'kotlin.collections.plusAssign' call
-  $this.t7_1.e(name);
-  $this.u7(CodeBuilder$property$lambda(property, keyword, name));
+  $this.q8_1.e(name);
+  $this.r8(CodeBuilder$property$lambda(property, keyword, name));
 }
 function container($this, kind, name, scope) {
   if (name == null)
@@ -202,13 +205,13 @@ function container($this, kind, name, scope) {
   else {
     // Inline function 'kotlin.let' call
     // Inline function 'kotlin.collections.plusAssign' call
-    $this.t7_1.e(name);
+    $this.q8_1.e(name);
   }
-  $this.u7(CodeBuilder$container$lambda(scope, kind, name));
+  $this.r8(CodeBuilder$container$lambda(scope, kind, name));
 }
 function CodeBuilder$expression$lambda($expression) {
   return function (c) {
-    return $expression.y7(c);
+    return $expression.v8(c);
   };
 }
 function CodeBuilder$line$lambda(it) {
@@ -247,7 +250,7 @@ function CodeBuilder$returnStatement$lambda($label, $expression) {
       tmp_1 = null;
     } else {
       // Inline function 'kotlin.let' call
-      tmp_1 = plus_1(text(' '), tmp2_safe_receiver.y7(c));
+      tmp_1 = plus_1(text(' '), tmp2_safe_receiver.v8(c));
     }
     var tmp3_elvis_lhs = tmp_1;
     return plus_1(tmp_0, tmp3_elvis_lhs == null ? text('') : tmp3_elvis_lhs);
@@ -255,66 +258,66 @@ function CodeBuilder$returnStatement$lambda($label, $expression) {
 }
 function CodeBuilder$property$lambda($property, $keyword, $name) {
   return function (c) {
-    return $property.g8($keyword, $name, c);
+    return $property.d9($keyword, $name, c);
   };
 }
 function CodeBuilder$function$lambda($function, $name) {
   return function (c) {
-    return $function.n8($name, c);
+    return $function.k9($name, c);
   };
 }
 function CodeBuilder$container$lambda($scope, $kind, $name) {
   return function (c) {
-    return $scope.s8($kind, $name, c);
+    return $scope.q9($kind, $name, c);
   };
 }
 function CodeBuilder() {
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.s7_1 = ArrayList_init_$Create$_0();
+  tmp.p8_1 = ArrayList_init_$Create$_0();
   var tmp_0 = this;
   // Inline function 'kotlin.collections.mutableSetOf' call
-  tmp_0.t7_1 = LinkedHashSet_init_$Create$();
+  tmp_0.q8_1 = LinkedHashSet_init_$Create$();
 }
-protoOf(CodeBuilder).t8 = function () {
-  return this.s7_1.j() === 1 && !(single(this.s7_1).p7_1 == null);
+protoOf(CodeBuilder).r9 = function () {
+  return this.p8_1.j() === 1 && !(single(this.p8_1).l8_1 == null);
 };
-protoOf(CodeBuilder).u8 = function () {
-  return this.s7_1.e1();
+protoOf(CodeBuilder).s9 = function () {
+  return this.p8_1.e1();
 };
-protoOf(CodeBuilder).v8 = function (expression) {
-  var tmp2 = this.s7_1;
+protoOf(CodeBuilder).t9 = function (expression) {
+  var tmp2 = this.p8_1;
   // Inline function 'kotlin.takeUnless' call
   var tmp;
-  if (!expression.w7_1) {
+  if (!expression.t8_1) {
     tmp = expression;
   } else {
     tmp = null;
   }
   var tmp_0 = tmp;
   // Inline function 'kotlin.collections.plusAssign' call
-  var element = new Entry(tmp_0, VOID, CodeBuilder$expression$lambda(expression));
+  var element = new Entry(tmp_0, VOID, VOID, CodeBuilder$expression$lambda(expression));
   tmp2.e(element);
 };
-protoOf(CodeBuilder).u7 = function (code) {
-  var tmp0 = this.s7_1;
+protoOf(CodeBuilder).r8 = function (code) {
+  var tmp0 = this.p8_1;
   // Inline function 'kotlin.collections.plusAssign' call
-  var element = new Entry(VOID, VOID, code);
+  var element = new Entry(VOID, VOID, VOID, code);
   tmp0.e(element);
 };
-protoOf(CodeBuilder).w8 = function (c, returns) {
-  var tmp0 = c.a9_1;
+protoOf(CodeBuilder).u9 = function (c, returns) {
+  var tmp0 = c.y9_1;
   // Inline function 'kotlin.collections.plusAssign' call
-  var elements = this.t7_1;
+  var elements = this.q8_1;
   addAll(tmp0, elements);
-  var tmp2 = this.s7_1;
+  var tmp2 = this.p8_1;
   var tmp$ret$2;
   $l$block: {
     // Inline function 'kotlin.collections.indexOfLast' call
     var iterator = tmp2.g1(tmp2.j());
-    while (iterator.p2()) {
-      if (!iterator.r2().q7_1) {
-        tmp$ret$2 = iterator.q2();
+    while (iterator.u2()) {
+      if (!iterator.w2().m8_1) {
+        tmp$ret$2 = iterator.v2();
         break $l$block;
       }
     }
@@ -322,7 +325,7 @@ protoOf(CodeBuilder).w8 = function (c, returns) {
   }
   var last = tmp$ret$2;
   // Inline function 'kotlin.collections.mapIndexed' call
-  var this_0 = this.s7_1;
+  var this_0 = this.p8_1;
   // Inline function 'kotlin.collections.mapIndexedTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var index = 0;
@@ -332,22 +335,22 @@ protoOf(CodeBuilder).w8 = function (c, returns) {
     var _unary__edvuaz = index;
     index = _unary__edvuaz + 1 | 0;
     var index_0 = checkIndexOverflow(_unary__edvuaz);
-    var tmp$ret$3 = returns && index_0 === last && !(item.p7_1 == null) ? plus_1(text('return '), item.p7_1.y7(c)) : item.r7_1(c);
+    var tmp$ret$3 = returns && index_0 === last && !(item.l8_1 == null) ? plus_1(text('return '), item.l8_1.v8(c)) : item.o8_1(c);
     destination.e(tmp$ret$3);
   }
   return joined(destination, get_hardLine());
 };
-protoOf(CodeBuilder).c9 = function (c, returns, $super) {
+protoOf(CodeBuilder).aa = function (c, returns, $super) {
   returns = returns === VOID ? false : returns;
-  return $super === VOID ? this.w8(c, returns) : $super.w8.call(this, c, returns);
+  return $super === VOID ? this.u9(c, returns) : $super.u9.call(this, c, returns);
 };
-protoOf(CodeBuilder).d9 = function () {
-  var tmp0 = this.s7_1;
+protoOf(CodeBuilder).ba = function () {
+  var tmp0 = this.p8_1;
   // Inline function 'kotlin.collections.plusAssign' call
-  var element = new Entry(VOID, true, CodeBuilder$line$lambda);
+  var element = new Entry(VOID, true, VOID, CodeBuilder$line$lambda);
   tmp0.e(element);
 };
-protoOf(CodeBuilder).e9 = function (count) {
+protoOf(CodeBuilder).ca = function (count) {
   // Inline function 'kotlin.repeat' call
   var times = coerceAtLeast(count, 0);
   var inductionVariable = 0;
@@ -355,51 +358,101 @@ protoOf(CodeBuilder).e9 = function (count) {
     do {
       var index = inductionVariable;
       inductionVariable = inductionVariable + 1 | 0;
-      this.d9();
+      this.ba();
     }
      while (inductionVariable < times);
 };
-protoOf(CodeBuilder).f9 = function (text) {
-  this.u7(CodeBuilder$comment$lambda(text));
+protoOf(CodeBuilder).da = function (text) {
+  var tmp0 = this.p8_1;
+  // Inline function 'kotlin.collections.plusAssign' call
+  var element = new Entry(VOID, VOID, true, CodeBuilder$comment$lambda(text));
+  tmp0.e(element);
 };
-protoOf(CodeBuilder).g9 = function (expression, label) {
-  this.u7(CodeBuilder$returnStatement$lambda(label, expression));
+protoOf(CodeBuilder).ea = function () {
+  var tmp;
+  if (this.p8_1.e1()) {
+    tmp = true;
+  } else {
+    var tmp0 = this.p8_1;
+    var tmp$ret$0;
+    $l$block_0: {
+      // Inline function 'kotlin.collections.any' call
+      var tmp_0;
+      if (isInterface(tmp0, Collection)) {
+        tmp_0 = tmp0.e1();
+      } else {
+        tmp_0 = false;
+      }
+      if (tmp_0) {
+        tmp$ret$0 = false;
+        break $l$block_0;
+      }
+      var _iterator__ex2g4s = tmp0.g();
+      while (_iterator__ex2g4s.h()) {
+        var element = _iterator__ex2g4s.i();
+        if (!element.n8_1 && !element.m8_1) {
+          tmp$ret$0 = true;
+          break $l$block_0;
+        }
+      }
+      tmp$ret$0 = false;
+    }
+    tmp = tmp$ret$0;
+  }
+  if (tmp)
+    return null;
+  // Inline function 'kotlin.collections.map' call
+  var this_0 = this.p8_1;
+  // Inline function 'kotlin.collections.mapTo' call
+  var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
+  var _iterator__ex2g4s_0 = this_0.g();
+  while (_iterator__ex2g4s_0.h()) {
+    var item = _iterator__ex2g4s_0.i();
+    var tmp$ret$2 = item.o8_1(new RenderContext(null));
+    destination.e(tmp$ret$2);
+  }
+  var comments = joined(destination, get_hardLine());
+  this.p8_1.z2();
+  return comments;
 };
-protoOf(CodeBuilder).h9 = function (name, configure) {
+protoOf(CodeBuilder).fa = function (expression, label) {
+  this.r8(CodeBuilder$returnStatement$lambda(label, expression));
+};
+protoOf(CodeBuilder).ga = function (name, configure) {
   property(this, 'val', name, configure);
 };
-protoOf(CodeBuilder).i9 = function (name, configure) {
+protoOf(CodeBuilder).ha = function (name, configure) {
   property(this, 'var', name, configure);
 };
-protoOf(CodeBuilder).j9 = function (name, configure) {
+protoOf(CodeBuilder).ia = function (name, configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new FunctionScope();
   configure(this_0);
   var function_0 = this_0;
   // Inline function 'kotlin.collections.plusAssign' call
-  this.t7_1.e(name);
-  this.u7(CodeBuilder$function$lambda(function_0, name));
+  this.q8_1.e(name);
+  this.r8(CodeBuilder$function$lambda(function_0, name));
 };
-protoOf(CodeBuilder).k9 = function (name, configure) {
+protoOf(CodeBuilder).ja = function (name, configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ClassScope();
   configure(this_0);
   var scope = this_0;
   container(this, 'class', name, scope);
 };
-protoOf(CodeBuilder).l9 = function (name, configure) {
+protoOf(CodeBuilder).ka = function (name, configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new InterfaceScope();
   configure(this_0);
   container(this, 'interface', name, this_0);
 };
-protoOf(CodeBuilder).m9 = function (name, configure) {
+protoOf(CodeBuilder).la = function (name, configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ObjectScope();
   configure(this_0);
   container(this, 'object', name, this_0);
 };
-protoOf(CodeBuilder).n9 = function (name, configure) {
+protoOf(CodeBuilder).ma = function (name, configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ObjectScope();
   configure(this_0);
@@ -442,11 +495,11 @@ function Visibility_initEntries() {
 }
 function Visibility(name, ordinal, keyword) {
   Enum.call(this, name, ordinal);
-  this.q9_1 = keyword;
+  this.pa_1 = keyword;
 }
 function declarationModifiers(visibility, modifiers) {
   _init_properties_Declarations_kt__5banjb();
-  var tmp = plus(listOfNotNull(visibility == null ? null : visibility.q9_1), modifiers);
+  var tmp = plus(listOfNotNull(visibility == null ? null : visibility.pa_1), modifiers);
   return joinToString(tmp, '', VOID, VOID, VOID, VOID, declarationModifiers$lambda);
 }
 function identifier(name) {
@@ -460,7 +513,7 @@ function identifier(name) {
       tmp_0 = true;
     } else {
       // Inline function 'kotlin.text.matches' call
-      tmp_0 = !Regex_init_$Create$('[A-Za-z_][A-Za-z0-9_]*').m5(name);
+      tmp_0 = !Regex_init_$Create$('[A-Za-z_][A-Za-z0-9_]*').i6(name);
     }
     if (tmp_0) {
       tmp = '`' + name + '`';
@@ -479,10 +532,10 @@ function qualified($this, name) {
 }
 function collision($this, name) {
   var tmp;
-  if ($this.a9_1.f1(short($this, name))) {
+  if ($this.y9_1.f1(short($this, name))) {
     tmp = true;
   } else {
-    var tmp0 = $this.z8_1;
+    var tmp0 = $this.x9_1;
     var tmp$ret$0;
     $l$block_0: {
       // Inline function 'kotlin.collections.any' call
@@ -519,42 +572,42 @@ function identifier$ref() {
 }
 function RenderContext(packageName, explicitImports) {
   explicitImports = explicitImports === VOID ? emptySet() : explicitImports;
-  this.x8_1 = packageName;
-  this.y8_1 = explicitImports;
+  this.v9_1 = packageName;
+  this.w9_1 = explicitImports;
   var tmp = this;
   // Inline function 'kotlin.collections.linkedSetOf' call
   // Inline function 'kotlin.apply' call
   var this_0 = LinkedHashSet_init_$Create$();
-  this_0.o(this.y8_1);
-  tmp.z8_1 = this_0;
+  this_0.o(this.w9_1);
+  tmp.x9_1 = this_0;
   var tmp_0 = this;
   // Inline function 'kotlin.collections.mutableSetOf' call
-  tmp_0.a9_1 = LinkedHashSet_init_$Create$();
-  this.b9_1 = true;
+  tmp_0.y9_1 = LinkedHashSet_init_$Create$();
+  this.z9_1 = true;
 }
-protoOf(RenderContext).r9 = function (name) {
+protoOf(RenderContext).qa = function (name) {
   if (!contains(name, _Char___init__impl__6a9atx(46)))
     return identifier(name);
   // Inline function 'kotlin.collections.plusAssign' call
-  this.z8_1.e(name);
-  if (!this.b9_1 && collision(this, name))
+  this.x9_1.e(name);
+  if (!this.z9_1 && collision(this, name))
     return qualified(this, name);
   return identifier(short(this, name));
 };
-protoOf(RenderContext).s9 = function () {
+protoOf(RenderContext).ra = function () {
   // Inline function 'kotlin.collections.filter' call
-  var tmp0 = this.z8_1;
+  var tmp0 = this.x9_1;
   // Inline function 'kotlin.collections.filterTo' call
   var destination = ArrayList_init_$Create$_0();
   var _iterator__ex2g4s = tmp0.g();
   while (_iterator__ex2g4s.h()) {
     var element = _iterator__ex2g4s.i();
-    if (!(substringBeforeLast(element, _Char___init__impl__6a9atx(46)) === this.x8_1) && !collision(this, element) && !setOf(['kotlin', 'kotlin.collections']).f1(substringBeforeLast(element, _Char___init__impl__6a9atx(46)))) {
+    if (!(substringBeforeLast(element, _Char___init__impl__6a9atx(46)) === this.v9_1) && !collision(this, element) && !setOf(['kotlin', 'kotlin.collections']).f1(substringBeforeLast(element, _Char___init__impl__6a9atx(46)))) {
       destination.e(element);
     }
   }
   // Inline function 'kotlin.collections.map' call
-  var this_0 = sorted(distinct(plus(destination, this.y8_1)));
+  var this_0 = sorted(distinct(plus(destination, this.w9_1)));
   // Inline function 'kotlin.collections.mapTo' call
   var destination_0 = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var _iterator__ex2g4s_0 = this_0.g();
@@ -566,20 +619,20 @@ protoOf(RenderContext).s9 = function () {
   return destination_0;
 };
 function TypeReference(code) {
-  this.t9_1 = code;
+  this.sa_1 = code;
 }
-protoOf(TypeReference).u9 = function (c) {
-  return this.t9_1(c);
+protoOf(TypeReference).ta = function (c) {
+  return this.sa_1(c);
 };
 function TypeScope$build$lambda$lambda($c) {
   return function (it) {
-    return '@' + $c.r9(it) + ' ';
+    return '@' + $c.qa(it) + ' ';
   };
 }
 function TypeScope$build$lambda($signature, $name, $arguments, $annotations, $nullable) {
   return function (c) {
     var tmp0_safe_receiver = $signature;
-    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.u9(c);
+    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.ta(c);
     var tmp;
     if (tmp1_elvis_lhs == null) {
       // Inline function 'kotlin.requireNotNull' call
@@ -596,7 +649,7 @@ function TypeScope$build$lambda($signature, $name, $arguments, $annotations, $nu
         }
       }
       var tmp$ret$2 = tmp$ret$1;
-      var tmp_0 = text(c.r9(tmp$ret$2));
+      var tmp_0 = text(c.qa(tmp$ret$2));
       var tmp_1;
       if ($arguments.e1()) {
         tmp_1 = text('');
@@ -608,7 +661,7 @@ function TypeScope$build$lambda($signature, $name, $arguments, $annotations, $nu
         var _iterator__ex2g4s = this_0.g();
         while (_iterator__ex2g4s.h()) {
           var item = _iterator__ex2g4s.i();
-          var tmp$ret$3 = item.u9(c);
+          var tmp$ret$3 = item.ta(c);
           destination.e(tmp$ret$3);
         }
         tmp_1 = delimited('<', destination, '>');
@@ -622,31 +675,31 @@ function TypeScope$build$lambda($signature, $name, $arguments, $annotations, $nu
   };
 }
 function TypeScope() {
-  this.v9_1 = false;
-  this.w9_1 = emptyList();
-  this.x9_1 = null;
-  this.y9_1 = null;
+  this.ua_1 = false;
+  this.va_1 = emptyList();
+  this.wa_1 = null;
+  this.xa_1 = null;
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.z9_1 = ArrayList_init_$Create$_0();
+  tmp.ya_1 = ArrayList_init_$Create$_0();
 }
-protoOf(TypeScope).aa = function (name) {
+protoOf(TypeScope).za = function (name) {
   // Inline function 'kotlin.check' call
-  if (!(this.x9_1 == null && this.y9_1 == null)) {
+  if (!(this.wa_1 == null && this.xa_1 == null)) {
     var message = 'Type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.x9_1 = name;
+  this.wa_1 = name;
 };
-protoOf(TypeScope).ba = function (body) {
+protoOf(TypeScope).ab = function (body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ArgumentScope();
   body(this_0);
   // Inline function 'kotlin.also' call
-  this_0.fa();
+  this_0.eb();
   var argument = this_0;
-  var tmp4 = this.z9_1;
-  var tmp3 = argument.ea_1;
+  var tmp4 = this.ya_1;
+  var tmp3 = argument.db_1;
   var tmp$ret$4;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -662,38 +715,38 @@ protoOf(TypeScope).ba = function (body) {
   var element = tmp$ret$4;
   tmp4.e(element);
 };
-protoOf(TypeScope).ga = function () {
-  var name = this.x9_1;
-  var function_0 = this.y9_1;
+protoOf(TypeScope).fb = function () {
+  var name = this.wa_1;
+  var function_0 = this.xa_1;
   // Inline function 'kotlin.check' call
   if (!(!(name == null) || !(function_0 == null))) {
     var message = 'Type must define a reference or function';
     throw IllegalStateException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.check' call
-  if (!(function_0 == null || this.z9_1.e1())) {
+  if (!(function_0 == null || this.ya_1.e1())) {
     var message_0 = 'Function types cannot have generic arguments';
     throw IllegalStateException_init_$Create$(toString(message_0));
   }
-  var arguments_0 = toList(this.z9_1);
-  var nullable = this.v9_1;
-  var annotations = toList(this.w9_1);
-  var signature = function_0 == null ? null : function_0.ga();
+  var arguments_0 = toList(this.ya_1);
+  var nullable = this.ua_1;
+  var annotations = toList(this.va_1);
+  var signature = function_0 == null ? null : function_0.fb();
   return new TypeReference(TypeScope$build$lambda(signature, name, arguments_0, annotations, nullable));
 };
 function TypeSlotScope() {
-  this.ka_1 = null;
+  this.jb_1 = null;
 }
-protoOf(TypeSlotScope).la = function (body) {
+protoOf(TypeSlotScope).kb = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.ka_1 == null)) {
+  if (!(this.jb_1 == null)) {
     var message = 'Type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.ka_1 = type(body);
+  this.jb_1 = type(body);
 };
-protoOf(TypeSlotScope).ga = function () {
-  var tmp0 = this.ka_1;
+protoOf(TypeSlotScope).fb = function () {
+  var tmp0 = this.jb_1;
   var tmp$ret$1;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -708,12 +761,12 @@ protoOf(TypeSlotScope).ga = function () {
   return tmp$ret$1;
 };
 function FunctionTypeScope$build$lambda($this$type) {
-  $this$type.aa('Unit');
+  $this$type.za('Unit');
   return Unit_instance;
 }
 function FunctionTypeScope$build$lambda$lambda($c) {
   return function (it) {
-    return '@' + $c.r9(it) + ' ';
+    return '@' + $c.qa(it) + ' ';
   };
 }
 function FunctionTypeScope$build$lambda_0($annotations, $parameters, $result) {
@@ -726,8 +779,8 @@ function FunctionTypeScope$build$lambda_0($annotations, $parameters, $result) {
     var _iterator__ex2g4s = this_0.g();
     while (_iterator__ex2g4s.h()) {
       var item = _iterator__ex2g4s.i();
-      var name = item.m7();
-      var type = item.n7();
+      var name = item.i8();
+      var type = item.j8();
       var tmp_0;
       if (name == null) {
         tmp_0 = null;
@@ -736,10 +789,10 @@ function FunctionTypeScope$build$lambda_0($annotations, $parameters, $result) {
         tmp_0 = identifier(name) + ': ';
       }
       var tmp1_elvis_lhs = tmp_0;
-      var tmp$ret$2 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), type.u9(c));
+      var tmp$ret$2 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), type.ta(c));
       destination.e(tmp$ret$2);
     }
-    return plus_1(plus_2(plus_1(tmp, delimited('(', destination, ')')), ' -> '), $result.u9(c));
+    return plus_1(plus_2(plus_1(tmp, delimited('(', destination, ')')), ' -> '), $result.ta(c));
   };
 }
 function type(body) {
@@ -747,70 +800,70 @@ function type(body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new TypeScope();
   body(this_0);
-  return this_0.ga();
+  return this_0.fb();
 }
 function Parameter$render$lambda(it) {
   return it + ' ';
 }
 function Parameter(name, type, initializer, property, modifiers) {
-  this.ma_1 = name;
-  this.na_1 = type;
-  this.oa_1 = initializer;
-  this.pa_1 = property;
-  this.qa_1 = modifiers;
+  this.lb_1 = name;
+  this.mb_1 = type;
+  this.nb_1 = initializer;
+  this.ob_1 = property;
+  this.pb_1 = modifiers;
 }
-protoOf(Parameter).u9 = function (c) {
-  var tmp = plus(this.qa_1, listOfNotNull(this.pa_1));
-  var tmp_0 = text(joinToString(tmp, '', VOID, VOID, VOID, VOID, Parameter$render$lambda) + identifier(this.ma_1));
-  var tmp0_safe_receiver = this.na_1;
+protoOf(Parameter).ta = function (c) {
+  var tmp = plus(this.pb_1, listOfNotNull(this.ob_1));
+  var tmp_0 = text(joinToString(tmp, '', VOID, VOID, VOID, VOID, Parameter$render$lambda) + identifier(this.lb_1));
+  var tmp0_safe_receiver = this.mb_1;
   var tmp_1;
   if (tmp0_safe_receiver == null) {
     tmp_1 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_1 = plus_1(text(': '), tmp0_safe_receiver.u9(c));
+    tmp_1 = plus_1(text(': '), tmp0_safe_receiver.ta(c));
   }
   var tmp1_elvis_lhs = tmp_1;
   var tmp_2 = plus_1(tmp_0, tmp1_elvis_lhs == null ? text('') : tmp1_elvis_lhs);
-  var tmp2_safe_receiver = this.oa_1;
+  var tmp2_safe_receiver = this.nb_1;
   var tmp_3;
   if (tmp2_safe_receiver == null) {
     tmp_3 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_3 = plus_1(text(' = '), tmp2_safe_receiver.y7(c));
+    tmp_3 = plus_1(text(' = '), tmp2_safe_receiver.v8(c));
   }
   var tmp3_elvis_lhs = tmp_3;
   return plus_1(tmp_2, tmp3_elvis_lhs == null ? text('') : tmp3_elvis_lhs);
 };
 function ParameterScope() {
-  this.ra_1 = null;
-  this.sa_1 = null;
+  this.qb_1 = null;
+  this.rb_1 = null;
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.ta_1 = ArrayList_init_$Create$_0();
+  tmp.sb_1 = ArrayList_init_$Create$_0();
 }
-protoOf(ParameterScope).la = function (body) {
+protoOf(ParameterScope).kb = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.ra_1 == null)) {
+  if (!(this.qb_1 == null)) {
     var message = 'Parameter type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.ra_1 = type(body);
+  this.qb_1 = type(body);
 };
-protoOf(ParameterScope).ua = function (body) {
-  this.sa_1 = expression(body);
+protoOf(ParameterScope).tb = function (body) {
+  this.rb_1 = expression(body);
 };
-protoOf(ParameterScope).va = function (value) {
+protoOf(ParameterScope).ub = function (value) {
   // Inline function 'kotlin.collections.plusAssign' call
-  this.ta_1.e(value);
+  this.sb_1.e(value);
 };
-protoOf(ParameterScope).wa = function (name, property) {
-  return new Parameter(name, this.ra_1, this.sa_1, property, toList(this.ta_1));
+protoOf(ParameterScope).vb = function (name, property) {
+  return new Parameter(name, this.qb_1, this.rb_1, property, toList(this.sb_1));
 };
-protoOf(ParameterScope).xa = function (name, property, $super) {
+protoOf(ParameterScope).wb = function (name, property, $super) {
   property = property === VOID ? null : property;
-  return $super === VOID ? this.wa(name, property) : $super.wa.call(this, name, property);
+  return $super === VOID ? this.vb(name, property) : $super.vb.call(this, name, property);
 };
 function parameter(name, body) {
   var tmp;
@@ -824,44 +877,44 @@ function parameter(name, body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ParameterScope();
   body(this_0);
-  return this_0.xa(name);
+  return this_0.wb(name);
 }
 function CodeScope() {
-  this.ya_1 = new CodeBuilder();
+  this.xb_1 = new CodeBuilder();
 }
-protoOf(CodeScope).d9 = function () {
-  return this.ya_1.d9();
+protoOf(CodeScope).ba = function () {
+  return this.xb_1.ba();
 };
-protoOf(CodeScope).e9 = function (count) {
-  return this.ya_1.e9(count);
+protoOf(CodeScope).ca = function (count) {
+  return this.xb_1.ca(count);
 };
-protoOf(CodeScope).f9 = function (text) {
-  return this.ya_1.f9(text);
+protoOf(CodeScope).da = function (text) {
+  return this.xb_1.da(text);
 };
 function DeclarationContainerScope() {
   CodeScope.call(this);
 }
-protoOf(DeclarationContainerScope).ab = function (name, configure) {
-  return this.ya_1.h9(name, configure);
+protoOf(DeclarationContainerScope).zb = function (name, configure) {
+  return this.xb_1.ga(name, configure);
 };
-protoOf(DeclarationContainerScope).bb = function (name, configure) {
-  return this.ya_1.i9(name, configure);
+protoOf(DeclarationContainerScope).ac = function (name, configure) {
+  return this.xb_1.ha(name, configure);
 };
-protoOf(DeclarationContainerScope).cb = function (name, configure) {
-  return this.ya_1.j9(name, configure);
+protoOf(DeclarationContainerScope).bc = function (name, configure) {
+  return this.xb_1.ia(name, configure);
 };
-protoOf(DeclarationContainerScope).db = function (name, configure) {
-  return this.ya_1.k9(name, configure);
+protoOf(DeclarationContainerScope).cc = function (name, configure) {
+  return this.xb_1.ja(name, configure);
 };
 function BlockScope$ifStatement$lambda($condition, $body) {
   return function (c) {
-    return block(plus_2(plus_1(text('if ('), $condition.y7(c)), ')'), $body.c9(c));
+    return block(plus_2(plus_1(text('if ('), $condition.v8(c)), ')'), $body.aa(c));
   };
 }
 function BlockScope() {
   DeclarationContainerScope.call(this);
 }
-protoOf(BlockScope).fb = function (label, body) {
+protoOf(BlockScope).ec = function (label, body) {
   var tmp;
   if (body == null) {
     tmp = null;
@@ -869,26 +922,26 @@ protoOf(BlockScope).fb = function (label, body) {
     // Inline function 'kotlin.let' call
     tmp = expression(body);
   }
-  this.ya_1.g9(tmp, label);
+  this.xb_1.fa(tmp, label);
 };
-protoOf(BlockScope).gb = function (label, body, $super) {
+protoOf(BlockScope).fc = function (label, body, $super) {
   label = label === VOID ? null : label;
   body = body === VOID ? null : body;
   var tmp;
   if ($super === VOID) {
-    this.fb(label, body);
+    this.ec(label, body);
     tmp = Unit_instance;
   } else {
-    tmp = $super.fb.call(this, label, body);
+    tmp = $super.ec.call(this, label, body);
   }
   return tmp;
 };
-protoOf(BlockScope).hb = function (configure) {
+protoOf(BlockScope).gc = function (configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new IfStatementScope();
   configure(this_0);
   var scope = this_0;
-  var tmp1 = scope.ib_1;
+  var tmp1 = scope.hc_1;
   var tmp$ret$2;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -901,7 +954,7 @@ protoOf(BlockScope).hb = function (configure) {
     }
   }
   var condition = tmp$ret$2;
-  var tmp2 = scope.jb_1;
+  var tmp2 = scope.ic_1;
   var tmp$ret$4;
   $l$block_0: {
     // Inline function 'kotlin.requireNotNull' call
@@ -914,23 +967,23 @@ protoOf(BlockScope).hb = function (configure) {
     }
   }
   var body = tmp$ret$4;
-  this.ya_1.u7(BlockScope$ifStatement$lambda(condition, body));
+  this.xb_1.r8(BlockScope$ifStatement$lambda(condition, body));
 };
 function IfStatementScope() {
-  this.ib_1 = null;
-  this.jb_1 = null;
+  this.hc_1 = null;
+  this.ic_1 = null;
 }
-protoOf(IfStatementScope).ub = function (body) {
+protoOf(IfStatementScope).tc = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.ib_1 == null)) {
+  if (!(this.hc_1 == null)) {
     var message = 'Condition has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.ib_1 = expression(body);
+  this.hc_1 = expression(body);
 };
-protoOf(IfStatementScope).vb = function (body) {
+protoOf(IfStatementScope).uc = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.jb_1 == null)) {
+  if (!(this.ic_1 == null)) {
     var message = 'Body has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -938,7 +991,7 @@ protoOf(IfStatementScope).vb = function (body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new BlockScope();
   body(this_0);
-  tmp.jb_1 = this_0.ya_1;
+  tmp.ic_1 = this_0.xb_1;
 };
 function FunctionBodyScope() {
   BlockScope.call(this);
@@ -950,49 +1003,49 @@ function LambdaBodyScope() {
   BlockScope.call(this);
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.xb_1 = ArrayList_init_$Create$_0();
+  tmp.wc_1 = ArrayList_init_$Create$_0();
 }
-protoOf(LambdaBodyScope).yb = function (name, configure) {
-  var tmp0 = this.xb_1;
+protoOf(LambdaBodyScope).xc = function (name, configure) {
+  var tmp0 = this.wc_1;
   // Inline function 'kotlin.collections.plusAssign' call
   var element = parameter(name, configure);
   tmp0.e(element);
 };
 function DeclarationScope() {
-  this.zb_1 = null;
-  this.ac_1 = emptyList();
-  this.bc_1 = emptyList();
+  this.yc_1 = null;
+  this.zc_1 = emptyList();
+  this.ad_1 = emptyList();
 }
-protoOf(DeclarationScope).cc = function (c) {
+protoOf(DeclarationScope).bd = function (c) {
   // Inline function 'kotlin.collections.map' call
-  var this_0 = this.bc_1;
+  var this_0 = this.ad_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var _iterator__ex2g4s = this_0.g();
   while (_iterator__ex2g4s.h()) {
     var item = _iterator__ex2g4s.i();
-    var tmp$ret$0 = plus_1(text('@' + c.r9(item)), get_hardLine());
+    var tmp$ret$0 = plus_1(text('@' + c.qa(item)), get_hardLine());
     destination.e(tmp$ret$0);
   }
-  return plus_2(joined(destination, text('')), declarationModifiers(this.zb_1, this.ac_1));
+  return plus_2(joined(destination, text('')), declarationModifiers(this.yc_1, this.zc_1));
 };
 function FunctionScope() {
   DeclarationScope.call(this);
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.k8_1 = ArrayList_init_$Create$_0();
-  this.l8_1 = null;
-  this.m8_1 = null;
+  tmp.h9_1 = ArrayList_init_$Create$_0();
+  this.i9_1 = null;
+  this.j9_1 = null;
 }
-protoOf(FunctionScope).yb = function (name, configure) {
-  var tmp0 = this.k8_1;
+protoOf(FunctionScope).xc = function (name, configure) {
+  var tmp0 = this.h9_1;
   // Inline function 'kotlin.collections.plusAssign' call
   var element = parameter(name, configure);
   tmp0.e(element);
 };
-protoOf(FunctionScope).dc = function (configure) {
+protoOf(FunctionScope).cd = function (configure) {
   // Inline function 'kotlin.check' call
-  if (!(this.l8_1 == null)) {
+  if (!(this.i9_1 == null)) {
     var message = 'Return type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -1000,11 +1053,11 @@ protoOf(FunctionScope).dc = function (configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new TypeSlotScope();
   configure(this_0);
-  tmp.l8_1 = this_0.ga();
+  tmp.i9_1 = this_0.fb();
 };
-protoOf(FunctionScope).ec = function (block) {
+protoOf(FunctionScope).dd = function (block) {
   // Inline function 'kotlin.check' call
-  if (!(this.m8_1 == null)) {
+  if (!(this.j9_1 == null)) {
     var message = 'Function body has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -1012,20 +1065,20 @@ protoOf(FunctionScope).ec = function (block) {
   // Inline function 'kotlin.apply' call
   var this_0 = new FunctionBodyScope();
   block(this_0);
-  tmp.m8_1 = this_0.ya_1;
+  tmp.j9_1 = this_0.xb_1;
 };
-protoOf(FunctionScope).n8 = function (name, c) {
-  var tmp0_safe_receiver = this.l8_1;
-  var result = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.u9(c);
-  var tmp = plus_2(this.cc(c), 'fun ' + identifier(name));
+protoOf(FunctionScope).k9 = function (name, c) {
+  var tmp0_safe_receiver = this.i9_1;
+  var result = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.ta(c);
+  var tmp = plus_2(this.bd(c), 'fun ' + identifier(name));
   // Inline function 'kotlin.collections.map' call
-  var this_0 = this.k8_1;
+  var this_0 = this.h9_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var _iterator__ex2g4s = this_0.g();
   while (_iterator__ex2g4s.h()) {
     var item = _iterator__ex2g4s.i();
-    var tmp$ret$0 = item.u9(c);
+    var tmp$ret$0 = item.ta(c);
     destination.e(tmp$ret$0);
   }
   var tmp_0 = plus_1(tmp, delimited('(', destination, ')'));
@@ -1038,24 +1091,25 @@ protoOf(FunctionScope).n8 = function (name, c) {
   }
   var tmp2_elvis_lhs = tmp_1;
   var signature = plus_1(tmp_0, tmp2_elvis_lhs == null ? text('') : tmp2_elvis_lhs);
-  var tmp3_safe_receiver = this.m8_1;
-  var tmp_2;
-  if (tmp3_safe_receiver == null) {
-    tmp_2 = null;
-  } else {
-    // Inline function 'kotlin.let' call
-    tmp_2 = block(signature, tmp3_safe_receiver.w8(c, !(result == null) && !(print(result) === 'Unit')));
+  if (this.zc_1.f1('abstract')) {
+    // Inline function 'kotlin.check' call
+    if (!(this.j9_1 == null)) {
+      var message = 'An abstract function cannot have a body';
+      throw IllegalStateException_init_$Create$(toString(message));
+    }
+    return signature;
   }
-  var tmp4_elvis_lhs = tmp_2;
-  return tmp4_elvis_lhs == null ? signature : tmp4_elvis_lhs;
+  var tmp3_safe_receiver = this.j9_1;
+  var tmp4_elvis_lhs = tmp3_safe_receiver == null ? null : tmp3_safe_receiver.u9(c, !(result == null) && !(print(result) === 'Unit'));
+  return block(signature, tmp4_elvis_lhs == null ? text('') : tmp4_elvis_lhs);
 };
 function GetterScope() {
   DeclarationScope.call(this);
-  this.ic_1 = null;
+  this.hd_1 = null;
 }
-protoOf(GetterScope).jc = function (block) {
+protoOf(GetterScope).id = function (block) {
   // Inline function 'kotlin.check' call
-  if (!(this.ic_1 == null)) {
+  if (!(this.hd_1 == null)) {
     var message = 'Getter body has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -1063,17 +1117,17 @@ protoOf(GetterScope).jc = function (block) {
   // Inline function 'kotlin.apply' call
   var this_0 = new GetterBodyScope();
   block(this_0);
-  tmp.ic_1 = this_0.ya_1;
+  tmp.hd_1 = this_0.xb_1;
 };
-protoOf(GetterScope).u9 = function (c) {
-  var tmp = this.cc(c);
-  var tmp0_safe_receiver = this.ic_1;
+protoOf(GetterScope).ta = function (c) {
+  var tmp = this.bd(c);
+  var tmp0_safe_receiver = this.hd_1;
   var tmp_0;
   if (tmp0_safe_receiver == null) {
     tmp_0 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_0 = block(text('get()'), tmp0_safe_receiver.w8(c, true));
+    tmp_0 = block(text('get()'), tmp0_safe_receiver.u9(c, true));
   }
   var tmp1_elvis_lhs = tmp_0;
   return plus_1(tmp, tmp1_elvis_lhs == null ? text('get') : tmp1_elvis_lhs);
@@ -1081,24 +1135,24 @@ protoOf(GetterScope).u9 = function (c) {
 function ConstructorScope() {
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.kc_1 = ArrayList_init_$Create$_0();
+  tmp.jd_1 = ArrayList_init_$Create$_0();
 }
-protoOf(ConstructorScope).lc = function (name, configure) {
-  var tmp1 = this.kc_1;
+protoOf(ConstructorScope).kd = function (name, configure) {
+  var tmp1 = this.jd_1;
   // Inline function 'kotlin.apply' call
   var this_0 = new ConstructorParameterScope();
   configure(this_0);
   // Inline function 'kotlin.collections.plusAssign' call
-  var element = this_0.qc(name);
+  var element = this_0.pd(name);
   tmp1.e(element);
 };
 function ConstructorParameterScope() {
   ParameterScope.call(this);
-  this.pc_1 = null;
+  this.od_1 = null;
 }
-protoOf(ConstructorParameterScope).rc = function (configure) {
+protoOf(ConstructorParameterScope).qd = function (configure) {
   // Inline function 'kotlin.check' call
-  if (!(this.pc_1 == null)) {
+  if (!(this.od_1 == null)) {
     var message = 'Constructor property has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -1106,46 +1160,49 @@ protoOf(ConstructorParameterScope).rc = function (configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ConstructorPropertyScope();
   configure(this_0);
-  tmp.pc_1 = this_0;
+  tmp.od_1 = this_0;
 };
-protoOf(ConstructorParameterScope).qc = function (name) {
-  var tmp0_safe_receiver = this.pc_1;
-  return this.wa(name, tmp0_safe_receiver == null ? null : tmp0_safe_receiver.uc());
+protoOf(ConstructorParameterScope).pd = function (name) {
+  var tmp0_safe_receiver = this.od_1;
+  return this.vb(name, tmp0_safe_receiver == null ? null : tmp0_safe_receiver.td());
 };
 function ConstructorPropertyScope() {
-  this.sc_1 = null;
-  this.tc_1 = false;
+  this.rd_1 = null;
+  this.sd_1 = false;
 }
-protoOf(ConstructorPropertyScope).uc = function () {
-  return declarationModifiers(this.sc_1, emptyList()) + (this.tc_1 ? 'var' : 'val');
+protoOf(ConstructorPropertyScope).td = function () {
+  return declarationModifiers(this.rd_1, emptyList()) + (this.sd_1 ? 'var' : 'val');
 };
 function MemberScope() {
   DeclarationContainerScope.call(this);
-  this.p8_1 = null;
-  this.q8_1 = emptyList();
-  this.r8_1 = emptyList();
+  this.m9_1 = null;
+  this.n9_1 = emptyList();
+  this.o9_1 = emptyList();
+  var tmp = this;
+  // Inline function 'kotlin.collections.mutableListOf' call
+  tmp.p9_1 = ArrayList_init_$Create$_0();
 }
-protoOf(MemberScope).vc = function (name, configure) {
-  return this.ya_1.l9(name, configure);
+protoOf(MemberScope).ud = function (name, configure) {
+  return this.xb_1.ka(name, configure);
 };
-protoOf(MemberScope).wc = function (name, configure) {
-  return this.ya_1.m9(name, configure);
+protoOf(MemberScope).vd = function (name, configure) {
+  return this.xb_1.la(name, configure);
 };
-protoOf(MemberScope).xc = function (c) {
+protoOf(MemberScope).wd = function (c) {
   return text('');
 };
-protoOf(MemberScope).s8 = function (kind, name, c) {
+protoOf(MemberScope).q9 = function (kind, name, c) {
   // Inline function 'kotlin.collections.map' call
-  var this_0 = this.r8_1;
+  var this_0 = this.o9_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var _iterator__ex2g4s = this_0.g();
   while (_iterator__ex2g4s.h()) {
     var item = _iterator__ex2g4s.i();
-    var tmp$ret$0 = plus_1(text('@' + c.r9(item)), get_hardLine());
+    var tmp$ret$0 = plus_1(text('@' + c.qa(item)), get_hardLine());
     destination.e(tmp$ret$0);
   }
-  var prefix = plus_2(joined(destination, text('')), declarationModifiers(this.p8_1, this.q8_1));
+  var prefix = plus_2(joined(destination, text('')), declarationModifiers(this.m9_1, this.n9_1));
   var tmp = plus_2(prefix, kind);
   var tmp_0;
   if (name == null) {
@@ -1155,21 +1212,39 @@ protoOf(MemberScope).s8 = function (kind, name, c) {
     tmp_0 = ' ' + identifier(name);
   }
   var tmp1_elvis_lhs = tmp_0;
-  var header = plus_1(plus_2(tmp, tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), this.xc(c));
-  var contents = this.ya_1.c9(c);
-  return this.ya_1.u8() ? header : block(header, contents);
+  var tmp_1 = plus_1(plus_2(tmp, tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), this.wd(c));
+  var tmp_2;
+  if (this.p9_1.e1()) {
+    tmp_2 = text('');
+  } else {
+    var tmp_3 = text(' : ');
+    // Inline function 'kotlin.collections.map' call
+    var this_1 = this.p9_1;
+    // Inline function 'kotlin.collections.mapTo' call
+    var destination_0 = ArrayList_init_$Create$(collectionSizeOrDefault(this_1, 10));
+    var _iterator__ex2g4s_0 = this_1.g();
+    while (_iterator__ex2g4s_0.h()) {
+      var item_0 = _iterator__ex2g4s_0.i();
+      var tmp$ret$5 = item_0.ta(c);
+      destination_0.e(tmp$ret$5);
+    }
+    tmp_2 = plus_1(tmp_3, joined(destination_0, text(', ')));
+  }
+  var header = plus_1(tmp_1, tmp_2);
+  var contents = this.xb_1.aa(c);
+  return this.xb_1.s9() ? header : block(header, contents);
 };
 function ClassScope$companionObject$lambda(_this__u8e3s4) {
   return Unit_instance;
 }
 function ClassScope() {
   MemberScope.call(this);
-  this.cd_1 = null;
+  this.ce_1 = null;
 }
-protoOf(ClassScope).n9 = function (name, configure) {
-  return this.ya_1.n9(name, configure);
+protoOf(ClassScope).ma = function (name, configure) {
+  return this.xb_1.ma(name, configure);
 };
-protoOf(ClassScope).dd = function (name, configure, $super) {
+protoOf(ClassScope).de = function (name, configure, $super) {
   name = name === VOID ? null : name;
   var tmp;
   if (configure === VOID) {
@@ -1180,16 +1255,16 @@ protoOf(ClassScope).dd = function (name, configure, $super) {
   configure = tmp;
   var tmp_0;
   if ($super === VOID) {
-    this.n9(name, configure);
+    this.ma(name, configure);
     tmp_0 = Unit_instance;
   } else {
-    tmp_0 = $super.n9.call(this, name, configure);
+    tmp_0 = $super.ma.call(this, name, configure);
   }
   return tmp_0;
 };
 protoOf(ClassScope).configureConstructor = function (configure) {
   // Inline function 'kotlin.check' call
-  if (!(this.cd_1 == null)) {
+  if (!(this.ce_1 == null)) {
     var message = 'Primary constructor has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -1197,23 +1272,23 @@ protoOf(ClassScope).configureConstructor = function (configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ConstructorScope();
   configure(this_0);
-  tmp.cd_1 = this_0;
+  tmp.ce_1 = this_0;
 };
-protoOf(ClassScope).xc = function (c) {
-  var tmp0_safe_receiver = this.cd_1;
+protoOf(ClassScope).wd = function (c) {
+  var tmp0_safe_receiver = this.ce_1;
   var tmp;
   if (tmp0_safe_receiver == null) {
     tmp = null;
   } else {
     // Inline function 'kotlin.let' call
     // Inline function 'kotlin.collections.map' call
-    var this_0 = tmp0_safe_receiver.kc_1;
+    var this_0 = tmp0_safe_receiver.jd_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
     var _iterator__ex2g4s = this_0.g();
     while (_iterator__ex2g4s.h()) {
       var item = _iterator__ex2g4s.i();
-      var tmp$ret$0 = item.u9(c);
+      var tmp$ret$0 = item.ta(c);
       destination.e(tmp$ret$0);
     }
     tmp = delimited('(', destination, ')');
@@ -1227,10 +1302,10 @@ function InterfaceScope$companionObject$lambda(_this__u8e3s4) {
 function InterfaceScope() {
   MemberScope.call(this);
 }
-protoOf(InterfaceScope).n9 = function (name, configure) {
-  return this.ya_1.n9(name, configure);
+protoOf(InterfaceScope).ma = function (name, configure) {
+  return this.xb_1.ma(name, configure);
 };
-protoOf(InterfaceScope).id = function (name, configure, $super) {
+protoOf(InterfaceScope).je = function (name, configure, $super) {
   name = name === VOID ? null : name;
   var tmp;
   if (configure === VOID) {
@@ -1241,10 +1316,10 @@ protoOf(InterfaceScope).id = function (name, configure, $super) {
   configure = tmp;
   var tmp_0;
   if ($super === VOID) {
-    this.n9(name, configure);
+    this.ma(name, configure);
     tmp_0 = Unit_instance;
   } else {
-    tmp_0 = $super.n9.call(this, name, configure);
+    tmp_0 = $super.ma.call(this, name, configure);
   }
   return tmp_0;
 };
@@ -1253,58 +1328,58 @@ function ObjectScope() {
 }
 function PropertyScope() {
   DeclarationScope.call(this);
-  this.c8_1 = null;
-  this.d8_1 = null;
-  this.e8_1 = null;
-  this.f8_1 = null;
+  this.z8_1 = null;
+  this.a9_1 = null;
+  this.b9_1 = null;
+  this.c9_1 = null;
 }
-protoOf(PropertyScope).la = function (body) {
+protoOf(PropertyScope).kb = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.c8_1 == null)) {
+  if (!(this.z8_1 == null)) {
     var message = 'Property type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.c8_1 = type(body);
+  this.z8_1 = type(body);
 };
-protoOf(PropertyScope).jd = function (body) {
+protoOf(PropertyScope).ke = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.d8_1 == null)) {
+  if (!(this.a9_1 == null)) {
     var message = 'Property initializer has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.check' call
-  if (!(this.f8_1 == null)) {
+  if (!(this.c9_1 == null)) {
     var message_0 = 'A property cannot have both an initializer and a delegate';
     throw IllegalStateException_init_$Create$(toString(message_0));
   }
-  this.d8_1 = expression(body);
+  this.a9_1 = expression(body);
 };
-protoOf(PropertyScope).kd = function (body) {
+protoOf(PropertyScope).le = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.f8_1 == null)) {
+  if (!(this.c9_1 == null)) {
     var message = 'Property delegate has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.check' call
-  if (!(this.d8_1 == null)) {
+  if (!(this.a9_1 == null)) {
     var message_0 = 'A property cannot have both an initializer and a delegate';
     throw IllegalStateException_init_$Create$(toString(message_0));
   }
   // Inline function 'kotlin.check' call
-  if (!(this.e8_1 == null)) {
+  if (!(this.b9_1 == null)) {
     var message_1 = 'A delegated property cannot have a custom getter';
     throw IllegalStateException_init_$Create$(toString(message_1));
   }
-  this.f8_1 = expression(body);
+  this.c9_1 = expression(body);
 };
-protoOf(PropertyScope).ld = function (configure) {
+protoOf(PropertyScope).me = function (configure) {
   // Inline function 'kotlin.check' call
-  if (!(this.f8_1 == null)) {
+  if (!(this.c9_1 == null)) {
     var message = 'A delegated property cannot have a custom getter';
     throw IllegalStateException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.check' call
-  if (!(this.e8_1 == null)) {
+  if (!(this.b9_1 == null)) {
     var message_0 = 'Getter has already been defined';
     throw IllegalStateException_init_$Create$(toString(message_0));
   }
@@ -1312,93 +1387,135 @@ protoOf(PropertyScope).ld = function (configure) {
   // Inline function 'kotlin.apply' call
   var this_0 = new GetterScope();
   configure(this_0);
-  tmp.e8_1 = this_0;
+  tmp.b9_1 = this_0;
 };
-protoOf(PropertyScope).g8 = function (keyword, name, c) {
-  var tmp = plus_2(this.cc(c), keyword + ' ' + identifier(name));
-  var tmp0_safe_receiver = this.c8_1;
+protoOf(PropertyScope).d9 = function (keyword, name, c) {
+  var tmp = plus_2(this.bd(c), keyword + ' ' + identifier(name));
+  var tmp0_safe_receiver = this.z8_1;
   var tmp_0;
   if (tmp0_safe_receiver == null) {
     tmp_0 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_0 = plus_1(text(': '), tmp0_safe_receiver.u9(c));
+    tmp_0 = plus_1(text(': '), tmp0_safe_receiver.ta(c));
   }
   var tmp1_elvis_lhs = tmp_0;
   var tmp_1 = plus_1(tmp, tmp1_elvis_lhs == null ? text('') : tmp1_elvis_lhs);
-  var tmp2_safe_receiver = this.d8_1;
+  var tmp2_safe_receiver = this.a9_1;
   var tmp_2;
   if (tmp2_safe_receiver == null) {
     tmp_2 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_2 = plus_1(text(' = '), tmp2_safe_receiver.y7(c));
+    tmp_2 = plus_1(text(' = '), tmp2_safe_receiver.v8(c));
   }
   var tmp3_elvis_lhs = tmp_2;
   var tmp_3 = plus_1(tmp_1, tmp3_elvis_lhs == null ? text('') : tmp3_elvis_lhs);
-  var tmp4_safe_receiver = this.f8_1;
+  var tmp4_safe_receiver = this.c9_1;
   var tmp_4;
   if (tmp4_safe_receiver == null) {
     tmp_4 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_4 = plus_1(text(' by '), tmp4_safe_receiver.y7(c));
+    tmp_4 = plus_1(text(' by '), tmp4_safe_receiver.v8(c));
   }
   var tmp5_elvis_lhs = tmp_4;
   var tmp_5 = plus_1(tmp_3, tmp5_elvis_lhs == null ? text('') : tmp5_elvis_lhs);
-  var tmp6_safe_receiver = this.e8_1;
+  var tmp6_safe_receiver = this.b9_1;
   var tmp_6;
   if (tmp6_safe_receiver == null) {
     tmp_6 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_6 = nested(plus_1(get_hardLine(), tmp6_safe_receiver.u9(c)));
+    tmp_6 = nested(plus_1(get_hardLine(), tmp6_safe_receiver.ta(c)));
   }
   var tmp7_elvis_lhs = tmp_6;
   return plus_1(tmp_5, tmp7_elvis_lhs == null ? text('') : tmp7_elvis_lhs);
 };
+function takeComments($this) {
+  var comments = $this.xb_1.ea();
+  if (!$this.se_1) {
+    $this.se_1 = true;
+    $this.oe_1 = comments;
+    return null;
+  }
+  return comments;
+}
 function FileScope() {
   DeclarationContainerScope.call(this);
+  this.oe_1 = null;
+  this.pe_1 = null;
   var tmp = this;
-  // Inline function 'kotlin.collections.linkedSetOf' call
-  tmp.nd_1 = LinkedHashSet_init_$Create$();
-  var tmp_0 = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp_0.od_1 = ArrayList_init_$Create$_0();
-  this.pd_1 = null;
+  tmp.qe_1 = ArrayList_init_$Create$_0();
+  var tmp_0 = this;
+  // Inline function 'kotlin.collections.mutableMapOf' call
+  tmp_0.re_1 = LinkedHashMap_init_$Create$();
+  this.se_1 = false;
+  var tmp_1 = this;
+  // Inline function 'kotlin.collections.linkedSetOf' call
+  tmp_1.te_1 = LinkedHashSet_init_$Create$();
+  var tmp_2 = this;
+  // Inline function 'kotlin.collections.mutableListOf' call
+  tmp_2.ue_1 = ArrayList_init_$Create$_0();
+  this.ve_1 = null;
 }
-protoOf(FileScope).vc = function (name, configure) {
-  return this.ya_1.l9(name, configure);
+protoOf(FileScope).ud = function (name, configure) {
+  return this.xb_1.ka(name, configure);
 };
-protoOf(FileScope).wc = function (name, configure) {
-  return this.ya_1.m9(name, configure);
+protoOf(FileScope).vd = function (name, configure) {
+  return this.xb_1.la(name, configure);
 };
-protoOf(FileScope).qd = function (name) {
+protoOf(FileScope).we = function (name) {
   // Inline function 'kotlin.text.isNotBlank' call
   // Inline function 'kotlin.require' call
   if (!!isBlank(name)) {
     var message = 'Import name cannot be blank';
     throw IllegalArgumentException_init_$Create$(toString(message));
   }
+  var tmp0_safe_receiver = takeComments(this);
+  if (tmp0_safe_receiver == null)
+    null;
+  else {
+    // Inline function 'kotlin.let' call
+    var tmp2 = this.re_1;
+    var tmp0_safe_receiver_0 = this.re_1.l1(name);
+    var tmp;
+    if (tmp0_safe_receiver_0 == null) {
+      tmp = null;
+    } else {
+      // Inline function 'kotlin.let' call
+      tmp = plus_1(plus_1(tmp0_safe_receiver_0, get_hardLine()), tmp0_safe_receiver);
+    }
+    var tmp1_elvis_lhs = tmp;
+    // Inline function 'kotlin.collections.set' call
+    var value = tmp1_elvis_lhs == null ? tmp0_safe_receiver : tmp1_elvis_lhs;
+    tmp2.i3(name, value);
+  }
   // Inline function 'kotlin.collections.plusAssign' call
-  this.nd_1.e(name);
+  this.te_1.e(name);
 };
-protoOf(FileScope).rd = function (name, configure) {
+protoOf(FileScope).xe = function (name, configure) {
   // Inline function 'kotlin.text.isNotBlank' call
   // Inline function 'kotlin.require' call
   if (!!isBlank(name)) {
     var message = 'Annotation name cannot be blank';
     throw IllegalArgumentException_init_$Create$(toString(message));
   }
-  var tmp3 = this.od_1;
   // Inline function 'kotlin.apply' call
   var this_0 = new AnnotationScope();
   configure(this_0);
+  var annotation = this_0;
+  var tmp3 = this.qe_1;
   // Inline function 'kotlin.collections.plusAssign' call
-  var element = to(name, this_0);
+  var element = takeComments(this);
   tmp3.e(element);
+  var tmp5 = this.ue_1;
+  // Inline function 'kotlin.collections.plusAssign' call
+  var element_0 = to(name, annotation);
+  tmp5.e(element_0);
 };
-protoOf(FileScope).sd = function (name) {
+protoOf(FileScope).ye = function (name) {
   // Inline function 'kotlin.text.isNotBlank' call
   // Inline function 'kotlin.require' call
   if (!!isBlank(name)) {
@@ -1406,11 +1523,12 @@ protoOf(FileScope).sd = function (name) {
     throw IllegalArgumentException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.check' call
-  if (!(this.pd_1 == null)) {
+  if (!(this.ve_1 == null)) {
     var message_0 = 'Package name has already been declared';
     throw IllegalStateException_init_$Create$(toString(message_0));
   }
-  this.pd_1 = name;
+  this.pe_1 = takeComments(this);
+  this.ve_1 = name;
 };
 function ktFile(body) {
   _init_properties_Declarations_kt__5banjb();
@@ -1418,49 +1536,78 @@ function ktFile(body) {
   var this_0 = new FileScope();
   body(this_0);
   var scope = this_0;
-  var context = new RenderContext(scope.pd_1, scope.nd_1);
-  scope.ya_1.c9(context);
+  var context = new RenderContext(scope.ve_1, scope.te_1);
+  scope.xb_1.aa(context);
   // Inline function 'kotlin.collections.forEach' call
-  var _iterator__ex2g4s = scope.od_1.g();
+  var _iterator__ex2g4s = scope.ue_1.g();
   while (_iterator__ex2g4s.h()) {
     var element = _iterator__ex2g4s.i();
-    var name = element.m7();
-    var annotation = element.n7();
-    annotation.n8(name, context);
+    var name = element.i8();
+    var annotation = element.j8();
+    annotation.k9(name, context);
   }
-  context.b9_1 = false;
-  var code = scope.ya_1.c9(context);
+  context.z9_1 = false;
+  var code = scope.xb_1.aa(context);
   // Inline function 'kotlin.collections.mutableListOf' call
   var sections = ArrayList_init_$Create$_0();
+  var tmp0_safe_receiver = scope.oe_1;
+  if (tmp0_safe_receiver == null)
+    null;
+  else {
+    // Inline function 'kotlin.let' call
+    // Inline function 'kotlin.collections.plusAssign' call
+    sections.e(tmp0_safe_receiver);
+  }
   // Inline function 'kotlin.collections.isNotEmpty' call
-  if (!scope.od_1.e1()) {
-    // Inline function 'kotlin.collections.map' call
-    var this_1 = scope.od_1;
-    // Inline function 'kotlin.collections.mapTo' call
+  if (!scope.ue_1.e1()) {
+    // Inline function 'kotlin.collections.mapIndexed' call
+    var this_1 = scope.ue_1;
+    // Inline function 'kotlin.collections.mapIndexedTo' call
     var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_1, 10));
+    var index = 0;
     var _iterator__ex2g4s_0 = this_1.g();
     while (_iterator__ex2g4s_0.h()) {
       var item = _iterator__ex2g4s_0.i();
-      var name_0 = item.m7();
-      var annotation_0 = item.n7();
-      var tmp$ret$5 = plus_1(text('@file:'), annotation_0.n8(name_0, context));
-      destination.e(tmp$ret$5);
+      var _unary__edvuaz = index;
+      index = _unary__edvuaz + 1 | 0;
+      var index_0 = checkIndexOverflow(_unary__edvuaz);
+      var name_0 = item.i8();
+      var annotation_0 = item.j8();
+      var tmp0_safe_receiver_0 = scope.qe_1.k(index_0);
+      var tmp;
+      if (tmp0_safe_receiver_0 == null) {
+        tmp = null;
+      } else {
+        // Inline function 'kotlin.let' call
+        tmp = plus_1(tmp0_safe_receiver_0, get_hardLine());
+      }
+      var tmp1_elvis_lhs = tmp;
+      var tmp$ret$10 = plus_1(plus_1(tmp1_elvis_lhs == null ? text('') : tmp1_elvis_lhs, text('@file:')), annotation_0.k9(name_0, context));
+      destination.e(tmp$ret$10);
     }
     // Inline function 'kotlin.collections.plusAssign' call
     var element_0 = joined(destination, get_hardLine());
     sections.e(element_0);
   }
-  var tmp0_safe_receiver = scope.pd_1;
-  if (tmp0_safe_receiver == null)
+  var tmp1_safe_receiver = scope.ve_1;
+  if (tmp1_safe_receiver == null)
     null;
   else {
     // Inline function 'kotlin.let' call
-    var tmp = split(tmp0_safe_receiver, charArrayOf([_Char___init__impl__6a9atx(46)]));
+    var tmp0_safe_receiver_1 = scope.pe_1;
+    if (tmp0_safe_receiver_1 == null)
+      null;
+    else {
+      // Inline function 'kotlin.let' call
+      // Inline function 'kotlin.collections.plusAssign' call
+      sections.e(tmp0_safe_receiver_1);
+    }
+    var tmp_0 = split(tmp1_safe_receiver, charArrayOf([_Char___init__impl__6a9atx(46)]));
     // Inline function 'kotlin.collections.plusAssign' call
-    var element_1 = text('package ' + joinToString(tmp, '.', VOID, VOID, VOID, VOID, identifier$ref_0()));
+    var element_1 = text('package ' + joinToString(tmp_0, '.', VOID, VOID, VOID, VOID, identifier$ref_0()));
     sections.e(element_1);
   }
-  var imports = context.s9();
+  var imports = context.ra();
   // Inline function 'kotlin.collections.isNotEmpty' call
   if (!imports.e1()) {
     // Inline function 'kotlin.collections.map' call
@@ -1469,8 +1616,17 @@ function ktFile(body) {
     var _iterator__ex2g4s_1 = imports.g();
     while (_iterator__ex2g4s_1.h()) {
       var item_0 = _iterator__ex2g4s_1.i();
-      var tmp$ret$13 = text('import ' + item_0);
-      destination_0.e(tmp$ret$13);
+      var tmp0_safe_receiver_2 = scope.re_1.l1(item_0);
+      var tmp_1;
+      if (tmp0_safe_receiver_2 == null) {
+        tmp_1 = null;
+      } else {
+        // Inline function 'kotlin.let' call
+        tmp_1 = plus_1(tmp0_safe_receiver_2, get_hardLine());
+      }
+      var tmp1_elvis_lhs_0 = tmp_1;
+      var tmp$ret$23 = plus_1(tmp1_elvis_lhs_0 == null ? text('') : tmp1_elvis_lhs_0, text('import ' + item_0));
+      destination_0.e(tmp$ret$23);
     }
     // Inline function 'kotlin.collections.plusAssign' call
     var element_2 = joined(destination_0, get_hardLine());
@@ -1536,13 +1692,13 @@ var softBreak;
 function Document() {
 }
 function Text(value) {
-  this.vd_1 = value;
+  this.bf_1 = value;
 }
 protoOf(Text).toString = function () {
-  return 'Text(value=' + this.vd_1 + ')';
+  return 'Text(value=' + this.bf_1 + ')';
 };
 protoOf(Text).hashCode = function () {
-  return getStringHashCode(this.vd_1);
+  return getStringHashCode(this.bf_1);
 };
 protoOf(Text).equals = function (other) {
   if (this === other)
@@ -1550,18 +1706,18 @@ protoOf(Text).equals = function (other) {
   if (!(other instanceof Text))
     return false;
   var tmp0_other_with_cast = other instanceof Text ? other : THROW_CCE();
-  if (!(this.vd_1 === tmp0_other_with_cast.vd_1))
+  if (!(this.bf_1 === tmp0_other_with_cast.bf_1))
     return false;
   return true;
 };
 function Break(flat) {
-  this.wd_1 = flat;
+  this.cf_1 = flat;
 }
 protoOf(Break).toString = function () {
-  return 'Break(flat=' + this.wd_1 + ')';
+  return 'Break(flat=' + this.cf_1 + ')';
 };
 protoOf(Break).hashCode = function () {
-  return this.wd_1 == null ? 0 : getStringHashCode(this.wd_1);
+  return this.cf_1 == null ? 0 : getStringHashCode(this.cf_1);
 };
 protoOf(Break).equals = function (other) {
   if (this === other)
@@ -1569,14 +1725,14 @@ protoOf(Break).equals = function (other) {
   if (!(other instanceof Break))
     return false;
   var tmp0_other_with_cast = other instanceof Break ? other : THROW_CCE();
-  if (!(this.wd_1 == tmp0_other_with_cast.wd_1))
+  if (!(this.cf_1 == tmp0_other_with_cast.cf_1))
     return false;
   return true;
 };
 function Concat(parts) {
-  this.xd_1 = parts;
+  this.df_1 = parts;
   var tmp = this;
-  var tmp0 = this.xd_1;
+  var tmp0 = this.df_1;
   var tmp$ret$0;
   $l$block_0: {
     // Inline function 'kotlin.collections.any' call
@@ -1593,23 +1749,23 @@ function Concat(parts) {
     var _iterator__ex2g4s = tmp0.g();
     while (_iterator__ex2g4s.h()) {
       var element = _iterator__ex2g4s.i();
-      if (element.ud()) {
+      if (element.af()) {
         tmp$ret$0 = true;
         break $l$block_0;
       }
     }
     tmp$ret$0 = false;
   }
-  tmp.yd_1 = tmp$ret$0;
+  tmp.ef_1 = tmp$ret$0;
 }
-protoOf(Concat).ud = function () {
-  return this.yd_1;
+protoOf(Concat).af = function () {
+  return this.ef_1;
 };
 protoOf(Concat).toString = function () {
-  return 'Concat(parts=' + toString(this.xd_1) + ')';
+  return 'Concat(parts=' + toString(this.df_1) + ')';
 };
 protoOf(Concat).hashCode = function () {
-  return hashCode(this.xd_1);
+  return hashCode(this.df_1);
 };
 protoOf(Concat).equals = function (other) {
   if (this === other)
@@ -1617,22 +1773,22 @@ protoOf(Concat).equals = function (other) {
   if (!(other instanceof Concat))
     return false;
   var tmp0_other_with_cast = other instanceof Concat ? other : THROW_CCE();
-  if (!equals(this.xd_1, tmp0_other_with_cast.xd_1))
+  if (!equals(this.df_1, tmp0_other_with_cast.df_1))
     return false;
   return true;
 };
 function Nest(body) {
-  this.zd_1 = body;
-  this.ae_1 = this.zd_1.ud();
+  this.ff_1 = body;
+  this.gf_1 = this.ff_1.af();
 }
-protoOf(Nest).ud = function () {
-  return this.ae_1;
+protoOf(Nest).af = function () {
+  return this.gf_1;
 };
 protoOf(Nest).toString = function () {
-  return 'Nest(body=' + toString(this.zd_1) + ')';
+  return 'Nest(body=' + toString(this.ff_1) + ')';
 };
 protoOf(Nest).hashCode = function () {
-  return hashCode(this.zd_1);
+  return hashCode(this.ff_1);
 };
 protoOf(Nest).equals = function (other) {
   if (this === other)
@@ -1640,22 +1796,22 @@ protoOf(Nest).equals = function (other) {
   if (!(other instanceof Nest))
     return false;
   var tmp0_other_with_cast = other instanceof Nest ? other : THROW_CCE();
-  if (!equals(this.zd_1, tmp0_other_with_cast.zd_1))
+  if (!equals(this.ff_1, tmp0_other_with_cast.ff_1))
     return false;
   return true;
 };
 function Group(body) {
-  this.be_1 = body;
-  this.ce_1 = this.be_1.ud();
+  this.hf_1 = body;
+  this.if_1 = this.hf_1.af();
 }
-protoOf(Group).ud = function () {
-  return this.ce_1;
+protoOf(Group).af = function () {
+  return this.if_1;
 };
 protoOf(Group).toString = function () {
-  return 'Group(body=' + toString(this.be_1) + ')';
+  return 'Group(body=' + toString(this.hf_1) + ')';
 };
 protoOf(Group).hashCode = function () {
-  return hashCode(this.be_1);
+  return hashCode(this.hf_1);
 };
 protoOf(Group).equals = function (other) {
   if (this === other)
@@ -1663,19 +1819,19 @@ protoOf(Group).equals = function (other) {
   if (!(other instanceof Group))
     return false;
   var tmp0_other_with_cast = other instanceof Group ? other : THROW_CCE();
-  if (!equals(this.be_1, tmp0_other_with_cast.be_1))
+  if (!equals(this.hf_1, tmp0_other_with_cast.hf_1))
     return false;
   return true;
 };
 function MemberChain(receiver, members) {
-  this.de_1 = receiver;
-  this.ee_1 = members;
+  this.jf_1 = receiver;
+  this.kf_1 = members;
   var tmp = this;
   var tmp_0;
-  if (this.de_1.ud()) {
+  if (this.jf_1.af()) {
     tmp_0 = true;
   } else {
-    var tmp0 = this.ee_1;
+    var tmp0 = this.kf_1;
     var tmp$ret$0;
     $l$block_0: {
       // Inline function 'kotlin.collections.any' call
@@ -1692,7 +1848,7 @@ function MemberChain(receiver, members) {
       var _iterator__ex2g4s = tmp0.g();
       while (_iterator__ex2g4s.h()) {
         var element = _iterator__ex2g4s.i();
-        if (element.ud()) {
+        if (element.af()) {
           tmp$ret$0 = true;
           break $l$block_0;
         }
@@ -1701,25 +1857,25 @@ function MemberChain(receiver, members) {
     }
     tmp_0 = tmp$ret$0;
   }
-  tmp.fe_1 = tmp_0;
+  tmp.lf_1 = tmp_0;
 }
-protoOf(MemberChain).ud = function () {
-  return this.fe_1;
+protoOf(MemberChain).af = function () {
+  return this.lf_1;
 };
-protoOf(MemberChain).ge = function (receiver, members) {
+protoOf(MemberChain).mf = function (receiver, members) {
   return new MemberChain(receiver, members);
 };
-protoOf(MemberChain).he = function (receiver, members, $super) {
-  receiver = receiver === VOID ? this.de_1 : receiver;
-  members = members === VOID ? this.ee_1 : members;
-  return $super === VOID ? this.ge(receiver, members) : $super.ge.call(this, receiver, members);
+protoOf(MemberChain).nf = function (receiver, members, $super) {
+  receiver = receiver === VOID ? this.jf_1 : receiver;
+  members = members === VOID ? this.kf_1 : members;
+  return $super === VOID ? this.mf(receiver, members) : $super.mf.call(this, receiver, members);
 };
 protoOf(MemberChain).toString = function () {
-  return 'MemberChain(receiver=' + toString(this.de_1) + ', members=' + toString(this.ee_1) + ')';
+  return 'MemberChain(receiver=' + toString(this.jf_1) + ', members=' + toString(this.kf_1) + ')';
 };
 protoOf(MemberChain).hashCode = function () {
-  var result = hashCode(this.de_1);
-  result = imul(result, 31) + hashCode(this.ee_1) | 0;
+  var result = hashCode(this.jf_1);
+  result = imul(result, 31) + hashCode(this.kf_1) | 0;
   return result;
 };
 protoOf(MemberChain).equals = function (other) {
@@ -1728,24 +1884,24 @@ protoOf(MemberChain).equals = function (other) {
   if (!(other instanceof MemberChain))
     return false;
   var tmp0_other_with_cast = other instanceof MemberChain ? other : THROW_CCE();
-  if (!equals(this.de_1, tmp0_other_with_cast.de_1))
+  if (!equals(this.jf_1, tmp0_other_with_cast.jf_1))
     return false;
-  if (!equals(this.ee_1, tmp0_other_with_cast.ee_1))
+  if (!equals(this.kf_1, tmp0_other_with_cast.kf_1))
     return false;
   return true;
 };
 function ExpandTrailingLambdas(body) {
-  this.ie_1 = body;
-  this.je_1 = this.ie_1.ud();
+  this.of_1 = body;
+  this.pf_1 = this.of_1.af();
 }
-protoOf(ExpandTrailingLambdas).ud = function () {
-  return this.je_1;
+protoOf(ExpandTrailingLambdas).af = function () {
+  return this.pf_1;
 };
 protoOf(ExpandTrailingLambdas).toString = function () {
-  return 'ExpandTrailingLambdas(body=' + toString(this.ie_1) + ')';
+  return 'ExpandTrailingLambdas(body=' + toString(this.of_1) + ')';
 };
 protoOf(ExpandTrailingLambdas).hashCode = function () {
-  return hashCode(this.ie_1);
+  return hashCode(this.of_1);
 };
 protoOf(ExpandTrailingLambdas).equals = function (other) {
   if (this === other)
@@ -1753,38 +1909,38 @@ protoOf(ExpandTrailingLambdas).equals = function (other) {
   if (!(other instanceof ExpandTrailingLambdas))
     return false;
   var tmp0_other_with_cast = other instanceof ExpandTrailingLambdas ? other : THROW_CCE();
-  if (!equals(this.ie_1, tmp0_other_with_cast.ie_1))
+  if (!equals(this.of_1, tmp0_other_with_cast.of_1))
     return false;
   return true;
 };
 function LambdaLayout(header, body, singleExpression, trailing, empty) {
-  this.ke_1 = header;
-  this.le_1 = body;
-  this.me_1 = singleExpression;
-  this.ne_1 = trailing;
-  this.oe_1 = empty;
-  this.pe_1 = true;
+  this.qf_1 = header;
+  this.rf_1 = body;
+  this.sf_1 = singleExpression;
+  this.tf_1 = trailing;
+  this.uf_1 = empty;
+  this.vf_1 = true;
 }
-protoOf(LambdaLayout).ud = function () {
-  return this.pe_1;
+protoOf(LambdaLayout).af = function () {
+  return this.vf_1;
 };
-protoOf(LambdaLayout).qe = function (expandTrailing) {
-  if (this.oe_1)
+protoOf(LambdaLayout).wf = function (expandTrailing) {
+  if (this.uf_1)
     return text('{}');
-  var nestedLambdas = this.le_1.ud();
-  var line = this.me_1 && !nestedLambdas && !(this.ne_1 && expandTrailing) ? get_softLine() : get_hardLine();
-  var contents = nestedLambdas ? new ExpandTrailingLambdas(this.le_1) : this.le_1;
-  return grouped(plus_2(plus_1(plus_1(this.ke_1, nested(plus_1(line, contents))), line), '}'));
+  var nestedLambdas = this.rf_1.af();
+  var line = this.sf_1 && !nestedLambdas && !(this.tf_1 && expandTrailing) ? get_softLine() : get_hardLine();
+  var contents = nestedLambdas ? new ExpandTrailingLambdas(this.rf_1) : this.rf_1;
+  return grouped(plus_2(plus_1(plus_1(this.qf_1, nested(plus_1(line, contents))), line), '}'));
 };
 protoOf(LambdaLayout).toString = function () {
-  return 'LambdaLayout(header=' + toString(this.ke_1) + ', body=' + toString(this.le_1) + ', singleExpression=' + this.me_1 + ', trailing=' + this.ne_1 + ', empty=' + this.oe_1 + ')';
+  return 'LambdaLayout(header=' + toString(this.qf_1) + ', body=' + toString(this.rf_1) + ', singleExpression=' + this.sf_1 + ', trailing=' + this.tf_1 + ', empty=' + this.uf_1 + ')';
 };
 protoOf(LambdaLayout).hashCode = function () {
-  var result = hashCode(this.ke_1);
-  result = imul(result, 31) + hashCode(this.le_1) | 0;
-  result = imul(result, 31) + getBooleanHashCode(this.me_1) | 0;
-  result = imul(result, 31) + getBooleanHashCode(this.ne_1) | 0;
-  result = imul(result, 31) + getBooleanHashCode(this.oe_1) | 0;
+  var result = hashCode(this.qf_1);
+  result = imul(result, 31) + hashCode(this.rf_1) | 0;
+  result = imul(result, 31) + getBooleanHashCode(this.sf_1) | 0;
+  result = imul(result, 31) + getBooleanHashCode(this.tf_1) | 0;
+  result = imul(result, 31) + getBooleanHashCode(this.uf_1) | 0;
   return result;
 };
 protoOf(LambdaLayout).equals = function (other) {
@@ -1793,15 +1949,15 @@ protoOf(LambdaLayout).equals = function (other) {
   if (!(other instanceof LambdaLayout))
     return false;
   var tmp0_other_with_cast = other instanceof LambdaLayout ? other : THROW_CCE();
-  if (!equals(this.ke_1, tmp0_other_with_cast.ke_1))
+  if (!equals(this.qf_1, tmp0_other_with_cast.qf_1))
     return false;
-  if (!equals(this.le_1, tmp0_other_with_cast.le_1))
+  if (!equals(this.rf_1, tmp0_other_with_cast.rf_1))
     return false;
-  if (!(this.me_1 === tmp0_other_with_cast.me_1))
+  if (!(this.sf_1 === tmp0_other_with_cast.sf_1))
     return false;
-  if (!(this.ne_1 === tmp0_other_with_cast.ne_1))
+  if (!(this.tf_1 === tmp0_other_with_cast.tf_1))
     return false;
-  if (!(this.oe_1 === tmp0_other_with_cast.oe_1))
+  if (!(this.uf_1 === tmp0_other_with_cast.uf_1))
     return false;
   return true;
 };
@@ -1857,7 +2013,7 @@ function member(receiver, suffix) {
   _init_properties_Document_kt__u55c91();
   var tmp;
   if (receiver instanceof MemberChain) {
-    tmp = receiver.he(VOID, plus_0(receiver.ee_1, suffix));
+    tmp = receiver.nf(VOID, plus_0(receiver.kf_1, suffix));
   } else {
     tmp = new MemberChain(receiver, listOf_0(suffix));
   }
@@ -1866,7 +2022,7 @@ function member(receiver, suffix) {
 function layout(_this__u8e3s4) {
   _init_properties_Document_kt__u55c91();
   // Inline function 'kotlin.collections.map' call
-  var this_0 = _this__u8e3s4.ee_1;
+  var this_0 = _this__u8e3s4.kf_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
   var _iterator__ex2g4s = this_0.g();
@@ -1875,33 +2031,33 @@ function layout(_this__u8e3s4) {
     var tmp$ret$0 = plus_1(get_softBreak(), item);
     destination.e(tmp$ret$0);
   }
-  return grouped(plus_1(_this__u8e3s4.de_1, nested(joined(destination, text('')))));
+  return grouped(plus_1(_this__u8e3s4.jf_1, nested(joined(destination, text('')))));
 }
 function Pending(document, indent, flat, expandTrailing) {
   expandTrailing = expandTrailing === VOID ? false : expandTrailing;
-  this.re_1 = document;
-  this.se_1 = indent;
-  this.te_1 = flat;
-  this.ue_1 = expandTrailing;
+  this.xf_1 = document;
+  this.yf_1 = indent;
+  this.zf_1 = flat;
+  this.ag_1 = expandTrailing;
 }
-protoOf(Pending).ve = function (document, indent, flat, expandTrailing) {
+protoOf(Pending).bg = function (document, indent, flat, expandTrailing) {
   return new Pending(document, indent, flat, expandTrailing);
 };
-protoOf(Pending).we = function (document, indent, flat, expandTrailing, $super) {
-  document = document === VOID ? this.re_1 : document;
-  indent = indent === VOID ? this.se_1 : indent;
-  flat = flat === VOID ? this.te_1 : flat;
-  expandTrailing = expandTrailing === VOID ? this.ue_1 : expandTrailing;
-  return $super === VOID ? this.ve(document, indent, flat, expandTrailing) : $super.ve.call(this, document, indent, flat, expandTrailing);
+protoOf(Pending).cg = function (document, indent, flat, expandTrailing, $super) {
+  document = document === VOID ? this.xf_1 : document;
+  indent = indent === VOID ? this.yf_1 : indent;
+  flat = flat === VOID ? this.zf_1 : flat;
+  expandTrailing = expandTrailing === VOID ? this.ag_1 : expandTrailing;
+  return $super === VOID ? this.bg(document, indent, flat, expandTrailing) : $super.bg.call(this, document, indent, flat, expandTrailing);
 };
 protoOf(Pending).toString = function () {
-  return 'Pending(document=' + toString(this.re_1) + ', indent=' + this.se_1 + ', flat=' + this.te_1 + ', expandTrailing=' + this.ue_1 + ')';
+  return 'Pending(document=' + toString(this.xf_1) + ', indent=' + this.yf_1 + ', flat=' + this.zf_1 + ', expandTrailing=' + this.ag_1 + ')';
 };
 protoOf(Pending).hashCode = function () {
-  var result = hashCode(this.re_1);
-  result = imul(result, 31) + this.se_1 | 0;
-  result = imul(result, 31) + getBooleanHashCode(this.te_1) | 0;
-  result = imul(result, 31) + getBooleanHashCode(this.ue_1) | 0;
+  var result = hashCode(this.xf_1);
+  result = imul(result, 31) + this.yf_1 | 0;
+  result = imul(result, 31) + getBooleanHashCode(this.zf_1) | 0;
+  result = imul(result, 31) + getBooleanHashCode(this.ag_1) | 0;
   return result;
 };
 protoOf(Pending).equals = function (other) {
@@ -1910,13 +2066,13 @@ protoOf(Pending).equals = function (other) {
   if (!(other instanceof Pending))
     return false;
   var tmp0_other_with_cast = other instanceof Pending ? other : THROW_CCE();
-  if (!equals(this.re_1, tmp0_other_with_cast.re_1))
+  if (!equals(this.xf_1, tmp0_other_with_cast.xf_1))
     return false;
-  if (!(this.se_1 === tmp0_other_with_cast.se_1))
+  if (!(this.yf_1 === tmp0_other_with_cast.yf_1))
     return false;
-  if (!(this.te_1 === tmp0_other_with_cast.te_1))
+  if (!(this.zf_1 === tmp0_other_with_cast.zf_1))
     return false;
-  if (!(this.ue_1 === tmp0_other_with_cast.ue_1))
+  if (!(this.ag_1 === tmp0_other_with_cast.ag_1))
     return false;
   return true;
 };
@@ -1933,65 +2089,65 @@ function print(_this__u8e3s4, width) {
     if (!!pending.e1()) {
       break $l$loop;
     }
-    var item = pending.v2(get_lastIndex(pending));
-    var doc = item.re_1;
+    var item = pending.n2(get_lastIndex(pending));
+    var doc = item.xf_1;
     if (doc instanceof Text) {
       // Inline function 'kotlin.text.isNotEmpty' call
-      var this_0 = doc.vd_1;
+      var this_0 = doc.bf_1;
       if (charSequenceLength(this_0) > 0) {
         if (atLineStart) {
-          output.u4(repeat(' ', lineIndent));
+          output.s5(repeat(' ', lineIndent));
         }
-        output.u4(doc.vd_1);
-        column._v = column._v + doc.vd_1.length | 0;
+        output.s5(doc.bf_1);
+        column._v = column._v + doc.bf_1.length | 0;
         atLineStart = false;
       }
     } else {
       if (doc instanceof Break)
-        if (item.te_1 && !(doc.wd_1 == null)) {
-          output.u4(doc.wd_1);
-          column._v = column._v + doc.wd_1.length | 0;
+        if (item.zf_1 && !(doc.cf_1 == null)) {
+          output.s5(doc.cf_1);
+          column._v = column._v + doc.cf_1.length | 0;
         } else {
-          output.v4(_Char___init__impl__6a9atx(10));
-          lineIndent = item.se_1;
+          output.t5(_Char___init__impl__6a9atx(10));
+          lineIndent = item.yf_1;
           column._v = lineIndent;
           atLineStart = true;
         }
        else {
         if (doc instanceof Concat) {
           // Inline function 'kotlin.collections.forEach' call
-          var _iterator__ex2g4s = asReversed(doc.xd_1).g();
+          var _iterator__ex2g4s = asReversed(doc.df_1).g();
           while (_iterator__ex2g4s.h()) {
             var element = _iterator__ex2g4s.i();
             // Inline function 'kotlin.collections.plusAssign' call
-            var element_0 = item.we(element);
+            var element_0 = item.cg(element);
             pending.e(element_0);
           }
         } else {
           if (doc instanceof Nest) {
             // Inline function 'kotlin.collections.plusAssign' call
-            var element_1 = item.we(doc.zd_1, item.se_1 + 4 | 0);
+            var element_1 = item.cg(doc.ff_1, item.yf_1 + 4 | 0);
             pending.e(element_1);
           } else {
             if (doc instanceof Group) {
-              var flattened = item.we(doc.be_1, VOID, true);
+              var flattened = item.cg(doc.hf_1, VOID, true);
               // Inline function 'kotlin.collections.plusAssign' call
-              var element_2 = flattened.we(VOID, VOID, item.te_1 || print$fits(width, column, pending, flattened));
+              var element_2 = flattened.cg(VOID, VOID, item.zf_1 || print$fits(width, column, pending, flattened));
               pending.e(element_2);
             } else {
               if (doc instanceof MemberChain) {
                 // Inline function 'kotlin.collections.plusAssign' call
-                var element_3 = item.we(layout(doc));
+                var element_3 = item.cg(layout(doc));
                 pending.e(element_3);
               } else {
                 if (doc instanceof LambdaLayout) {
                   // Inline function 'kotlin.collections.plusAssign' call
-                  var element_4 = item.we(doc.qe(item.ue_1));
+                  var element_4 = item.cg(doc.wf(item.ag_1));
                   pending.e(element_4);
                 } else {
                   if (doc instanceof ExpandTrailingLambdas) {
                     // Inline function 'kotlin.collections.plusAssign' call
-                    var element_5 = item.we(doc.ie_1, VOID, VOID, true);
+                    var element_5 = item.cg(doc.of_1, VOID, VOID, true);
                     pending.e(element_5);
                   } else {
                     noWhenBranchMatchedException();
@@ -2023,15 +2179,15 @@ function print$fits($width, column, pending, first) {
     if (!tmp) {
       break $l$loop;
     }
-    var item = lookahead.v2(get_lastIndex(lookahead));
-    var doc = item.re_1;
+    var item = lookahead.n2(get_lastIndex(lookahead));
+    var doc = item.xf_1;
     if (doc instanceof Text)
-      remaining = remaining - doc.vd_1.length | 0;
+      remaining = remaining - doc.bf_1.length | 0;
     else {
       if (doc instanceof Break) {
-        if (!item.te_1)
+        if (!item.zf_1)
           return true;
-        var tmp0_elvis_lhs = doc.wd_1;
+        var tmp0_elvis_lhs = doc.cf_1;
         var tmp_0;
         if (tmp0_elvis_lhs == null) {
           return false;
@@ -2043,37 +2199,37 @@ function print$fits($width, column, pending, first) {
       } else {
         if (doc instanceof Concat) {
           // Inline function 'kotlin.collections.forEach' call
-          var _iterator__ex2g4s = asReversed(doc.xd_1).g();
+          var _iterator__ex2g4s = asReversed(doc.df_1).g();
           while (_iterator__ex2g4s.h()) {
             var element = _iterator__ex2g4s.i();
             // Inline function 'kotlin.collections.plusAssign' call
-            var element_0 = item.we(element);
+            var element_0 = item.cg(element);
             lookahead.e(element_0);
           }
         } else {
           if (doc instanceof Nest) {
             // Inline function 'kotlin.collections.plusAssign' call
-            var element_1 = item.we(doc.zd_1, item.se_1 + 4 | 0);
+            var element_1 = item.cg(doc.ff_1, item.yf_1 + 4 | 0);
             lookahead.e(element_1);
           } else {
             if (doc instanceof Group) {
               // Inline function 'kotlin.collections.plusAssign' call
-              var element_2 = item.we(doc.be_1);
+              var element_2 = item.cg(doc.hf_1);
               lookahead.e(element_2);
             } else {
               if (doc instanceof MemberChain) {
                 // Inline function 'kotlin.collections.plusAssign' call
-                var element_3 = item.we(layout(doc));
+                var element_3 = item.cg(layout(doc));
                 lookahead.e(element_3);
               } else {
                 if (doc instanceof LambdaLayout) {
                   // Inline function 'kotlin.collections.plusAssign' call
-                  var element_4 = item.we(doc.qe(item.ue_1));
+                  var element_4 = item.cg(doc.wf(item.ag_1));
                   lookahead.e(element_4);
                 } else {
                   if (doc instanceof ExpandTrailingLambdas) {
                     // Inline function 'kotlin.collections.plusAssign' call
-                    var element_5 = item.we(doc.ie_1, VOID, VOID, true);
+                    var element_5 = item.cg(doc.of_1, VOID, VOID, true);
                     lookahead.e(element_5);
                   } else {
                     noWhenBranchMatchedException();
@@ -2100,17 +2256,17 @@ function _init_properties_Document_kt__u55c91() {
 function Expression(precedence, statement, renderCode) {
   precedence = precedence === VOID ? 100 : precedence;
   statement = statement === VOID ? false : statement;
-  this.v7_1 = precedence;
-  this.w7_1 = statement;
-  this.x7_1 = renderCode;
+  this.s8_1 = precedence;
+  this.t8_1 = statement;
+  this.u8_1 = renderCode;
 }
-protoOf(Expression).y7 = function (context) {
-  return this.x7_1(context);
+protoOf(Expression).v8 = function (context) {
+  return this.u8_1(context);
 };
-protoOf(Expression).xe = function (context, minimum) {
+protoOf(Expression).dg = function (context, minimum) {
   // Inline function 'kotlin.let' call
-  var it = this.y7(context);
-  return this.v7_1 < minimum ? plus_2(plus_1(text('('), it), ')') : it;
+  var it = this.v8(context);
+  return this.s8_1 < minimum ? plus_2(plus_1(text('('), it), ')') : it;
 };
 function reference_0(name) {
   return new Expression(VOID, VOID, reference$lambda(name));
@@ -2225,27 +2381,27 @@ function record(_this__u8e3s4, expression, chain) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ChainScope(expression, _this__u8e3s4 instanceof BlockScope);
   chain(this_0);
-  accept(_this__u8e3s4, this_0.af());
+  accept(_this__u8e3s4, this_0.gg());
 }
 function accept(_this__u8e3s4, expression) {
   if (_this__u8e3s4 instanceof BlockScope) {
-    _this__u8e3s4.ya_1.v8(expression);
+    _this__u8e3s4.xb_1.t9(expression);
   } else {
     if (_this__u8e3s4 instanceof ArgumentScope) {
       // Inline function 'kotlin.check' call
-      if (!(_this__u8e3s4.da_1 == null)) {
+      if (!(_this__u8e3s4.cb_1 == null)) {
         var message = 'An argument must describe exactly one expression';
         throw IllegalStateException_init_$Create$(toString(message));
       }
-      _this__u8e3s4.da_1 = expression;
+      _this__u8e3s4.cb_1 = expression;
     } else {
       if (_this__u8e3s4 instanceof SingleExpressionScope) {
         // Inline function 'kotlin.check' call
-        if (!(_this__u8e3s4.ef_1 == null)) {
+        if (!(_this__u8e3s4.kg_1 == null)) {
           var message_0 = 'An expression block must describe exactly one expression';
           throw IllegalStateException_init_$Create$(toString(message_0));
         }
-        _this__u8e3s4.ef_1 = expression;
+        _this__u8e3s4.kg_1 = expression;
       } else {
         noWhenBranchMatchedException();
       }
@@ -2253,13 +2409,13 @@ function accept(_this__u8e3s4, expression) {
   }
 }
 function SingleExpressionScope() {
-  this.ef_1 = null;
+  this.kg_1 = null;
 }
 function expression(body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new SingleExpressionScope();
   body(this_0);
-  var tmp1 = this_0.ef_1;
+  var tmp1 = this_0.kg_1;
   var tmp$ret$2;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2275,11 +2431,11 @@ function expression(body) {
 }
 function change($this, build) {
   // Inline function 'kotlin.check' call
-  if (!!$this.af().w7_1) {
+  if (!!$this.gg().t8_1) {
     var message = 'An assignment must be the last step of a statement';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  $this.ze_1 = build($this.af());
+  $this.fg_1 = build($this.gg());
 }
 function memberCall($this, name, safe, configure) {
   change($this, ChainScope$memberCall$lambda(name, configure, safe));
@@ -2293,12 +2449,12 @@ function ChainScope$classLiteral$lambda(receiver) {
 }
 function ChainScope$classLiteral$lambda$lambda($receiver) {
   return function (c) {
-    return plus_2($receiver.xe(c, 90), '::class');
+    return plus_2($receiver.dg(c, 90), '::class');
   };
 }
 function ChainScope$property$lambda$lambda($receiver, $name) {
   return function (c) {
-    return member($receiver.xe(c, 90), text('.' + c.r9($name)));
+    return member($receiver.dg(c, 90), text('.' + c.qa($name)));
   };
 }
 function ChainScope$property$lambda($name) {
@@ -2308,7 +2464,7 @@ function ChainScope$property$lambda($name) {
 }
 function ChainScope$safeProperty$lambda$lambda($receiver, $name) {
   return function (c) {
-    return member($receiver.xe(c, 90), text('?.' + c.r9($name)));
+    return member($receiver.dg(c, 90), text('?.' + c.qa($name)));
   };
 }
 function ChainScope$safeProperty$lambda($name) {
@@ -2323,7 +2479,7 @@ function ChainScope$memberCall$lambda($name, $configure, $safe) {
 }
 function ChainScope$index$lambda$lambda($receiver, $index) {
   return function (c) {
-    return plus_1($receiver.xe(c, 90), delimited('[', listOf_0($index.y7(c)), ']'));
+    return plus_1($receiver.dg(c, 90), delimited('[', listOf_0($index.v8(c)), ']'));
   };
 }
 function ChainScope$index$lambda($index) {
@@ -2333,7 +2489,7 @@ function ChainScope$index$lambda($index) {
 }
 function ChainScope$binary$lambda$lambda($left, $precedence, $operator, $right) {
   return function (c) {
-    return grouped(plus_1(plus_2($left.xe(c, $precedence), ' ' + $operator), nested(plus_1(get_softLine(), $right.xe(c, $precedence + 1 | 0)))));
+    return grouped(plus_1(plus_2($left.dg(c, $precedence), ' ' + $operator), nested(plus_1(get_softLine(), $right.dg(c, $precedence + 1 | 0)))));
   };
 }
 function ChainScope$binary$lambda($precedence, $operator, $right) {
@@ -2343,7 +2499,7 @@ function ChainScope$binary$lambda($precedence, $operator, $right) {
 }
 function ChainScope$infixCall$lambda$lambda($left, $name, $right) {
   return function (c) {
-    return grouped(plus_1(plus_2($left.xe(c, 45), ' ' + c.r9($name)), nested(plus_1(get_softLine(), $right.xe(c, 46)))));
+    return grouped(plus_1(plus_2($left.dg(c, 45), ' ' + c.qa($name)), nested(plus_1(get_softLine(), $right.dg(c, 46)))));
   };
 }
 function ChainScope$infixCall$lambda($name, $right) {
@@ -2356,7 +2512,7 @@ function ChainScope$not$lambda(operand) {
 }
 function ChainScope$not$lambda$lambda($operand) {
   return function (c) {
-    return plus_2(plus_1(text('!('), $operand.y7(c)), ')');
+    return plus_2(plus_1(text('!('), $operand.v8(c)), ')');
   };
 }
 function ChainScope$unaryMinus$lambda(operand) {
@@ -2364,12 +2520,12 @@ function ChainScope$unaryMinus$lambda(operand) {
 }
 function ChainScope$unaryMinus$lambda$lambda($operand) {
   return function (c) {
-    return plus_2(plus_1(text('-('), $operand.y7(c)), ')');
+    return plus_2(plus_1(text('-('), $operand.v8(c)), ')');
   };
 }
 function ChainScope$isType$lambda$lambda($operand, $type) {
   return function (c) {
-    return plus_1(plus_2($operand.xe(c, 35), ' is '), $type.u9(c));
+    return plus_1(plus_2($operand.dg(c, 35), ' is '), $type.ta(c));
   };
 }
 function ChainScope$isType$lambda($type) {
@@ -2379,7 +2535,7 @@ function ChainScope$isType$lambda($type) {
 }
 function ChainScope$assign$lambda$lambda($left, $right) {
   return function (c) {
-    return plus_1(plus_2($left.y7(c), ' = '), $right.y7(c));
+    return plus_1(plus_2($left.v8(c), ' = '), $right.v8(c));
   };
 }
 function ChainScope$assign$lambda($right) {
@@ -2389,11 +2545,11 @@ function ChainScope$assign$lambda($right) {
 }
 function ChainScope(initial, statementsAllowed) {
   statementsAllowed = statementsAllowed === VOID ? false : statementsAllowed;
-  this.ye_1 = statementsAllowed;
-  this.ze_1 = initial;
+  this.eg_1 = statementsAllowed;
+  this.fg_1 = initial;
 }
-protoOf(ChainScope).af = function () {
-  var tmp0 = this.ze_1;
+protoOf(ChainScope).gg = function () {
+  var tmp0 = this.fg_1;
   var tmp$ret$1;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2407,60 +2563,60 @@ protoOf(ChainScope).af = function () {
   }
   return tmp$ret$1;
 };
-protoOf(ChainScope).ff = function () {
+protoOf(ChainScope).lg = function () {
   change(this, ChainScope$classLiteral$lambda);
 };
-protoOf(ChainScope).gf = function (name) {
+protoOf(ChainScope).mg = function (name) {
   change(this, ChainScope$property$lambda(name));
 };
-protoOf(ChainScope).hf = function (name) {
+protoOf(ChainScope).ng = function (name) {
   change(this, ChainScope$safeProperty$lambda(name));
 };
-protoOf(ChainScope).qb = function (name, configure) {
-  if (this.ze_1 == null) {
-    this.ze_1 = buildCall(name, configure);
+protoOf(ChainScope).pc = function (name, configure) {
+  if (this.fg_1 == null) {
+    this.fg_1 = buildCall(name, configure);
   } else {
     memberCall(this, name, false, configure);
   }
 };
-protoOf(ChainScope).if = function (name, configure) {
+protoOf(ChainScope).og = function (name, configure) {
   memberCall(this, name, true, configure);
 };
-protoOf(ChainScope).jf = function (body) {
+protoOf(ChainScope).pg = function (body) {
   var index = expression(body);
   change(this, ChainScope$index$lambda(index));
 };
-protoOf(ChainScope).kf = function (body) {
+protoOf(ChainScope).qg = function (body) {
   binary(this, '+', 60, body);
 };
-protoOf(ChainScope).lf = function (body) {
+protoOf(ChainScope).rg = function (body) {
   binary(this, '-', 60, body);
 };
-protoOf(ChainScope).mf = function (body) {
+protoOf(ChainScope).sg = function (body) {
   binary(this, '*', 70, body);
 };
-protoOf(ChainScope).nf = function (body) {
+protoOf(ChainScope).tg = function (body) {
   binary(this, '/', 70, body);
 };
-protoOf(ChainScope).of = function (body) {
+protoOf(ChainScope).ug = function (body) {
   binary(this, '%', 70, body);
 };
-protoOf(ChainScope).pf = function (body) {
+protoOf(ChainScope).vg = function (body) {
   binary(this, '==', 30, body);
 };
-protoOf(ChainScope).qf = function (body) {
+protoOf(ChainScope).wg = function (body) {
   binary(this, '!=', 30, body);
 };
-protoOf(ChainScope).rf = function (body) {
+protoOf(ChainScope).xg = function (body) {
   binary(this, '&&', 20, body);
 };
-protoOf(ChainScope).sf = function (body) {
+protoOf(ChainScope).yg = function (body) {
   binary(this, '||', 10, body);
 };
-protoOf(ChainScope).tf = function (body) {
+protoOf(ChainScope).zg = function (body) {
   binary(this, '?:', 40, body);
 };
-protoOf(ChainScope).uf = function (name, body) {
+protoOf(ChainScope).ah = function (name, body) {
   // Inline function 'kotlin.text.isNotBlank' call
   // Inline function 'kotlin.require' call
   if (!!isBlank(name)) {
@@ -2470,19 +2626,19 @@ protoOf(ChainScope).uf = function (name, body) {
   var right = expression(body);
   change(this, ChainScope$infixCall$lambda(name, right));
 };
-protoOf(ChainScope).vf = function () {
+protoOf(ChainScope).bh = function () {
   change(this, ChainScope$not$lambda);
 };
-protoOf(ChainScope).wf = function () {
+protoOf(ChainScope).ch = function () {
   change(this, ChainScope$unaryMinus$lambda);
 };
-protoOf(ChainScope).xf = function (body) {
+protoOf(ChainScope).dh = function (body) {
   var type_0 = type(body);
   change(this, ChainScope$isType$lambda(type_0));
 };
-protoOf(ChainScope).yf = function (body) {
+protoOf(ChainScope).eh = function (body) {
   // Inline function 'kotlin.check' call
-  if (!this.ye_1) {
+  if (!this.eg_1) {
     var message = 'Assignments belong in a statement body';
     throw IllegalStateException_init_$Create$(toString(message));
   }
@@ -2490,51 +2646,66 @@ protoOf(ChainScope).yf = function (body) {
   change(this, ChainScope$assign$lambda(right));
 };
 function ArgumentScope() {
-  this.ca_1 = null;
-  this.da_1 = null;
-  this.ea_1 = null;
+  this.bb_1 = null;
+  this.cb_1 = null;
+  this.db_1 = null;
 }
-protoOf(ArgumentScope).la = function (body) {
+protoOf(ArgumentScope).kb = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.ea_1 == null)) {
+  if (!(this.db_1 == null)) {
     var message = 'Argument type has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.ea_1 = type(body);
+  this.db_1 = type(body);
 };
-protoOf(ArgumentScope).fa = function () {
+protoOf(ArgumentScope).eb = function () {
   // Inline function 'kotlin.require' call
-  if (!!(this.ea_1 == null === (this.da_1 == null))) {
+  if (!!(this.db_1 == null === (this.cb_1 == null))) {
     var message = 'An argument must configure exactly one of type or value';
     throw IllegalArgumentException_init_$Create$(toString(message));
   }
   // Inline function 'kotlin.require' call
-  if (!(this.ea_1 == null || this.ca_1 == null)) {
+  if (!(this.db_1 == null || this.bb_1 == null)) {
     var message_0 = 'Type arguments cannot have names';
     throw IllegalArgumentException_init_$Create$(toString(message_0));
   }
 };
+function AnnotationScope$argument$lambda($body, $name) {
+  return function ($this$argument) {
+    $body($this$argument);
+    // Inline function 'kotlin.require' call
+    if (!($this$argument.bb_1 == null || $this$argument.bb_1 === $name)) {
+      var message = 'Conflicting argument names';
+      throw IllegalArgumentException_init_$Create$(toString(message));
+    }
+    $this$argument.bb_1 = $name;
+    return Unit_instance;
+  };
+}
 function AnnotationScope() {
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.td_1 = ArrayList_init_$Create$_0();
+  tmp.ze_1 = ArrayList_init_$Create$_0();
 }
-protoOf(AnnotationScope).ba = function (body) {
+protoOf(AnnotationScope).fh = function (name, body) {
+  this.ab(AnnotationScope$argument$lambda(body, name));
+};
+protoOf(AnnotationScope).ab = function (body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ArgumentScope();
   body(this_0);
   // Inline function 'kotlin.also' call
-  this_0.fa();
+  this_0.eb();
   var argument = this_0;
   // Inline function 'kotlin.require' call
-  if (!(argument.ea_1 == null)) {
+  if (!(argument.db_1 == null)) {
     var message = 'Annotation arguments must be values';
     throw IllegalArgumentException_init_$Create$(toString(message));
   }
-  var tmp5 = this.td_1;
-  var tmp = argument.ca_1;
+  var tmp5 = this.ze_1;
+  var tmp = argument.bb_1;
   // Inline function 'kotlin.requireNotNull' call
-  var tmp0 = argument.da_1;
+  var tmp0 = argument.cb_1;
   var tmp$ret$6;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2551,21 +2722,21 @@ protoOf(AnnotationScope).ba = function (body) {
   var element = to(tmp, tmp$ret$7);
   tmp5.e(element);
 };
-protoOf(AnnotationScope).n8 = function (name, context) {
-  var tmp = text(context.r9(name));
+protoOf(AnnotationScope).k9 = function (name, context) {
+  var tmp = text(context.qa(name));
   var tmp_0;
-  if (this.td_1.e1()) {
+  if (this.ze_1.e1()) {
     tmp_0 = text('');
   } else {
     // Inline function 'kotlin.collections.map' call
-    var this_0 = this.td_1;
+    var this_0 = this.ze_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
     var _iterator__ex2g4s = this_0.g();
     while (_iterator__ex2g4s.h()) {
       var item = _iterator__ex2g4s.i();
-      var name_0 = item.m7();
-      var value = item.n7();
+      var name_0 = item.i8();
+      var value = item.j8();
       var tmp_1;
       if (name_0 == null) {
         tmp_1 = null;
@@ -2574,38 +2745,53 @@ protoOf(AnnotationScope).n8 = function (name, context) {
         tmp_1 = identifier(name_0) + ' = ';
       }
       var tmp1_elvis_lhs = tmp_1;
-      var tmp$ret$2 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), value.y7(context));
+      var tmp$ret$2 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), value.v8(context));
       destination.e(tmp$ret$2);
     }
     tmp_0 = delimited('(', destination, ')');
   }
   return plus_1(tmp, tmp_0);
 };
+function CallScope$argument$lambda($body, $name) {
+  return function ($this$argument) {
+    $body($this$argument);
+    // Inline function 'kotlin.require' call
+    if (!($this$argument.bb_1 == null || $this$argument.bb_1 === $name)) {
+      var message = 'Conflicting argument names';
+      throw IllegalArgumentException_init_$Create$(toString(message));
+    }
+    $this$argument.bb_1 = $name;
+    return Unit_instance;
+  };
+}
 function CallScope() {
   var tmp = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp.zf_1 = ArrayList_init_$Create$_0();
+  tmp.gh_1 = ArrayList_init_$Create$_0();
   var tmp_0 = this;
   // Inline function 'kotlin.collections.mutableListOf' call
-  tmp_0.ag_1 = ArrayList_init_$Create$_0();
-  this.bg_1 = null;
+  tmp_0.hh_1 = ArrayList_init_$Create$_0();
+  this.ih_1 = null;
 }
-protoOf(CallScope).ba = function (body) {
+protoOf(CallScope).fh = function (name, body) {
+  this.ab(CallScope$argument$lambda(body, name));
+};
+protoOf(CallScope).ab = function (body) {
   // Inline function 'kotlin.apply' call
   var this_0 = new ArgumentScope();
   body(this_0);
   // Inline function 'kotlin.also' call
-  this_0.fa();
+  this_0.eb();
   var argument = this_0;
-  var type = argument.ea_1;
+  var type = argument.db_1;
   if (!(type == null)) {
     // Inline function 'kotlin.collections.plusAssign' call
-    this.ag_1.e(type);
+    this.hh_1.e(type);
   } else {
-    var tmp6 = this.zf_1;
-    var tmp = argument.ca_1;
+    var tmp6 = this.gh_1;
+    var tmp = argument.bb_1;
     // Inline function 'kotlin.requireNotNull' call
-    var tmp0 = argument.da_1;
+    var tmp0 = argument.cb_1;
     var tmp$ret$5;
     $l$block: {
       // Inline function 'kotlin.requireNotNull' call
@@ -2623,41 +2809,41 @@ protoOf(CallScope).ba = function (body) {
     tmp6.e(element);
   }
 };
-protoOf(CallScope).cg = function (body) {
+protoOf(CallScope).jh = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.bg_1 == null)) {
+  if (!(this.ih_1 == null)) {
     var message = 'Trailing lambda has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.bg_1 = buildLambda(body, true);
+  this.ih_1 = buildLambda(body, true);
 };
-protoOf(CallScope).dg = function (name, c) {
+protoOf(CallScope).kh = function (name, c) {
   var tmp;
-  if (this.ag_1.e1()) {
+  if (this.hh_1.e1()) {
     tmp = text('');
   } else {
     // Inline function 'kotlin.collections.map' call
-    var this_0 = this.ag_1;
+    var this_0 = this.hh_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
     var _iterator__ex2g4s = this_0.g();
     while (_iterator__ex2g4s.h()) {
       var item = _iterator__ex2g4s.i();
-      var tmp$ret$0 = item.u9(c);
+      var tmp$ret$0 = item.ta(c);
       destination.e(tmp$ret$0);
     }
     tmp = delimited('<', destination, '>');
   }
   var typeArgs = tmp;
   // Inline function 'kotlin.collections.map' call
-  var this_1 = this.zf_1;
+  var this_1 = this.gh_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination_0 = ArrayList_init_$Create$(collectionSizeOrDefault(this_1, 10));
   var _iterator__ex2g4s_0 = this_1.g();
   while (_iterator__ex2g4s_0.h()) {
     var item_0 = _iterator__ex2g4s_0.i();
-    var name_0 = item_0.m7();
-    var expression = item_0.n7();
+    var name_0 = item_0.i8();
+    var expression = item_0.j8();
     var tmp_0;
     if (name_0 == null) {
       tmp_0 = null;
@@ -2666,19 +2852,19 @@ protoOf(CallScope).dg = function (name, c) {
       tmp_0 = identifier(name_0) + ' = ';
     }
     var tmp1_elvis_lhs = tmp_0;
-    var tmp$ret$5 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), expression.y7(c));
+    var tmp$ret$5 = plus_1(text(tmp1_elvis_lhs == null ? '' : tmp1_elvis_lhs), expression.v8(c));
     destination_0.e(tmp$ret$5);
   }
   var args = destination_0;
-  var parentheses = this.zf_1.e1() && !(this.bg_1 == null) && this.ag_1.e1() ? text('') : delimited('(', args, ')');
-  var tmp_1 = plus_1(plus_1(text(c.r9(name)), typeArgs), parentheses);
-  var tmp0_safe_receiver = this.bg_1;
+  var parentheses = this.gh_1.e1() && !(this.ih_1 == null) && this.hh_1.e1() ? text('') : delimited('(', args, ')');
+  var tmp_1 = plus_1(plus_1(text(c.qa(name)), typeArgs), parentheses);
+  var tmp0_safe_receiver = this.ih_1;
   var tmp_2;
   if (tmp0_safe_receiver == null) {
     tmp_2 = null;
   } else {
     // Inline function 'kotlin.let' call
-    tmp_2 = plus_1(text(' '), tmp0_safe_receiver.y7(c));
+    tmp_2 = plus_1(text(' '), tmp0_safe_receiver.v8(c));
   }
   var tmp1_elvis_lhs_0 = tmp_2;
   return plus_1(tmp_1, tmp1_elvis_lhs_0 == null ? text('') : tmp1_elvis_lhs_0);
@@ -2708,40 +2894,40 @@ function buildLambda(body, trailing) {
 }
 function IfExpressionScope$build$lambda($condition, $yes, $no) {
   return function (c) {
-    return grouped(plus_1(plus_2(plus_1(plus_1(plus_2(plus_1(text('if ('), $condition.y7(c)), ')'), nested(plus_1(get_softLine(), $yes.y7(c)))), get_softLine()), 'else'), nested(plus_1(get_softLine(), $no.y7(c)))));
+    return grouped(plus_1(plus_2(plus_1(plus_1(plus_2(plus_1(text('if ('), $condition.v8(c)), ')'), nested(plus_1(get_softLine(), $yes.v8(c)))), get_softLine()), 'else'), nested(plus_1(get_softLine(), $no.v8(c)))));
   };
 }
 function IfExpressionScope() {
-  this.bf_1 = null;
-  this.cf_1 = null;
-  this.df_1 = null;
+  this.hg_1 = null;
+  this.ig_1 = null;
+  this.jg_1 = null;
 }
-protoOf(IfExpressionScope).ub = function (body) {
+protoOf(IfExpressionScope).tc = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.bf_1 == null)) {
+  if (!(this.hg_1 == null)) {
     var message = 'Condition has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.bf_1 = expression(body);
+  this.hg_1 = expression(body);
 };
-protoOf(IfExpressionScope).eg = function (body) {
+protoOf(IfExpressionScope).lh = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.cf_1 == null)) {
+  if (!(this.ig_1 == null)) {
     var message = 'Then branch has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.cf_1 = expression(body);
+  this.ig_1 = expression(body);
 };
-protoOf(IfExpressionScope).fg = function (body) {
+protoOf(IfExpressionScope).mh = function (body) {
   // Inline function 'kotlin.check' call
-  if (!(this.df_1 == null)) {
+  if (!(this.jg_1 == null)) {
     var message = 'Else branch has already been defined';
     throw IllegalStateException_init_$Create$(toString(message));
   }
-  this.df_1 = expression(body);
+  this.jg_1 = expression(body);
 };
-protoOf(IfExpressionScope).ga = function () {
-  var tmp0 = this.bf_1;
+protoOf(IfExpressionScope).fb = function () {
+  var tmp0 = this.hg_1;
   var tmp$ret$1;
   $l$block: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2754,7 +2940,7 @@ protoOf(IfExpressionScope).ga = function () {
     }
   }
   var condition = tmp$ret$1;
-  var tmp1 = this.cf_1;
+  var tmp1 = this.ig_1;
   var tmp$ret$3;
   $l$block_0: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2767,7 +2953,7 @@ protoOf(IfExpressionScope).ga = function () {
     }
   }
   var yes = tmp$ret$3;
-  var tmp2 = this.df_1;
+  var tmp2 = this.jg_1;
   var tmp$ret$5;
   $l$block_1: {
     // Inline function 'kotlin.requireNotNull' call
@@ -2784,7 +2970,7 @@ protoOf(IfExpressionScope).ga = function () {
 };
 function reference$lambda($name) {
   return function (c) {
-    return text(setOf(['this', 'super']).f1($name) ? $name : c.r9($name));
+    return text(setOf(['this', 'super']).f1($name) ? $name : c.qa($name));
   };
 }
 function nullValue$lambda(_unused_var__etf5q3) {
@@ -2807,14 +2993,14 @@ function floatingLiteral$lambda($code) {
 }
 function buildCall$lambda($scope, $name, $receiver, $safe) {
   return function (c) {
-    var call = $scope.dg($name, c);
+    var call = $scope.kh($name, c);
     var tmp0_safe_receiver = $receiver;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
     } else {
       // Inline function 'kotlin.let' call
-      tmp = member(tmp0_safe_receiver.xe(c, 90), plus_1(text($safe ? '?.' : '.'), call));
+      tmp = member(tmp0_safe_receiver.dg(c, 90), plus_1(text($safe ? '?.' : '.'), call));
     }
     var tmp1_elvis_lhs = tmp;
     return tmp1_elvis_lhs == null ? call : tmp1_elvis_lhs;
@@ -2823,25 +3009,25 @@ function buildCall$lambda($scope, $name, $receiver, $safe) {
 function buildLambda$lambda($scope, $trailing) {
   return function (c) {
     var tmp;
-    if ($scope.xb_1.e1()) {
+    if ($scope.wc_1.e1()) {
       tmp = text('{');
     } else {
       var tmp_0 = text('{');
       var tmp_1 = get_softLine();
       // Inline function 'kotlin.collections.map' call
-      var this_0 = $scope.xb_1;
+      var this_0 = $scope.wc_1;
       // Inline function 'kotlin.collections.mapTo' call
       var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
       var _iterator__ex2g4s = this_0.g();
       while (_iterator__ex2g4s.h()) {
         var item = _iterator__ex2g4s.i();
-        var tmp$ret$0 = item.u9(c);
+        var tmp$ret$0 = item.ta(c);
         destination.e(tmp$ret$0);
       }
       tmp = grouped(plus_1(tmp_0, nested(plus_2(plus_1(tmp_1, joined(destination, plus_1(text(','), get_softLine()))), ' ->'))));
     }
     var header = tmp;
-    return lambdaLayout(header, $scope.ya_1.c9(c), $scope.ya_1.t8(), $trailing, $scope.ya_1.u8() && $scope.xb_1.e1());
+    return lambdaLayout(header, $scope.xb_1.aa(c), $scope.xb_1.r9(), $trailing, $scope.xb_1.s9() && $scope.wc_1.e1());
   };
 }
 function escapeString(text) {
@@ -2854,19 +3040,19 @@ function escapeString(text) {
     var element = charSequenceGet(text, inductionVariable);
     inductionVariable = inductionVariable + 1 | 0;
     if (element === _Char___init__impl__6a9atx(92))
-      this_0.u4('\\\\');
+      this_0.s5('\\\\');
     else if (element === _Char___init__impl__6a9atx(34))
-      this_0.u4('\\"');
+      this_0.s5('\\"');
     else if (element === _Char___init__impl__6a9atx(36))
-      this_0.u4('\\$');
+      this_0.s5('\\$');
     else if (element === _Char___init__impl__6a9atx(10))
-      this_0.u4('\\n');
+      this_0.s5('\\n');
     else if (element === _Char___init__impl__6a9atx(13))
-      this_0.u4('\\r');
+      this_0.s5('\\r');
     else if (element === _Char___init__impl__6a9atx(9))
-      this_0.u4('\\t');
+      this_0.s5('\\t');
     else if (element === _Char___init__impl__6a9atx(8))
-      this_0.u4('\\b');
+      this_0.s5('\\b');
     else {
       var tmp;
       var tmp_0;
@@ -2889,12 +3075,12 @@ function escapeString(text) {
         tmp = element === _Char___init__impl__6a9atx(8233);
       }
       if (tmp) {
-        this_0.u4('\\u');
+        this_0.s5('\\u');
         // Inline function 'kotlin.code' call
         var tmp$ret$2 = Char__toInt_impl_vasixd(element);
-        this_0.u4(padStart(toString_2(tmp$ret$2, 16), 4, _Char___init__impl__6a9atx(48)));
+        this_0.s5(padStart(toString_2(tmp$ret$2, 16), 4, _Char___init__impl__6a9atx(48)));
       } else {
-        this_0.v4(element);
+        this_0.t5(element);
       }
     }
   }
@@ -2950,7 +3136,7 @@ function applyNode(scope, node) {
       tmp_2 = false;
     }
     if (tmp_2)
-      scope.ac_1 = applyNode$strings(count, args, name);
+      scope.zc_1 = applyNode$strings(count, args, name);
     else {
       var tmp_3;
       if (name === 'modifiers') {
@@ -2959,7 +3145,7 @@ function applyNode(scope, node) {
         tmp_3 = false;
       }
       if (tmp_3)
-        scope.q8_1 = applyNode$strings(count, args, name);
+        scope.n9_1 = applyNode$strings(count, args, name);
       else {
         var tmp_4;
         if (name === 'annotations') {
@@ -2968,7 +3154,7 @@ function applyNode(scope, node) {
           tmp_4 = false;
         }
         if (tmp_4)
-          scope.bc_1 = applyNode$strings(count, args, name);
+          scope.ad_1 = applyNode$strings(count, args, name);
         else {
           var tmp_5;
           if (name === 'annotations') {
@@ -2977,7 +3163,7 @@ function applyNode(scope, node) {
             tmp_5 = false;
           }
           if (tmp_5)
-            scope.r8_1 = applyNode$strings(count, args, name);
+            scope.o9_1 = applyNode$strings(count, args, name);
           else {
             var tmp_6;
             if (name === 'annotations') {
@@ -2986,7 +3172,7 @@ function applyNode(scope, node) {
               tmp_6 = false;
             }
             if (tmp_6)
-              scope.w9_1 = applyNode$strings(count, args, name);
+              scope.va_1 = applyNode$strings(count, args, name);
             else {
               var tmp_7;
               if (name === 'visibility') {
@@ -2995,7 +3181,7 @@ function applyNode(scope, node) {
                 tmp_7 = false;
               }
               if (tmp_7)
-                scope.zb_1 = applyNode$visibility(count, args, name);
+                scope.yc_1 = applyNode$visibility(count, args, name);
               else {
                 var tmp_8;
                 if (name === 'visibility') {
@@ -3004,7 +3190,7 @@ function applyNode(scope, node) {
                   tmp_8 = false;
                 }
                 if (tmp_8)
-                  scope.p8_1 = applyNode$visibility(count, args, name);
+                  scope.m9_1 = applyNode$visibility(count, args, name);
                 else {
                   var tmp_9;
                   if (name === 'visibility') {
@@ -3013,7 +3199,7 @@ function applyNode(scope, node) {
                     tmp_9 = false;
                   }
                   if (tmp_9)
-                    scope.sc_1 = applyNode$visibility(count, args, name);
+                    scope.rd_1 = applyNode$visibility(count, args, name);
                   else {
                     var tmp_10;
                     if (name === 'nullable') {
@@ -3022,7 +3208,7 @@ function applyNode(scope, node) {
                       tmp_10 = false;
                     }
                     if (tmp_10)
-                      scope.v9_1 = applyNode$boolean(count, args, name);
+                      scope.ua_1 = applyNode$boolean(count, args, name);
                     else {
                       var tmp_11;
                       if (name === 'mutable') {
@@ -3031,7 +3217,7 @@ function applyNode(scope, node) {
                         tmp_11 = false;
                       }
                       if (tmp_11)
-                        scope.tc_1 = applyNode$boolean(count, args, name);
+                        scope.sd_1 = applyNode$boolean(count, args, name);
                       else {
                         var tmp_12;
                         if (name === 'name') {
@@ -3040,7 +3226,7 @@ function applyNode(scope, node) {
                           tmp_12 = false;
                         }
                         if (tmp_12)
-                          scope.ca_1 = applyNode$string(count, args, name);
+                          scope.bb_1 = applyNode$string(count, args, name);
                         else {
                           // Inline function 'kotlin.error' call
                           var message = "Unsupported property '" + name + "' in this block";
@@ -3059,7 +3245,7 @@ function applyNode(scope, node) {
     return Unit_instance;
   }
   var named = setOf(['packageName', 'ktImport', 'ktFileAnnotation', 'ktFunction', 'ktClass', 'ktInterface', 'ktObject', 'ktValue', 'ktVariable', 'parameter', 'reference', 'call', 'safeCall', 'property', 'safeProperty', 'modifier', 'comment', 'infixCall']);
-  if (!named.f1(name) && !(name === 'literal') && !(name === 'lines')) {
+  if (!named.f1(name) && !(name === 'literal') && !(name === 'lines') && !(name === 'argument')) {
     applyNode$noArgs(count, name);
   }
   if (setOf(['packageName', 'ktImport', 'modifier', 'comment', 'line', 'lines', 'nullValue', 'classLiteral', 'not', 'unaryMinus']).f1(name)) {
@@ -3109,7 +3295,7 @@ function applyNode(scope, node) {
     tmp_16 = false;
   }
   if (tmp_16) {
-    scope.sd(applyNode$string(count, args, name));
+    scope.ye(applyNode$string(count, args, name));
   } else {
     var tmp_17;
     if (name === 'ktImport') {
@@ -3118,7 +3304,7 @@ function applyNode(scope, node) {
       tmp_17 = false;
     }
     if (tmp_17) {
-      scope.qd(applyNode$string(count, args, name));
+      scope.we(applyNode$string(count, args, name));
     } else {
       var tmp_18;
       if (name === 'ktFileAnnotation') {
@@ -3127,7 +3313,7 @@ function applyNode(scope, node) {
         tmp_18 = false;
       }
       if (tmp_18) {
-        scope.rd(applyNode$string(count, args, name), block);
+        scope.xe(applyNode$string(count, args, name), block);
       } else {
         var tmp_19;
         if (name === 'ktFunction') {
@@ -3136,7 +3322,7 @@ function applyNode(scope, node) {
           tmp_19 = false;
         }
         if (tmp_19) {
-          scope.cb(applyNode$string(count, args, name), block);
+          scope.bc(applyNode$string(count, args, name), block);
         } else {
           var tmp_20;
           if (name === 'ktClass') {
@@ -3145,7 +3331,7 @@ function applyNode(scope, node) {
             tmp_20 = false;
           }
           if (tmp_20) {
-            scope.db(applyNode$string(count, args, name), block);
+            scope.cc(applyNode$string(count, args, name), block);
           } else {
             var tmp_21;
             if (name === 'ktValue') {
@@ -3154,7 +3340,7 @@ function applyNode(scope, node) {
               tmp_21 = false;
             }
             if (tmp_21) {
-              scope.ab(applyNode$string(count, args, name), block);
+              scope.zb(applyNode$string(count, args, name), block);
             } else {
               var tmp_22;
               if (name === 'ktVariable') {
@@ -3163,7 +3349,7 @@ function applyNode(scope, node) {
                 tmp_22 = false;
               }
               if (tmp_22) {
-                scope.bb(applyNode$string(count, args, name), block);
+                scope.ac(applyNode$string(count, args, name), block);
               } else {
                 var tmp_23;
                 if (name === 'ktInterface') {
@@ -3172,7 +3358,7 @@ function applyNode(scope, node) {
                   tmp_23 = false;
                 }
                 if (tmp_23) {
-                  scope.vc(applyNode$string(count, args, name), block);
+                  scope.ud(applyNode$string(count, args, name), block);
                 } else {
                   var tmp_24;
                   if (name === 'ktInterface') {
@@ -3181,7 +3367,7 @@ function applyNode(scope, node) {
                     tmp_24 = false;
                   }
                   if (tmp_24) {
-                    scope.vc(applyNode$string(count, args, name), block);
+                    scope.ud(applyNode$string(count, args, name), block);
                   } else {
                     var tmp_25;
                     if (name === 'ktObject') {
@@ -3190,7 +3376,7 @@ function applyNode(scope, node) {
                       tmp_25 = false;
                     }
                     if (tmp_25) {
-                      scope.wc(applyNode$string(count, args, name), block);
+                      scope.vd(applyNode$string(count, args, name), block);
                     } else {
                       var tmp_26;
                       if (name === 'ktObject') {
@@ -3199,7 +3385,7 @@ function applyNode(scope, node) {
                         tmp_26 = false;
                       }
                       if (tmp_26) {
-                        scope.wc(applyNode$string(count, args, name), block);
+                        scope.vd(applyNode$string(count, args, name), block);
                       } else {
                         var tmp_27;
                         if (name === 'companionObject') {
@@ -3208,7 +3394,7 @@ function applyNode(scope, node) {
                           tmp_27 = false;
                         }
                         if (tmp_27) {
-                          scope.dd(VOID, block);
+                          scope.de(VOID, block);
                         } else {
                           var tmp_28;
                           if (name === 'companionObject') {
@@ -3217,7 +3403,7 @@ function applyNode(scope, node) {
                             tmp_28 = false;
                           }
                           if (tmp_28) {
-                            scope.id(VOID, block);
+                            scope.je(VOID, block);
                           } else {
                             var tmp_29;
                             if (name === 'constructor') {
@@ -3235,7 +3421,7 @@ function applyNode(scope, node) {
                                 tmp_30 = false;
                               }
                               if (tmp_30) {
-                                scope.lc(applyNode$string(count, args, name), block);
+                                scope.kd(applyNode$string(count, args, name), block);
                               } else {
                                 var tmp_31;
                                 if (name === 'parameter') {
@@ -3244,7 +3430,7 @@ function applyNode(scope, node) {
                                   tmp_31 = false;
                                 }
                                 if (tmp_31) {
-                                  scope.yb(applyNode$string(count, args, name), block);
+                                  scope.xc(applyNode$string(count, args, name), block);
                                 } else {
                                   var tmp_32;
                                   if (name === 'parameter') {
@@ -3253,7 +3439,7 @@ function applyNode(scope, node) {
                                     tmp_32 = false;
                                   }
                                   if (tmp_32) {
-                                    scope.yb(applyNode$string(count, args, name), block);
+                                    scope.xc(applyNode$string(count, args, name), block);
                                   } else {
                                     var tmp_33;
                                     if (name === 'property') {
@@ -3263,7 +3449,7 @@ function applyNode(scope, node) {
                                     }
                                     if (tmp_33) {
                                       applyNode$noArgs(count, name);
-                                      scope.rc(block);
+                                      scope.qd(block);
                                     } else {
                                       var tmp_34;
                                       if (name === 'modifier') {
@@ -3272,7 +3458,7 @@ function applyNode(scope, node) {
                                         tmp_34 = false;
                                       }
                                       if (tmp_34) {
-                                        scope.va(applyNode$string(count, args, name));
+                                        scope.ub(applyNode$string(count, args, name));
                                       } else {
                                         var tmp_35;
                                         if (name === 'default') {
@@ -3281,7 +3467,7 @@ function applyNode(scope, node) {
                                           tmp_35 = false;
                                         }
                                         if (tmp_35) {
-                                          scope.ua(block);
+                                          scope.tb(block);
                                         } else {
                                           var tmp_36;
                                           if (name === 'returns') {
@@ -3290,7 +3476,7 @@ function applyNode(scope, node) {
                                             tmp_36 = false;
                                           }
                                           if (tmp_36) {
-                                            scope.dc(block);
+                                            scope.cd(block);
                                           } else {
                                             var tmp_37;
                                             if (name === 'body') {
@@ -3299,7 +3485,7 @@ function applyNode(scope, node) {
                                               tmp_37 = false;
                                             }
                                             if (tmp_37) {
-                                              scope.ec(block);
+                                              scope.dd(block);
                                             } else {
                                               var tmp_38;
                                               if (name === 'body') {
@@ -3308,7 +3494,7 @@ function applyNode(scope, node) {
                                                 tmp_38 = false;
                                               }
                                               if (tmp_38) {
-                                                scope.jc(block);
+                                                scope.id(block);
                                               } else {
                                                 var tmp_39;
                                                 if (name === 'body') {
@@ -3317,7 +3503,7 @@ function applyNode(scope, node) {
                                                   tmp_39 = false;
                                                 }
                                                 if (tmp_39) {
-                                                  scope.vb(block);
+                                                  scope.uc(block);
                                                 } else {
                                                   var tmp_40;
                                                   if (name === 'type') {
@@ -3326,7 +3512,7 @@ function applyNode(scope, node) {
                                                     tmp_40 = false;
                                                   }
                                                   if (tmp_40) {
-                                                    scope.la(block);
+                                                    scope.kb(block);
                                                   } else {
                                                     var tmp_41;
                                                     if (name === 'type') {
@@ -3335,7 +3521,7 @@ function applyNode(scope, node) {
                                                       tmp_41 = false;
                                                     }
                                                     if (tmp_41) {
-                                                      scope.la(block);
+                                                      scope.kb(block);
                                                     } else {
                                                       var tmp_42;
                                                       if (name === 'type') {
@@ -3344,7 +3530,7 @@ function applyNode(scope, node) {
                                                         tmp_42 = false;
                                                       }
                                                       if (tmp_42) {
-                                                        scope.la(block);
+                                                        scope.kb(block);
                                                       } else {
                                                         var tmp_43;
                                                         if (name === 'type') {
@@ -3353,7 +3539,7 @@ function applyNode(scope, node) {
                                                           tmp_43 = false;
                                                         }
                                                         if (tmp_43) {
-                                                          scope.la(block);
+                                                          scope.kb(block);
                                                         } else {
                                                           var tmp_44;
                                                           if (name === 'reference') {
@@ -3367,7 +3553,7 @@ function applyNode(scope, node) {
                                                               var message_3 = 'Type references do not accept a block';
                                                               throw IllegalArgumentException_init_$Create$(toString(message_3));
                                                             }
-                                                            scope.aa(applyNode$string(count, args, name));
+                                                            scope.za(applyNode$string(count, args, name));
                                                           } else {
                                                             var tmp_45;
                                                             if (name === 'argument') {
@@ -3376,7 +3562,8 @@ function applyNode(scope, node) {
                                                               tmp_45 = false;
                                                             }
                                                             if (tmp_45) {
-                                                              scope.ba(block);
+                                                              applyNode$noArgs(count, name);
+                                                              scope.ab(block);
                                                             } else {
                                                               var tmp_46;
                                                               if (name === 'initializer') {
@@ -3385,7 +3572,7 @@ function applyNode(scope, node) {
                                                                 tmp_46 = false;
                                                               }
                                                               if (tmp_46) {
-                                                                scope.jd(block);
+                                                                scope.ke(block);
                                                               } else {
                                                                 var tmp_47;
                                                                 if (name === 'delegate') {
@@ -3394,7 +3581,7 @@ function applyNode(scope, node) {
                                                                   tmp_47 = false;
                                                                 }
                                                                 if (tmp_47) {
-                                                                  scope.kd(block);
+                                                                  scope.le(block);
                                                                 } else {
                                                                   var tmp_48;
                                                                   if (name === 'getter') {
@@ -3403,7 +3590,7 @@ function applyNode(scope, node) {
                                                                     tmp_48 = false;
                                                                   }
                                                                   if (tmp_48) {
-                                                                    scope.ld(block);
+                                                                    scope.me(block);
                                                                   } else {
                                                                     var tmp_49;
                                                                     if (name === 'argument') {
@@ -3411,18 +3598,26 @@ function applyNode(scope, node) {
                                                                     } else {
                                                                       tmp_49 = false;
                                                                     }
-                                                                    if (tmp_49) {
-                                                                      scope.ba(block);
-                                                                    } else {
+                                                                    if (tmp_49)
+                                                                      if (count === 0) {
+                                                                        scope.ab(block);
+                                                                      } else {
+                                                                        scope.fh(applyNode$string(count, args, name), block);
+                                                                      }
+                                                                     else {
                                                                       var tmp_50;
                                                                       if (name === 'argument') {
                                                                         tmp_50 = scope instanceof AnnotationScope;
                                                                       } else {
                                                                         tmp_50 = false;
                                                                       }
-                                                                      if (tmp_50) {
-                                                                        scope.ba(block);
-                                                                      } else {
+                                                                      if (tmp_50)
+                                                                        if (count === 0) {
+                                                                          scope.ab(block);
+                                                                        } else {
+                                                                          scope.fh(applyNode$string(count, args, name), block);
+                                                                        }
+                                                                       else {
                                                                         var tmp_51;
                                                                         if (name === 'trailingLambda') {
                                                                           tmp_51 = scope instanceof CallScope;
@@ -3430,7 +3625,7 @@ function applyNode(scope, node) {
                                                                           tmp_51 = false;
                                                                         }
                                                                         if (tmp_51) {
-                                                                          scope.cg(block);
+                                                                          scope.jh(block);
                                                                         } else {
                                                                           var tmp_52;
                                                                           if (name === 'reference') {
@@ -3439,7 +3634,7 @@ function applyNode(scope, node) {
                                                                             tmp_52 = false;
                                                                           }
                                                                           if (tmp_52) {
-                                                                            scope.kb(applyNode$string(count, args, name), block);
+                                                                            scope.jc(applyNode$string(count, args, name), block);
                                                                           } else {
                                                                             var tmp_53;
                                                                             if (name === 'literal') {
@@ -3466,7 +3661,7 @@ function applyNode(scope, node) {
                                                                                   tmp_54 = contains(tmp$ret$11, _Char___init__impl__6a9atx(101));
                                                                                 }
                                                                                 if (tmp_54) {
-                                                                                  scope.nb(toDouble(text), block);
+                                                                                  scope.mc(toDouble(text), block);
                                                                                 } else {
                                                                                   var tmp7 = toIntOrNull(text);
                                                                                   var tmp$ret$13;
@@ -3480,7 +3675,7 @@ function applyNode(scope, node) {
                                                                                       break $l$block;
                                                                                     }
                                                                                   }
-                                                                                  scope.mb(tmp$ret$13, block);
+                                                                                  scope.lc(tmp$ret$13, block);
                                                                                 }
                                                                               } else {
                                                                                 // Inline function 'kotlin.require' call
@@ -3488,7 +3683,7 @@ function applyNode(scope, node) {
                                                                                   var message_6 = 'literal expects a string, number, boolean, or null';
                                                                                   throw IllegalArgumentException_init_$Create$(toString(message_6));
                                                                                 }
-                                                                                scope.lb((value == null ? true : !(value == null)) ? value : THROW_CCE(), block);
+                                                                                scope.kc((value == null ? true : !(value == null)) ? value : THROW_CCE(), block);
                                                                               }
                                                                             } else {
                                                                               var tmp_55;
@@ -3498,7 +3693,7 @@ function applyNode(scope, node) {
                                                                                 tmp_55 = false;
                                                                               }
                                                                               if (tmp_55) {
-                                                                                scope.pb();
+                                                                                scope.oc();
                                                                               } else {
                                                                                 var tmp_56;
                                                                                 if (name === 'call') {
@@ -3507,7 +3702,7 @@ function applyNode(scope, node) {
                                                                                   tmp_56 = false;
                                                                                 }
                                                                                 if (tmp_56) {
-                                                                                  scope.qb(applyNode$string(count, args, name), block);
+                                                                                  scope.pc(applyNode$string(count, args, name), block);
                                                                                 } else {
                                                                                   var tmp_57;
                                                                                   if (name === 'chain') {
@@ -3516,7 +3711,7 @@ function applyNode(scope, node) {
                                                                                     tmp_57 = false;
                                                                                   }
                                                                                   if (tmp_57) {
-                                                                                    scope.rb(block);
+                                                                                    scope.qc(block);
                                                                                   } else {
                                                                                     var tmp_58;
                                                                                     if (name === 'lambdaExpression') {
@@ -3525,7 +3720,7 @@ function applyNode(scope, node) {
                                                                                       tmp_58 = false;
                                                                                     }
                                                                                     if (tmp_58) {
-                                                                                      scope.sb(block);
+                                                                                      scope.rc(block);
                                                                                     } else {
                                                                                       var tmp_59;
                                                                                       if (name === 'ifExpression') {
@@ -3534,7 +3729,7 @@ function applyNode(scope, node) {
                                                                                         tmp_59 = false;
                                                                                       }
                                                                                       if (tmp_59) {
-                                                                                        scope.tb(block);
+                                                                                        scope.sc(block);
                                                                                       } else {
                                                                                         var tmp_60;
                                                                                         if (name === 'ifStatement') {
@@ -3543,7 +3738,7 @@ function applyNode(scope, node) {
                                                                                           tmp_60 = false;
                                                                                         }
                                                                                         if (tmp_60) {
-                                                                                          scope.hb(block);
+                                                                                          scope.gc(block);
                                                                                         } else {
                                                                                           var tmp_61;
                                                                                           if (name === 'condition') {
@@ -3552,7 +3747,7 @@ function applyNode(scope, node) {
                                                                                             tmp_61 = false;
                                                                                           }
                                                                                           if (tmp_61) {
-                                                                                            scope.ub(block);
+                                                                                            scope.tc(block);
                                                                                           } else {
                                                                                             var tmp_62;
                                                                                             if (name === 'condition') {
@@ -3561,7 +3756,7 @@ function applyNode(scope, node) {
                                                                                               tmp_62 = false;
                                                                                             }
                                                                                             if (tmp_62) {
-                                                                                              scope.ub(block);
+                                                                                              scope.tc(block);
                                                                                             } else {
                                                                                               var tmp_63;
                                                                                               if (name === 'then') {
@@ -3570,7 +3765,7 @@ function applyNode(scope, node) {
                                                                                                 tmp_63 = false;
                                                                                               }
                                                                                               if (tmp_63) {
-                                                                                                scope.eg(block);
+                                                                                                scope.lh(block);
                                                                                               } else {
                                                                                                 var tmp_64;
                                                                                                 if (name === 'elseCase') {
@@ -3579,7 +3774,7 @@ function applyNode(scope, node) {
                                                                                                   tmp_64 = false;
                                                                                                 }
                                                                                                 if (tmp_64) {
-                                                                                                  scope.fg(block);
+                                                                                                  scope.mh(block);
                                                                                                 } else {
                                                                                                   var tmp_65;
                                                                                                   if (name === 'returnStatement') {
@@ -3588,7 +3783,7 @@ function applyNode(scope, node) {
                                                                                                     tmp_65 = false;
                                                                                                   }
                                                                                                   if (tmp_65) {
-                                                                                                    scope.gb(VOID, node.body == null ? null : block);
+                                                                                                    scope.fc(VOID, node.body == null ? null : block);
                                                                                                   } else {
                                                                                                     var tmp_66;
                                                                                                     if (name === 'line') {
@@ -3597,7 +3792,7 @@ function applyNode(scope, node) {
                                                                                                       tmp_66 = false;
                                                                                                     }
                                                                                                     if (tmp_66) {
-                                                                                                      scope.d9();
+                                                                                                      scope.ba();
                                                                                                     } else {
                                                                                                       var tmp_67;
                                                                                                       if (name === 'lines') {
@@ -3612,7 +3807,7 @@ function applyNode(scope, node) {
                                                                                                           var message_7 = 'lines expects an integer from 0 to 100';
                                                                                                           throw IllegalArgumentException_init_$Create$(toString(message_7));
                                                                                                         }
-                                                                                                        scope.e9(numberToInt(number));
+                                                                                                        scope.ca(numberToInt(number));
                                                                                                       } else {
                                                                                                         var tmp_68;
                                                                                                         if (name === 'comment') {
@@ -3621,72 +3816,72 @@ function applyNode(scope, node) {
                                                                                                           tmp_68 = false;
                                                                                                         }
                                                                                                         if (tmp_68) {
-                                                                                                          scope.f9(applyNode$string(count, args, name));
+                                                                                                          scope.da(applyNode$string(count, args, name));
                                                                                                         } else {
                                                                                                           if (scope instanceof ChainScope) {
                                                                                                             switch (name) {
                                                                                                               case 'call':
-                                                                                                                scope.qb(applyNode$string(count, args, name), block);
+                                                                                                                scope.pc(applyNode$string(count, args, name), block);
                                                                                                                 break;
                                                                                                               case 'safeCall':
-                                                                                                                scope.if(applyNode$string(count, args, name), block);
+                                                                                                                scope.og(applyNode$string(count, args, name), block);
                                                                                                                 break;
                                                                                                               case 'property':
-                                                                                                                scope.gf(applyNode$string(count, args, name));
+                                                                                                                scope.mg(applyNode$string(count, args, name));
                                                                                                                 break;
                                                                                                               case 'safeProperty':
-                                                                                                                scope.hf(applyNode$string(count, args, name));
+                                                                                                                scope.ng(applyNode$string(count, args, name));
                                                                                                                 break;
                                                                                                               case 'classLiteral':
-                                                                                                                scope.ff();
+                                                                                                                scope.lg();
                                                                                                                 break;
                                                                                                               case 'index':
-                                                                                                                scope.jf(block);
+                                                                                                                scope.pg(block);
                                                                                                                 break;
                                                                                                               case 'plus':
-                                                                                                                scope.kf(block);
+                                                                                                                scope.qg(block);
                                                                                                                 break;
                                                                                                               case 'minus':
-                                                                                                                scope.lf(block);
+                                                                                                                scope.rg(block);
                                                                                                                 break;
                                                                                                               case 'times':
-                                                                                                                scope.mf(block);
+                                                                                                                scope.sg(block);
                                                                                                                 break;
                                                                                                               case 'div':
-                                                                                                                scope.nf(block);
+                                                                                                                scope.tg(block);
                                                                                                                 break;
                                                                                                               case 'rem':
-                                                                                                                scope.of(block);
+                                                                                                                scope.ug(block);
                                                                                                                 break;
                                                                                                               case 'equalTo':
-                                                                                                                scope.pf(block);
+                                                                                                                scope.vg(block);
                                                                                                                 break;
                                                                                                               case 'notEqualTo':
-                                                                                                                scope.qf(block);
+                                                                                                                scope.wg(block);
                                                                                                                 break;
                                                                                                               case 'and':
-                                                                                                                scope.rf(block);
+                                                                                                                scope.xg(block);
                                                                                                                 break;
                                                                                                               case 'or':
-                                                                                                                scope.sf(block);
+                                                                                                                scope.yg(block);
                                                                                                                 break;
                                                                                                               case 'orElse':
-                                                                                                                scope.tf(block);
+                                                                                                                scope.zg(block);
                                                                                                                 break;
                                                                                                               case 'infixCall':
-                                                                                                                scope.uf(applyNode$string(count, args, name), block);
+                                                                                                                scope.ah(applyNode$string(count, args, name), block);
                                                                                                                 break;
                                                                                                               case 'not':
-                                                                                                                scope.vf();
+                                                                                                                scope.bh();
                                                                                                                 break;
                                                                                                               case 'unaryMinus':
-                                                                                                                scope.wf();
+                                                                                                                scope.ch();
                                                                                                                 break;
                                                                                                               case 'isType':
-                                                                                                                scope.xf(block);
+                                                                                                                scope.dh(block);
                                                                                                                 break;
                                                                                                               case 'assign':
-                                                                                                                scope.yf(block);
+                                                                                                                scope.eh(block);
                                                                                                                 break;
                                                                                                               default:
                                                                                                                 // Inline function 'kotlin.error' call
@@ -3786,8 +3981,8 @@ function applyNode$strings(count, args, name) {
   var this_0 = until(0, (!(tmp_1 == null) ? typeof tmp_1 === 'number' : false) ? tmp_1 : THROW_CCE());
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList_init_$Create$(collectionSizeOrDefault(this_0, 10));
-  var inductionVariable = this_0.k6_1;
-  var last = this_0.l6_1;
+  var inductionVariable = this_0.g7_1;
+  var last = this_0.h7_1;
   if (inductionVariable <= last)
     do {
       var item = inductionVariable;
@@ -3839,38 +4034,38 @@ function applyNode$lambda($node) {
   };
 }
 //region block: post-declaration
-protoOf(BlockScope).kb = reference;
-protoOf(BlockScope).lb = literal;
-protoOf(BlockScope).mb = literal_0;
-protoOf(BlockScope).nb = literal_1;
-protoOf(BlockScope).ob = nullValue;
-protoOf(BlockScope).pb = nullValue$default;
-protoOf(BlockScope).qb = call;
-protoOf(BlockScope).rb = chain;
-protoOf(BlockScope).sb = lambdaExpression;
-protoOf(BlockScope).tb = ifExpression;
-protoOf(Text).ud = get_containsLambda;
-protoOf(Break).ud = get_containsLambda;
-protoOf(SingleExpressionScope).kb = reference;
-protoOf(SingleExpressionScope).lb = literal;
-protoOf(SingleExpressionScope).mb = literal_0;
-protoOf(SingleExpressionScope).nb = literal_1;
-protoOf(SingleExpressionScope).ob = nullValue;
-protoOf(SingleExpressionScope).pb = nullValue$default;
-protoOf(SingleExpressionScope).qb = call;
-protoOf(SingleExpressionScope).rb = chain;
-protoOf(SingleExpressionScope).sb = lambdaExpression;
-protoOf(SingleExpressionScope).tb = ifExpression;
-protoOf(ArgumentScope).kb = reference;
-protoOf(ArgumentScope).lb = literal;
-protoOf(ArgumentScope).mb = literal_0;
-protoOf(ArgumentScope).nb = literal_1;
-protoOf(ArgumentScope).ob = nullValue;
-protoOf(ArgumentScope).pb = nullValue$default;
-protoOf(ArgumentScope).qb = call;
-protoOf(ArgumentScope).rb = chain;
-protoOf(ArgumentScope).sb = lambdaExpression;
-protoOf(ArgumentScope).tb = ifExpression;
+protoOf(BlockScope).jc = reference;
+protoOf(BlockScope).kc = literal;
+protoOf(BlockScope).lc = literal_0;
+protoOf(BlockScope).mc = literal_1;
+protoOf(BlockScope).nc = nullValue;
+protoOf(BlockScope).oc = nullValue$default;
+protoOf(BlockScope).pc = call;
+protoOf(BlockScope).qc = chain;
+protoOf(BlockScope).rc = lambdaExpression;
+protoOf(BlockScope).sc = ifExpression;
+protoOf(Text).af = get_containsLambda;
+protoOf(Break).af = get_containsLambda;
+protoOf(SingleExpressionScope).jc = reference;
+protoOf(SingleExpressionScope).kc = literal;
+protoOf(SingleExpressionScope).lc = literal_0;
+protoOf(SingleExpressionScope).mc = literal_1;
+protoOf(SingleExpressionScope).nc = nullValue;
+protoOf(SingleExpressionScope).oc = nullValue$default;
+protoOf(SingleExpressionScope).pc = call;
+protoOf(SingleExpressionScope).qc = chain;
+protoOf(SingleExpressionScope).rc = lambdaExpression;
+protoOf(SingleExpressionScope).sc = ifExpression;
+protoOf(ArgumentScope).jc = reference;
+protoOf(ArgumentScope).kc = literal;
+protoOf(ArgumentScope).lc = literal_0;
+protoOf(ArgumentScope).mc = literal_1;
+protoOf(ArgumentScope).nc = nullValue;
+protoOf(ArgumentScope).oc = nullValue$default;
+protoOf(ArgumentScope).pc = call;
+protoOf(ArgumentScope).qc = chain;
+protoOf(ArgumentScope).rc = lambdaExpression;
+protoOf(ArgumentScope).sc = ifExpression;
 //endregion
 //region block: exports
 export {

@@ -331,6 +331,15 @@ class ArgumentScope internal constructor() : ExpressionScope {
 class AnnotationScope internal constructor() {
     private val arguments = mutableListOf<Pair<String?, Expression>>()
 
+    /** Adds a named value argument without assigning [ArgumentScope.name] in the block. */
+    fun argument(name: String, body: ArgumentScope.() -> Unit) {
+        argument {
+            body()
+            require(this.name == null || this.name == name) { "Conflicting argument names" }
+            this.name = name
+        }
+    }
+
     fun argument(body: ArgumentScope.() -> Unit) {
         val argument = ArgumentScope().apply(body).also { it.validate() }
         require(argument.configuredType == null) { "Annotation arguments must be values" }
@@ -355,6 +364,15 @@ class CallScope internal constructor() {
     private val arguments = mutableListOf<Pair<String?, Expression>>()
     private val types = mutableListOf<TypeReference>()
     private var trailing: Expression? = null
+
+    /** Adds a named value argument without assigning [ArgumentScope.name] in the block. */
+    fun argument(name: String, body: ArgumentScope.() -> Unit) {
+        argument {
+            body()
+            require(this.name == null || this.name == name) { "Conflicting argument names" }
+            this.name = name
+        }
+    }
 
     fun argument(body: ArgumentScope.() -> Unit) {
         val argument = ArgumentScope().apply(body).also { it.validate() }

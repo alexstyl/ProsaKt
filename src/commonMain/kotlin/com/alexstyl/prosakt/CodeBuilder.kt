@@ -3,6 +3,7 @@ package com.alexstyl.prosakt
 private class Entry(
     val expression: Expression? = null,
     val blank: Boolean = false,
+    val comment: Boolean = false,
     val code: (RenderContext) -> Document,
 )
 
@@ -45,7 +46,14 @@ internal class CodeBuilder {
     }
 
     fun comment(text: String) {
-        emit { _ -> text.lines().map { text("// $it") }.joined(hardLine) }
+        entries += Entry(comment = true) { _ -> text.lines().map { text("// $it") }.joined(hardLine) }
+    }
+
+    internal fun takeFileComments(): Document? {
+        if (entries.isEmpty() || entries.any { it.comment.not() && it.blank.not() }) return null
+        val comments = entries.map { it.code(RenderContext(null)) }.joined(hardLine)
+        entries.clear()
+        return comments
     }
 
     fun returnStatement(expression: Expression? = null, label: String? = null) {

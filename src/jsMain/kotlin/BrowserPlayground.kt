@@ -92,7 +92,7 @@ private fun applyNode(scope: Any, node: dynamic) {
             "comment",
             "infixCall",
         )
-    if (name !in named && name != "literal" && name != "lines") noArgs()
+    if (name !in named && name != "literal" && name != "lines" && name != "argument") noArgs()
     if (
         name in
             setOf(
@@ -189,12 +189,17 @@ private fun applyNode(scope: Any, node: dynamic) {
             require(node.body == null) { "Type references do not accept a block" }
             scope.reference(string())
         }
-        name == "argument" && scope is TypeScope -> scope.argument(block)
+        name == "argument" && scope is TypeScope -> {
+            noArgs()
+            scope.argument(block)
+        }
         name == "initializer" && scope is PropertyScope -> scope.initializer(block)
         name == "delegate" && scope is PropertyScope -> scope.delegate(block)
         name == "getter" && scope is PropertyScope -> scope.getter(block)
-        name == "argument" && scope is CallScope -> scope.argument(block)
-        name == "argument" && scope is AnnotationScope -> scope.argument(block)
+        name == "argument" && scope is CallScope ->
+            if (count == 0) scope.argument(block) else scope.argument(string(), block)
+        name == "argument" && scope is AnnotationScope ->
+            if (count == 0) scope.argument(block) else scope.argument(string(), block)
         name == "trailingLambda" && scope is CallScope -> scope.trailingLambda(block)
         name == "reference" && scope is ExpressionScope -> scope.reference(string(), block)
         name == "literal" && scope is ExpressionScope -> {

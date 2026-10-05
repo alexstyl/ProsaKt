@@ -76,3 +76,16 @@ test('required blocks cannot be omitted and unused blocks are rejected', () => {
   assert.throws(() => generate('ktFile { ktFunction("run") { body() } }'), /requires a block/);
   assert.throws(() => generate('ktFile { packageName("a") {} }'), /does not accept a block/);
 });
+
+test('file headers and named argument shorthand work in the browser adapter', () => {
+  assert.equal(generate(`ktFile {
+    comment("Generated code. Do not edit.")
+    packageName("example")
+    ktValue("message") {
+      initializer { call("greeting") { argument("name") { literal("Alex") } } }
+    }
+  }`), '// Generated code. Do not edit.\n\npackage example\n\nval message = greeting(name = "Alex")\n');
+  assert.ok(generate(`ktFile {
+    ktFileAnnotation("kotlin.jvm.JvmName") { argument("name") { literal("Generated") } }
+  }`).startsWith('@file:JvmName(name = "Generated")'));
+});

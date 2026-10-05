@@ -8,6 +8,78 @@ import kotlin.test.Test
 
 class ArgumentTest {
     @Test
+    fun namedOverloadMatchesExistingSyntaxAndEscapesKeywords() {
+        fun generate(shorthand: Boolean) = ktFile {
+            ktValue("message") {
+                initializer {
+                    call("greeting") {
+                        if (shorthand) argument("name") { literal("Alex") }
+                        else
+                            argument {
+                                name = "name"
+                                literal("Alex")
+                            }
+                    }
+                }
+            }
+        }
+        assertThat(generate(true)).isEqualTo(generate(false))
+        assertThat(generate(true)).isEqualTo("val message = greeting(name = \"Alex\")\n")
+        assertThat(
+                ktFile {
+                    ktValue("value") {
+                        initializer { call("create") { argument("when") { literal(1) } } }
+                    }
+                }
+            )
+            .isEqualTo("val value = create(`when` = 1)\n")
+    }
+
+    @Test
+    fun annotationsAcceptTheNamedOverload() {
+        assertThat(
+                ktFile {
+                    ktFileAnnotation("kotlin.jvm.JvmName") {
+                        argument("name") { literal("Generated") }
+                    }
+                    ktValue("enabled") { initializer { literal(true) } }
+                }
+            )
+            .isEqualTo(
+                "@file:JvmName(name = \"Generated\")\n\nimport kotlin.jvm.JvmName\n\nval enabled = true\n"
+            )
+    }
+
+    @Test
+    fun namedOverloadRejectsTypesAndConflictingNames() {
+        assertFailure {
+                ktFile {
+                    ktValue("x") {
+                        initializer {
+                            call("create") { argument("value") { type { reference("String") } } }
+                        }
+                    }
+                }
+            }
+            .hasMessage("Type arguments cannot have names")
+        assertFailure {
+                ktFile {
+                    ktValue("x") {
+                        initializer {
+                            call("create") {
+                                argument("value") {
+                                    name = "other"
+                                    literal(1)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .hasMessage("Conflicting argument names")
+    }
+
+    @Test
     fun argumentConfigurationOrderDoesNotChangeItsMeaning() {
         assertThat(
                 ktFile {
