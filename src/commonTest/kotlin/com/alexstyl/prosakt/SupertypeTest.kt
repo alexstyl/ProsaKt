@@ -7,6 +7,24 @@ import kotlin.test.Test
 
 class SupertypeTest {
     @Test
+    fun superclassConstructorCallsSupportArgumentsAndImports() {
+        assertThat(ktFile {
+            ktClass("Child") {
+                supertype { reference("example.Marker") }
+                superclass("example.Base") { argument("name") { literal("Alex") } }
+            }
+            ktObject("Default") { superclass("example.Base") }
+        }).isEqualTo("import example.Base\nimport example.Marker\n\nclass Child : Base(name = \"Alex\"), Marker\nobject Default : Base()\n")
+    }
+
+    @Test
+    fun rejectsMultipleSuperclasses() {
+        assertk.assertFailure {
+            ktFile { ktClass("Child") { superclass("Base"); superclass("Other") } }
+        }.transform { it.message }.isEqualTo("A superclass has already been defined")
+    }
+
+    @Test
     fun objectImplementsAnImportedInterface() {
         val source = ktFile {
             ktObject("NoIndication") {

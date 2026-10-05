@@ -399,6 +399,14 @@ open class MemberScope internal constructor() : DeclarationContainerScope() {
         code.defineObject(name, configure)
 
     private val supertypes = mutableListOf<TypeReference>()
+    private var hasSuperclass = false
+
+    internal fun configureSuperclass(name: String, configure: CallScope.() -> Unit) {
+        check(hasSuperclass.not()) { "A superclass has already been defined" }
+        val call = CallScope().apply(configure)
+        hasSuperclass = true
+        supertypes.add(0, TypeReference { call.renderCall(name, it) })
+    }
 
     fun supertype(body: TypeScope.() -> Unit) {
         supertypes += type(body)
@@ -420,6 +428,10 @@ open class MemberScope internal constructor() : DeclarationContainerScope() {
 }
 
 class ClassScope internal constructor() : MemberScope() {
+    /** Calls the superclass constructor; arguments use the same DSL as ordinary calls. */
+    fun superclass(name: String, configure: CallScope.() -> Unit = {}) =
+        configureSuperclass(name, configure)
+
     fun companionObject(name: String? = null, configure: ObjectScope.() -> Unit = {}) =
         code.companionObject(name, configure)
 
@@ -441,7 +453,11 @@ class InterfaceScope internal constructor() : MemberScope() {
         code.companionObject(name, configure)
 }
 
-class ObjectScope internal constructor() : MemberScope()
+class ObjectScope internal constructor() : MemberScope() {
+    /** Calls the superclass constructor; arguments use the same DSL as ordinary calls. */
+    fun superclass(name: String, configure: CallScope.() -> Unit = {}) =
+        configureSuperclass(name, configure)
+}
 
 @ProsaKtDsl
 class PropertyScope internal constructor() : DeclarationScope() {

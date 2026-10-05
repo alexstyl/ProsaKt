@@ -6,6 +6,23 @@ import kotlin.test.Test
 
 class SupertypeCompilationTest {
     @Test
+    fun superclassCallsCompileForClassesAndObjects() {
+        withCompiledKotlin(ktFile {
+            ktClass("Base") {
+                modifiers = listOf("open")
+                constructor { parameter("name") {
+                    type { reference("String") }; default { literal("default") }; property {}
+                } }
+            }
+            ktClass("Child") { superclass("Base") { argument("name") { literal("Alex") } } }
+            ktObject("Default") { superclass("Base") }
+            ktValue("result") { initializer { chain { call("Child"); property("name") } } }
+        }) { loader ->
+            assertThat(loader.loadClass("GeneratedKt").getMethod("getResult").invoke(null)).isEqualTo("Alex")
+        }
+    }
+
+    @Test
     fun generatedSupertypesCompileAndDispatchInterfaceMembers() {
         val source = ktFile {
             ktInterface("Indication") {
